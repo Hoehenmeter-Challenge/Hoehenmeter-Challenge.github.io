@@ -1,6 +1,6 @@
 ---
 layout: page
-title: 100.000 Höhenmeter Challenge
+title: 100.000 hm 
 permalink: /projects/
 description: 100.000 Höhenmeter Challenge
 nav: true
