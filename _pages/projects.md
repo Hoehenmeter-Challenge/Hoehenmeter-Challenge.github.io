@@ -1,11 +1,11 @@
 ---
 layout: page
-title: projects
+title: 100.000 Höhenmeter Challenge
 permalink: /projects/
-description: A growing collection of your cool projects.
+description: 100.000 Höhenmeter Challenge
 nav: true
 nav_order: 2
-display_categories: [work, fun]
+display_categories:
 horizontal: false
 ---
 
