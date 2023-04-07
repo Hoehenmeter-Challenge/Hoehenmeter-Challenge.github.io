@@ -17,21 +17,21 @@ Meine Höhenmeter mache ich zum größten Teil mit Trailrunning. Schau dir meine
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.html path="assets/img/Tim/1_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="caption">
-    01.01.23, Hörnle, 670 hm.
+        <div class="caption">
+        01.01.23, Hörnle, 670 hm.
+        </div>
     </div>
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.html path="assets/img/Tim/2_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="caption">
-    07.01.23, Wank, 1000 hm.
+        <div class="caption">
+        07.01.23, Wank, 1000 hm.
+        </div>
     </div>
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.html path="assets/img/Tim/3_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="caption">
-    12.01.23, Kreuzeckhaus, 900 hm.
+        <div class="caption">
+        12.01.23, Kreuzeckhaus, 900 hm.
+        </div>
     </div>
 </div>
 <!-- <div class="caption">
@@ -39,7 +39,7 @@ Meine Höhenmeter mache ich zum größten Teil mit Trailrunning. Schau dir meine
 </div> -->
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/Tim/4_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+        {% include figure.html path="assets/img/Tim/5_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
@@ -51,10 +51,10 @@ Das war mein Trailrunning Training im Januar. Die geplanten Höhenmeter habe ich
 
 <div class="row justify-content-sm-center">
     <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/Tim/5_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+        {% include figure.html path="assets/img/Tim/7_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
     </div>
     <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/Tim/6_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+        {% include figure.html path="assets/img/Tim/8_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
     </div>
 </div>
 <div class="caption">
