@@ -1,7 +1,7 @@
 ---
 layout: page
 title: 60.000 hm
-permalink: /projects/
+permalink: /projects60000/
 description: 60.000 Höhenmeter Challenge
 nav: true
 nav_order: 2
@@ -9,8 +9,8 @@ display_categories:
 horizontal: false
 ---
 
-<!-- pages/projects.md -->
-<div class="projects">
+<!-- pages/projects60000.md -->
+<div class="projects60000">
 {%- if site.enable_project_categories and page.display_categories %}
   <!-- Display categorized projects -->
   {%- for category in page.display_categories %}
