@@ -9,7 +9,7 @@ category: work
 
 Hi, ich bin Tim. Ich wohne in Weilheim und München. Meine Trainings mache ich oft in Garmisch und in Gebieten rund um den Kochelsee.
 
-Ich mache bei der 100.000 Höhenmeter Challenge teil, um fitter zu werden. Letztes Jahr habe ich 87.000 Höhenmeter geschafft.
+Ich mache bei der 100.000 Höhenmeter Challenge mit, um fitter zu werden. Letztes Jahr habe ich 87.000 Höhenmeter geschafft.
 
 Meine Höhenmeter mache ich zum größten Teil mit Trailrunning. Schau dir meine Etappen auf dem Weg zum Ziel an!
 
