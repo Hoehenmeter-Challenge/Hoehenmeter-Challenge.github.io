@@ -13,30 +13,43 @@ Ich mache bei der 100.000 Höhenmeter Challenge mit, um fitter zu werden. Letzte
 
 Meine Höhenmeter mache ich zum größten Teil mit Trailrunning. Schau dir meine Etappen auf dem Weg zum Ziel an!
 
+<p>
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Link with href
+  </a>
+  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Button with data-target
+  </button>
+</p>
+<div class="collapse" id="collapseExample">
+  <!--<div class="card card-body">
+    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+  </div>
+</div>-->
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/Tim/1_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-        <div class="caption">
-        01.01.23, Hörnle, 670 hm.
+    <div class="row">
+        <div class="col-sm mt-3 mt-md-0">
+            {% include figure.html path="assets/img/Tim/1_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+            <div class="caption">
+            01.01.23, Hörnle, 670 hm.
+            </div>
         </div>
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/Tim/2_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-        <div class="caption">
-        07.01.23, Wank, 1000 hm.
+        <div class="col-sm mt-3 mt-md-0">
+            {% include figure.html path="assets/img/Tim/2_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+            <div class="caption">
+            07.01.23, Wank, 1000 hm.
+            </div>
         </div>
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/Tim/3_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-        <div class="caption">
-        12.01.23, Kreuzeckhaus, 900 hm.
+        <div class="col-sm mt-3 mt-md-0">
+            {% include figure.html path="assets/img/Tim/3_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+            <div class="caption">
+            12.01.23, Kreuzeckhaus, 900 hm.
+            </div>
         </div>
     </div>
 </div>
-<!-- <div class="caption">
-    On the left, 01.01.23, Hörnle, 670 hm. Middle, 07.01.23, Wank, 1000 hm. Right, 12.01.23, Kreuzeckhaus, 900 hm.
-</div> -->
+
+
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         {% include figure.html path="assets/img/Tim/5_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
