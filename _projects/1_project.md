@@ -2,7 +2,7 @@
 layout: page
 title: Tim
 description: Trailrunner
-img: assets/img/prof_pic.jpg
+img: assets/img/Tim/prof_pic.jpg
 importance: 1
 category: work
 ---
