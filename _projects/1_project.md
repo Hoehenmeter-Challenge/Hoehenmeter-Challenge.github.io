@@ -14,19 +14,11 @@ Ich mache bei der 100.000 Höhenmeter Challenge mit, um fitter zu werden. Letzte
 Meine Höhenmeter mache ich zum größten Teil mit Trailrunning. Schau dir meine Etappen auf dem Weg zum Ziel an!
 
 <p>
-  <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-    Link with href
+  <a class="btn btn-primary" data-toggle="collapse" href="#collapseJanuar" role="button" aria-expanded="false" aria-controls="collapseJanuar">
+    Januar
   </a>
-  <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Button with data-target
-  </button>
 </p>
-<div class="collapse" id="collapseExample">
-  <!--<div class="card card-body">
-    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-  </div>
-</div>-->
-
+<div class="collapse" id="collapseJanuar">
     <div class="row">
         <div class="col-sm mt-3 mt-md-0">
             {% include figure.html path="assets/img/Tim/1_Mountain.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
