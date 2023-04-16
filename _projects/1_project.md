@@ -19,6 +19,8 @@ Meine Höhenmeter mache ich zum größten Teil mit Trailrunning. Schau dir meine
   <button type="submit">Upload</button>
 </form>
 
+<img id="uploaded-image">
+
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseJanuar" role="button" aria-expanded="false" aria-controls="collapseJanuar">
     Januar
@@ -76,18 +78,32 @@ Das war mein Trailrunning Training im Januar. Die geplanten Höhenmeter habe ich
 <script>
   const form = document.getElementById('image-upload-form');
   const input = document.getElementById('image-upload-input');
+  const uploadedImage = document.getElementById('uploaded-image');
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData();
     formData.append('image', input.files[0]);
     fetch('/upload', {
-      method: 'POST',
-      body: formData
-    }).then(response => {
-      // handle the response from the server
-    }).catch(error => {
-      // handle any errors that occur during the upload
-    });
+        method: 'POST',
+        body: formData
+        }).then(response => {
+        // handle the response from the server
+        if(response.ok) {
+            return response.json(); // assuming the server returns JSON
+        } else {
+            throw new Error('Upload failed');
+        }
+        }).then(data => {
+        // handle the response data
+        const imgUrl = data.url; // assuming the server returns the image URL
+        const uploadedImage = document.getElementById('uploaded-image');
+        uploadedImage.src = imgUrl;
+        }).catch(error => {
+        // handle any errors that occur during the upload
+        console.error(error);
+        });
   });
 </script>
+
+
