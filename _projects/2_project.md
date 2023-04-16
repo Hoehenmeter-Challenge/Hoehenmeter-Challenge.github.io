@@ -10,6 +10,7 @@ category: work
 Hey, ich bin Wenyi und Trailrunnerin. In den Bergen gefällt mir die Natur und die Freiheit. Die 100.000 Höhenmeter Challenge gefällt mir, weil ich Motivation und Trainingstipps suche.
 
 hi
+hi
 
 
 <form id="image-upload-form">
@@ -35,7 +36,7 @@ form.addEventListener('submit', async (e) => {
 
     try {
         const res = await fetch('/upload', {
-            method: 'POST',
+            method: 'PUT',
             body: formData,
         });
 
