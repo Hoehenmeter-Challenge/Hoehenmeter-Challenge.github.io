@@ -19,7 +19,10 @@ Meine Höhenmeter mache ich zum größten Teil mit Trailrunning. Schau dir meine
   <button type="submit">Upload</button>
 </form>
 
-<img id="uploaded-image">
+<div>
+    Here is the uploaded image:
+    <img id="uploaded-image">
+</div>
 
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseJanuar" role="button" aria-expanded="false" aria-controls="collapseJanuar">
