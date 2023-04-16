@@ -7,11 +7,17 @@ importance: 1
 category: work
 ---
 
+
 Hi, ich bin Tim. Ich wohne in Weilheim und München. Meine Trainings mache ich oft in Garmisch und in Gebieten rund um den Kochelsee.
 
 Ich mache bei der 100.000 Höhenmeter Challenge mit, um fitter zu werden. Letztes Jahr habe ich 87.000 Höhenmeter geschafft.
 
 Meine Höhenmeter mache ich zum größten Teil mit Trailrunning. Schau dir meine Etappen auf dem Weg zum Ziel an!
+
+<form id="image-upload-form">
+  <input type="file" id="image-upload-input">
+  <button type="submit">Upload</button>
+</form>
 
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseJanuar" role="button" aria-expanded="false" aria-controls="collapseJanuar">
@@ -66,3 +72,22 @@ Das war mein Trailrunning Training im Januar. Die geplanten Höhenmeter habe ich
     You can also have artistically styled 2/3 + 1/3 images, like these.
 </div>
 
+
+<script>
+  const form = document.getElementById('image-upload-form');
+  const input = document.getElementById('image-upload-input');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('image', input.files[0]);
+    fetch('/upload', {
+      method: 'POST',
+      body: formData
+    }).then(response => {
+      // handle the response from the server
+    }).catch(error => {
+      // handle any errors that occur during the upload
+    });
+  });
+</script>
