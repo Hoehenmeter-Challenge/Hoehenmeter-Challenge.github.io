@@ -35,11 +35,53 @@ Hey, ich bin Wenyi und Trailrunnerin. In den Bergen gefällt mir die Natur und d
       const res = await fetch('/upload', {
         method: 'POST',
         body: formData,
-      });
-      const { imageUrl } = await res.json();
-      img.src = imageUrl;
+        });
+        const resData = await res.text();
+        let imageUrl;
+
+        try {
+        const jsonData = JSON.parse(resData);
+        imageUrl = jsonData.imageUrl;
+        } catch (e) {
+        console.error(`Error parsing response as JSON: ${e}`);
+        imageUrl = '';
+        }
+
+        img.src = imageUrl;
     } catch (err) {
       console.error(err);
     }
   });
 </script>
+
+
+<!--script>
+  const form = document.getElementById('image-upload-form');
+  const input = document.getElementById('image-upload-input');
+  const uploadedImage = document.getElementById('uploaded-image');
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('image', input.files[0]);
+    fetch('/upload', {
+        method: 'POST',
+        body: formData
+        }).then(response => {
+        // handle the response from the server
+        if(response.ok) {
+            return response.json(); // assuming the server returns JSON
+        } else {
+            throw new Error('Upload failed');
+        }
+        }).then(data => {
+        // handle the response data
+        const imgUrl = data.url; // assuming the server returns the image URL
+        const uploadedImage = document.getElementById('uploaded-image');
+        uploadedImage.src = imgUrl;
+        }).catch(error => {
+        // handle any errors that occur during the upload
+        console.error(error);
+        });
+  });
+</script-->
