@@ -21,17 +21,18 @@ Hey, ich bin Wenyi und Trailrunnerin. In den Bergen gefällt mir die Natur und d
 </div>
 
 <script>
-  const form = document.querySelector('#image-upload-form');
-  const input = document.querySelector('#image-upload-input');
-  const img = document.querySelector('#uploaded-image');
+    const form = document.querySelector('#image-upload-form');
+    const input = document.querySelector('#image-upload-input');
+    const img = document.querySelector('#uploaded-image');
 
-  form.addEventListener('submit', async (e) => {
+    form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const file = input.files[0];
     const formData = new FormData();
     formData.append('image', file);
 
-    const res = await fetch('/upload', {
+    try {
+        const res = await fetch('/upload', {
         method: 'POST',
         body: formData,
         });
@@ -39,21 +40,17 @@ Hey, ich bin Wenyi und Trailrunnerin. In den Bergen gefällt mir die Natur und d
         if (res.ok) {
         const contentType = res.headers.get('Content-Type');
         if (contentType && contentType.includes('application/json')) {
-            try {
             const jsonData = await res.json();
             img.src = jsonData.imageUrl;
-            } catch (e) {
-            console.error(`Error parsing response as JSON: ${e}`);
-            // handle the error appropriately
-            }
         } else {
             console.error(`Unexpected response Content-Type: ${contentType}`);
-            // handle the error appropriately
         }
         } else {
         console.error(`Error response from server: ${res.status} ${res.statusText}`);
-        // handle the error appropriately
         }
+    } catch (err) {
+        console.error(err);
+    }
     });
 </script>
 
