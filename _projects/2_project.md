@@ -9,6 +9,8 @@ category: work
 
 Hey, ich bin Wenyi und Trailrunnerin. In den Bergen gefällt mir die Natur und die Freiheit. Die 100.000 Höhenmeter Challenge gefällt mir, weil ich Motivation und Trainingstipps suche.
 
+hi
+
 
 <form id="image-upload-form">
   <input type="file" id="image-upload-input">
@@ -22,10 +24,10 @@ Hey, ich bin Wenyi und Trailrunnerin. In den Bergen gefällt mir die Natur und d
 
 <script>
     const form = document.querySelector('#image-upload-form');
-    const input = document.querySelector('#image-upload-input');
-    const img = document.querySelector('#uploaded-image');
+const input = document.querySelector('#image-upload-input');
+const img = document.querySelector('#uploaded-image');
 
-    form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const file = input.files[0];
     const formData = new FormData();
@@ -33,25 +35,33 @@ Hey, ich bin Wenyi und Trailrunnerin. In den Bergen gefällt mir die Natur und d
 
     try {
         const res = await fetch('/upload', {
-        method: 'POST',
-        body: formData,
+            method: 'POST',
+            body: formData,
         });
 
         if (res.ok) {
-        const contentType = res.headers.get('Content-Type');
-        if (contentType && contentType.includes('application/json')) {
-            const jsonData = await res.json();
-            img.src = jsonData.imageUrl;
+            const contentType = res.headers.get('Content-Type');
+
+            if (contentType && contentType.includes('image')) {
+                // If the response is an image, show it in the image element
+                const blob = await res.blob();
+                const imageUrl = URL.createObjectURL(blob);
+                img.src = imageUrl;
+            } else if (contentType && contentType.includes('application/json')) {
+                // If the response is JSON, extract the image URL and show it in the image element
+                const jsonData = await res.json();
+                img.src = jsonData.imageUrl;
+            } else {
+                console.error(`Unexpected response Content-Type: ${contentType}`);
+            }
         } else {
-            console.error(`Unexpected response Content-Type: ${contentType}`);
-        }
-        } else {
-        console.error(`Error response from server: ${res.status} ${res.statusText}`);
+            console.error(`Error response from server: ${res.status} ${res.statusText}`);
         }
     } catch (err) {
         console.error(err);
     }
-    });
+});
+
 </script>
 
 
