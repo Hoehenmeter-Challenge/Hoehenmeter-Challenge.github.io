@@ -11,88 +11,46 @@ Hey, ich bin Wenyi und Trailrunnerin. In den Bergen gefällt mir die Natur und d
 
 hi
 hi
+hi
 
-
-<form id="image-upload-form">
-  <input type="file" id="image-upload-input">
-  <button type="submit">Upload</button>
-</form>
 
 <div>
-    Here is the uploaded image:
-    <img id="uploaded-image">
+    <h1>Upload an Image</h1>
+    <form>
+    <label for="file">Select a file:</label>
+    <input type="file" id="file" name="file" accept="image/*">
+    <br>
+    <button type="submit">Upload</button>
+    </form>
+    <div id="image-container">
+    <!-- Placeholder for the uploaded image -->
 </div>
 
 <script>
-    const form = document.querySelector('#image-upload-form');
-const input = document.querySelector('#image-upload-input');
-const img = document.querySelector('#uploaded-image');
+      const form = document.querySelector('form');
+      const imageContainer = document.getElementById('image-container');
 
-form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const file = input.files[0];
-    const formData = new FormData();
-    formData.append('image', file);
+      form.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent the form from submitting
 
-    try {
-        const res = await fetch('/upload', {
-            method: 'PUT',
-            body: formData,
-        });
+        const fileInput = document.getElementById('file');
+        const file = fileInput.files[0];
 
-        if (res.ok) {
-            const contentType = res.headers.get('Content-Type');
+        if (file && file.type.startsWith('image/')) {
+          const reader = new FileReader();
 
-            if (contentType && contentType.includes('image')) {
-                // If the response is an image, show it in the image element
-                const blob = await res.blob();
-                const imageUrl = URL.createObjectURL(blob);
-                img.src = imageUrl;
-            } else if (contentType && contentType.includes('application/json')) {
-                // If the response is JSON, extract the image URL and show it in the image element
-                const jsonData = await res.json();
-                img.src = jsonData.imageUrl;
-            } else {
-                console.error(`Unexpected response Content-Type: ${contentType}`);
-            }
-        } else {
-            console.error(`Error response from server: ${res.status} ${res.statusText}`);
+          reader.addEventListener('load', (event) => {
+            // Create an <img> element and set its source to the uploaded file
+            const img = document.createElement('img');
+            img.src = event.target.result;
+            img.alt = file.name;
+
+            // Add the <img> element to the image container
+            imageContainer.appendChild(img);
+          });
+
+          // Read the uploaded file as a data URL
+          reader.readAsDataURL(file);
         }
-    } catch (err) {
-        console.error(err);
-    }
-});
-
-</script>
-
-
-<!--script>
-  const form = document.getElementById('image-upload-form');
-  const input = document.getElementById('image-upload-input');
-  const uploadedImage = document.getElementById('uploaded-image');
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('image', input.files[0]);
-    fetch('/upload', {
-        method: 'POST',
-        body: formData
-        }).then(response => {
-        // handle the response from the server
-        if(response.ok) {
-            return response.json(); // assuming the server returns JSON
-        } else {
-            throw new Error('Upload failed');
-        }
-        }).then(data => {
-        // handle the response data
-        const imgUrl = data.url; // assuming the server returns the image URL
-        const uploadedImage = document.getElementById('uploaded-image');
-        uploadedImage.src = imgUrl;
-        }).catch(error => {
-        // handle any errors that occur during the upload
-        console.error(error);
-        });
-  });
-</script-->
+      });
+    </script>
