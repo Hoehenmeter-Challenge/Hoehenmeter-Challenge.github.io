@@ -31,27 +31,30 @@ Hey, ich bin Wenyi und Trailrunnerin. In den Bergen gefällt mir die Natur und d
     const formData = new FormData();
     formData.append('image', file);
 
-    try {
-      const res = await fetch('/upload', {
+    const res = await fetch('/upload', {
         method: 'POST',
         body: formData,
         });
-        const resData = await res.text();
-        let imageUrl;
 
-        try {
-        const jsonData = JSON.parse(resData);
-        imageUrl = jsonData.imageUrl;
-        } catch (e) {
-        console.error(`Error parsing response as JSON: ${e}`);
-        imageUrl = '';
+        if (res.ok) {
+        const contentType = res.headers.get('Content-Type');
+        if (contentType && contentType.includes('application/json')) {
+            try {
+            const jsonData = await res.json();
+            img.src = jsonData.imageUrl;
+            } catch (e) {
+            console.error(`Error parsing response as JSON: ${e}`);
+            // handle the error appropriately
+            }
+        } else {
+            console.error(`Unexpected response Content-Type: ${contentType}`);
+            // handle the error appropriately
         }
-
-        img.src = imageUrl;
-    } catch (err) {
-      console.error(err);
-    }
-  });
+        } else {
+        console.error(`Error response from server: ${res.status} ${res.statusText}`);
+        // handle the error appropriately
+        }
+    });
 </script>
 
 

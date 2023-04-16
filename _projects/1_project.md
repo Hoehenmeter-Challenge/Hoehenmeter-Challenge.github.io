@@ -14,16 +14,6 @@ Ich mache bei der 100.000 Höhenmeter Challenge mit, um fitter zu werden. Letzte
 
 Meine Höhenmeter mache ich zum größten Teil mit Trailrunning. Schau dir meine Etappen auf dem Weg zum Ziel an!
 
-<form id="image-upload-form">
-  <input type="file" id="image-upload-input">
-  <button type="submit">Upload</button>
-</form>
-
-<div>
-    Here is the uploaded image:
-    <img id="uploaded-image">
-</div>
-
 <p>
   <a class="btn btn-primary" data-toggle="collapse" href="#collapseJanuar" role="button" aria-expanded="false" aria-controls="collapseJanuar">
     Januar
@@ -76,37 +66,5 @@ Das war mein Trailrunning Training im Januar. Die geplanten Höhenmeter habe ich
 <div class="caption">
     You can also have artistically styled 2/3 + 1/3 images, like these.
 </div>
-
-
-<script>
-  const form = document.getElementById('image-upload-form');
-  const input = document.getElementById('image-upload-input');
-  const uploadedImage = document.getElementById('uploaded-image');
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-    formData.append('image', input.files[0]);
-    fetch('/upload', {
-        method: 'POST',
-        body: formData
-        }).then(response => {
-        // handle the response from the server
-        if(response.ok) {
-            return response.json(); // assuming the server returns JSON
-        } else {
-            throw new Error('Upload failed');
-        }
-        }).then(data => {
-        // handle the response data
-        const imgUrl = data.url; // assuming the server returns the image URL
-        const uploadedImage = document.getElementById('uploaded-image');
-        uploadedImage.src = imgUrl;
-        }).catch(error => {
-        // handle any errors that occur during the upload
-        console.error(error);
-        });
-  });
-</script>
 
 
