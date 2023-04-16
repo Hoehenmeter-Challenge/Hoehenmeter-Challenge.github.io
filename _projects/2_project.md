@@ -13,6 +13,12 @@ hi
 hi
 hi
 
+<style>
+      #image-container img {
+        max-width: 300px;
+        max-height: 300px;
+      }
+    </style>
 
 <div>
     <h1>Upload an Image</h1>
