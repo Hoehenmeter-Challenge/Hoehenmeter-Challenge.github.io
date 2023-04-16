@@ -72,6 +72,16 @@ Es macht mir Spaß, in den Bergen zu sein und ich bin gespannt, wie viel Höhenm
   const form = document.querySelector('form');
   const imageContainer = document.getElementById('image-container');
 
+  // Check for a stored image on page load
+  window.addEventListener('load', () => {
+    if (localStorage.getItem('uploadedImage')) {
+      const img = document.createElement('img');
+      img.src = localStorage.getItem('uploadedImage');
+      img.alt = 'Uploaded Image';
+      imageContainer.appendChild(img);
+    }
+  });
+
   form.addEventListener('submit', (event) => {
     event.preventDefault(); // Prevent the form from submitting
 
