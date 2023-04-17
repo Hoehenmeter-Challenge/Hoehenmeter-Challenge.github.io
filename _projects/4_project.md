@@ -1,80 +1,185 @@
 ---
 layout: page
-title: project 4
+title: leoni
 description: another without an image
 img:
 importance: 3
 category: fun
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/styles.css">
+  <title>Document</title>
+</head>
+<body>
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
-
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
-
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/1.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+  <main class="app">
+    
+    <div class="header">
+      <h2>Upload Images</h2>
+      <div class="server-message"></div>
     </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/3.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        {% include figure.html path="assets/img/5.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
-</div>
 
-You can also put regular text between your rows of images.
-Say you wanted to write a little bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, *bled* for your project, and then... you reveal its glory in the next row of images.
-
-
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
+    <div class="input-div">
+      <p>Drag & drop photos here or <span class="browse">Browse</span></p>
+      <input type="file" class="file" multiple="multiple" accept="image/jpeg, image/png, image/jpg"/>
     </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
 
+    <form id="saved-form">
+      <div class="header">
+        <h3>Saved in Server</h3>
+        <button type="submit">Delete</button>
+      </div>
+      <div class="saved-div"></div>
+    </form>
 
-The code is simple.
-Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/">Bootstrap Grid</a> system).
-To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
-Here's the code for the last row of images above:
+    <form id="queued-form">
+      <div class="header">
+        <h3>Queued in Frontend</h3>
+        <button type="submit">Upload</button>
+      </div>
+      <div class="queued-div"></div>
+    </form>
 
-{% raw %}
-```html
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/6.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        {% include figure.html path="assets/img/11.jpg" title="example image" class="img-fluid rounded z-depth-1" %}
-    </div>
-</div>
-```
-{% endraw %}
+  </main>
+
+  <script>
+
+    let queuedImagesArray = [],
+    savedForm = document.querySelector("#saved-form"),
+    queuedForm = document.querySelector("#queued-form"),
+    savedDiv = document.querySelector('.saved-div'),
+    queuedDiv = document.querySelector('.queued-div'),
+    inputDiv = document.querySelector('.input-div'),
+    input = document.querySelector('.input-div input'),
+    serverMessage = document.querySelector('.server-message'),
+    savedImages = JSON.parse('<%-JSON.stringify(images)%>'),
+    deleteImages = [];
+
+    // SAVED IMAGES
+    if(savedImages) displaySavedImages()
+
+    function displaySavedImages(){
+      let images = "";
+        savedImages.forEach((image, index) => {
+          images += `<div class="image">
+                      <img src="http://localhost:3000/uploads/${image}" alt="image">
+                      <span onclick="deleteSavedImage(${index})">&times;</span>
+                    </div>`;
+        })
+      savedDiv.innerHTML = images;
+    }
+
+    function deleteSavedImage(index) {
+      deleteImages.push(savedImages[index])
+      savedImages.splice(index, 1);
+      displaySavedImages();
+    }
+
+    savedForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+      deleteImagesFromServer()
+    });
+
+    function deleteImagesFromServer() {
+
+      fetch("delete", {
+        method: "PUT",
+        headers: {
+          "Accept": "application/json, text/plain, */*",
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify({deleteImages})
+      })
+
+      .then(response => {
+        if (response.status !== 200) throw Error(response.statusText)
+        deleteImages = []
+        serverMessage.innerHTML = response.statusText
+        serverMessage.style.cssText = "background-color: #d4edda; color:#1b5e20"
+      })
+
+      .catch(error => {
+        serverMessage.innerHTML = error
+        serverMessage.style.cssText = "background-color: #f8d7da; color:#b71c1c"
+      });
+
+    }
+
+    // QUEUED IMAGES
+
+    function displayQueuedImages() {
+      let images = "";
+      queuedImagesArray.forEach((image, index) => {
+        images += `<div class="image">
+                    <img src="${URL.createObjectURL(image)}" alt="image">
+                    <span onclick="deleteQueuedImage(${index})">&times;</span>
+                  </div>`;
+      })
+      queuedDiv.innerHTML = images;
+    }
+
+    function deleteQueuedImage(index) {
+      queuedImagesArray.splice(index, 1);
+      displayQueuedImages();
+    }
+
+    input.addEventListener("change", () => {
+      const files = input.files;
+      for (let i = 0; i < files.length; i++) {
+        queuedImagesArray.push(files[i])
+      }
+      queuedForm.reset();
+      displayQueuedImages()
+    })
+
+    inputDiv.addEventListener("drop", (e) => {
+      e.preventDefault()
+      const files = e.dataTransfer.files
+      for (let i = 0; i < files.length; i++) {
+        if (!files[i].type.match("image")) continue; // only photos
+        
+        if (queuedImagesArray.every(image => image.name !== files[i].name))
+          queuedImagesArray.push(files[i])
+      }
+      displayQueuedImages()
+    })
+
+    queuedForm.addEventListener("submit", (e) => {
+      e.preventDefault()
+      sendQueuedImagesToServer()
+    });
+
+    function sendQueuedImagesToServer() {
+      const formData = new FormData(queuedForm);
+
+      queuedImagesArray.forEach((image, index) => {
+        formData.append(`file[${index}]`, image)
+      })
+
+      fetch("upload", {
+        method: "POST",
+        body: formData
+      })
+        
+      .then(response => {
+        if(response.status !== 200) throw Error(response.statusText)
+        location.reload() 
+      })
+
+      .catch( error => { 
+        serverMessage.innerHTML = error
+        serverMessage.style.cssText = "background-color: #f8d7da; color:#b71c1c"
+      });
+
+    }
+
+  </script>
+  
+</body>
+</html>
