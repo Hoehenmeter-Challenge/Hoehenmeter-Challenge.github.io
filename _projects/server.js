@@ -23,7 +23,7 @@ function checkFileType(file, cb){
   if(mimetype && extname){
     return cb(null,true)
   } else {
-    cb("Please upload images only.")
+    cb("Please upload images only")
   }
 }
 
