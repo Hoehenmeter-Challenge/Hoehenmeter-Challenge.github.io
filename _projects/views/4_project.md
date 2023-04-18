@@ -1,14 +1,13 @@
 ---
 layout: page
-title: leoni
+title: leonii
 description: another without an image
 img:
 importance: 3
 category: fun
 ---
 
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -182,4 +181,3 @@ category: fun
   </script>
   
 </body>
-</html>
