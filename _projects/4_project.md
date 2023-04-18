@@ -58,7 +58,7 @@ category: fun
     inputDiv = document.querySelector('.input-div'),
     input = document.querySelector('.input-div input'),
     serverMessage = document.querySelector('.server-message'),
-    //savedImages = JSON.parse('<%-JSON.stringify(images)%>'),
+    savedImages = JSON.parse('<%-JSON.stringify(images)%>'),
     deleteImages = [];
 
     // SAVED IMAGES
@@ -183,3 +183,4 @@ category: fun
   
 </body>
 </html>
+
