@@ -7,7 +7,7 @@ const unlinkFile = util.promisify(fs.unlink);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/uploads/")
+    cb(null, "./uploads/")
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
@@ -50,7 +50,7 @@ app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   let images = []
-  fs.readdir("./public/uploads/", (err, files) => {
+  fs.readdir("./uploads/", (err, files) => {
     if(!err){
       files.forEach(file => {
         images.push(file);
@@ -84,7 +84,7 @@ app.put("/delete", (req, res) => {
     res.status(400).end()
   } else {
     deleteImages.forEach( image => {
-      unlinkFile("./public/uploads/" + image);
+      unlinkFile("./uploads/" + image);
     })
     res.statusMessage = "Succesfully deleted";
     res.status(200).end()
