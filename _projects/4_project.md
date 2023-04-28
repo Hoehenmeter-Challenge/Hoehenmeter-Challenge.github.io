@@ -82,26 +82,55 @@ category: fun
 
         function showimage() {
             var databaseRef = firebase.database().ref("images");
+            // Create a <div> element with class "row"
+            var rowDiv = document.createElement("div");
+            rowDiv.classList.add("row");
+        
             // Attach a listener to the database reference
             databaseRef.on("value", function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
+            snapshot.forEach(function(childSnapshot) {
                 // Get the description and image URL for each image
                 var description = childSnapshot.child("description").val();
                 var imageURL = childSnapshot.child("imageUrl").val();
-
+        
+                // Create a <div> element with class "col-sm"
+                var colDiv = document.createElement("div");
+                colDiv.classList.add("col-sm", "mt-3", "mt-md-0");
+        
                 // Create an <img> element to display the image
                 var img = document.createElement("img");
                 img.src = imageURL;
                 img.height = 200;
-
-                // Create a <p> element to display the description and append the <img> element to it
+                img.classList.add("img-fluid", "rounded", "z-depth-1");
+                img.setAttribute("alt", description);
+        
+                // Create a <p> element to display the description
                 var descriptionEl = document.createElement("p");
                 descriptionEl.innerText = description;
-                descriptionEl.appendChild(img);
-
-                // Append the <p> element to the body of the HTML document
-                document.body.appendChild(descriptionEl);
-                });
+        
+                // Create a <div> element with class "figure" and append the <img> and <p> elements to it
+                var figureDiv = document.createElement("div");
+                figureDiv.classList.add("figure");
+                figureDiv.appendChild(img);
+                figureDiv.appendChild(descriptionEl);
+        
+                // Append the <div> element with class "figure" to the <div> element with class "col-sm"
+                colDiv.appendChild(figureDiv);
+        
+                // Append the <div> element with class "col-sm" to the <div> element with class "row"
+                rowDiv.appendChild(colDiv);
+            });
+        
+            // Append the <div> element with class "row" to the body of the HTML document
+            document.body.appendChild(rowDiv);
+        
+            // Create a <div> element with class "caption" and add the caption text
+            var captionDiv = document.createElement("div");
+            captionDiv.classList.add("caption");
+            captionDiv.innerText = "Caption photos easily.";
+        
+            // Append the <div> element with class "caption" to the body of the HTML document
+            document.body.appendChild(captionDiv);
             });
         }
         
