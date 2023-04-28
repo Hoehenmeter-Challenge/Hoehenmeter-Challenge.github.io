@@ -105,7 +105,6 @@ category: fun
             });
         }
         
-
         const errorMsgElement = document.querySelector('span#errorMsg');
     </script>
 
@@ -124,7 +123,7 @@ category: fun
         <!--display uploaded image from firebase -->
         <!-- id is "img" or "image" -->
         <img id="img" src="" height="200"><br>
-        <input type="button" value ="view Image" id="viewbtn" onclick="showimage()";>        
+        <input type="button" value ="view Image" id="viewbtn" onclick="showimage()">        
 
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
