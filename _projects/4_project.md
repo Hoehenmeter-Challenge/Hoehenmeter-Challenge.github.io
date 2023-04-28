@@ -37,7 +37,7 @@ category: fun
     </head>
 
     <!--script type="text/javascript" src="./functions.js"></script-->
-    <script>
+    <script type="text/javascript">
         function uploadImage() {
             const storageRef = firebase.storage().ref("images");
             const file = document.querySelector("#photo").files[0];
@@ -124,15 +124,13 @@ category: fun
         <!--display uploaded image from firebase -->
         <!-- id is "img" or "image" -->
         <img id="img" src="" height="200"><br>
-        <input type="button" value ="view Image" id="viewbtn" onclick="showimage()";>
-        <!--input type="button" value ="view Image" id="viewbtn" onclick="showDescriptions()";-->
-        
+        <input type="button" value ="view Image" id="viewbtn" onclick="showimage()";>        
 
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
         <!--script type="module" src="./index.js"></script-->
-        <script>
+        <script type="module">
             const firebaseConfig = {
                 apiKey: "AIzaSyCvIAgaWEP4jef2skPJdPMZffXj5vdNDbc",
                 authDomain: "k-hm-challenge-usa.firebaseapp.com",
