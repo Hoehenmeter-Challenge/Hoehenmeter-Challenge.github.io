@@ -9,169 +9,13 @@ category: fun
 
 <html>
     <head>
-        <!--base href="."-->
         <title>Firebase Image Upload using HTML and JavaScript</title>
-        <!--link rel="stylesheet" type="text/css" href="./style.css"-->
-        <style>
-            #photo{
-                margin-top: 200px;
-                margin-left: 450px;
-            }
-            #preview{
-                margin-top: 20px;
-                margin-left: 450px;
-            }
-            #upload{
-                margin-top: 20px;
-                margin-left: 450px;
-            }
-            #img{
-                margin-top: 20px;
-                margin-left: 450px;
-            }
-            #viewbtn{
-                margin-top: 20px;
-                margin-left: 450px;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="../css/style.css">
     </head>
 
-    <!--script type="text/javascript" src="./TimKnissel.github.io/_projects/functions.js"></script-->
-    <script type="text/javascript">
-        function uploadImage() {
-            const storageRef = firebase.storage().ref("images");
-            const file = document.querySelector("#photo").files[0];
-            const name = +new Date() + "-" + file.name;
-            const metadata = {
-                contentType: file.type
-            };
-            const description = document.querySelector("#description").value;
+    <script type="text/javascript" src="../js/functions.js"></script>
 
-            const uploadTask = storageRef.child(name).put(file, metadata);
-
-            uploadTask.then(snapshot => {
-                return snapshot.ref.getDownloadURL().then(url => {
-                    const imageObject = {
-                        imageUrl: url,
-                        description: description
-                    };
-                    const dbRef = firebase.database().ref("images").push();
-                    return dbRef.set(imageObject).then(() => {
-                        console.log("Image uploaded successfully");
-                        alert("Image uploaded successfully");
-                        document.querySelector("#image").src = url;
-                    });
-                });
-            }).catch(console.error);
-        }
-
-
-        function previewImage() {
-            const preview = document.querySelector('#preview');
-            const file = document.querySelector("#photo").files[0];
-            const reader = new FileReader();
-
-            reader.addEventListener("load", function () {
-                // convert image file to data URL
-                preview.src = reader.result;
-            }, false);
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // here new
-        var displayedImageURLs = [];
-
-        function showimage() {
-            var databaseRef = firebase.database().ref("images");
-            // Create a <div> element with class "row"
-            var rowDiv = document.createElement("div");
-            rowDiv.classList.add("row");
-            // Initialize a counter variable to keep track of the number of images displayed
-            var counter = 0;
-
-            // Attach a listener to the database reference
-            databaseRef.on("value", function(snapshot) {
-                snapshot.forEach(function(childSnapshot) {
-                    // Get the description and image URL for each image
-                    var description = childSnapshot.child("description").val();
-                    var imageURL = childSnapshot.child("imageUrl").val();
-
-                    // Check if the image has already been displayed
-                    if (displayedImageURLs.indexOf(imageURL) === -1) {
-                        // Add the image URL to the displayedImageURLs array
-                        displayedImageURLs.push(imageURL);
-
-                        // Create a <div> element with class "col-sm"
-                        var colDiv = document.createElement("div");
-                        colDiv.classList.add("col-sm", "mt-3", "mt-md-0");
-
-                        // Create an <img> element to display the image
-                        var img = document.createElement("img");
-                        img.src = imageURL;
-                        img.height = 400;
-                        img.width = 400;
-                        img.classList.add("img-fluid", "rounded", "z-depth-1");
-                        img.setAttribute("alt", description);
-
-                        // Create a <p> element to display the description
-                        var descriptionEl = document.createElement("p");
-                        descriptionEl.innerText = description;
-
-                        // Create a <div> element with class "figure" and append the <img> and <p> elements to it
-                        var figureDiv = document.createElement("div");
-                        figureDiv.classList.add("figure");
-                        figureDiv.appendChild(img);
-                        figureDiv.appendChild(descriptionEl);
-                        descriptionEl.classList.add("text-center");
-
-                        // Append the <div> element with class "figure" to the <div> element with class "col-sm"
-                        colDiv.appendChild(figureDiv);
-
-                        // Append the <div> element with class "col-sm" to the <div> element with class "row"
-                        rowDiv.appendChild(colDiv);
-
-                        // Increment the counter variable
-                        counter++;
-
-                        // Check if the counter is equal to 3
-                        if (counter === 3) {
-                            // Reset the counter variable
-                            counter = 0;
-                            // Append the <div> element with class "row" to the body of the HTML document
-                            document.body.appendChild(rowDiv);
-                            // Create a new <div> element with class "row"
-                            rowDiv = document.createElement("div");
-                            rowDiv.classList.add("row");
-                        }
-                    }
-                });
-
-                // Append the <div> element with class "row" to the body of the HTML document
-                document.body.appendChild(rowDiv);
-
-                // Create a <div> element with class "caption" and add the caption text
-                var captionDiv = document.createElement("div");
-                captionDiv.classList.add("caption");
-                //captionDiv.innerText = "Caption photos easily.";
-
-                // Append the <div> element with class "caption" to the body of the HTML document
-                document.body.appendChild(captionDiv);
-            });
-        }
-
-        
-        window.addEventListener("load", function() {
-            showimage();
-        });
-
-        const errorMsgElement = document.querySelector('span#errorMsg');
-    </script>
-
-    <body onload="showimage()">
-        <!-- To integrate the index.js file, set the base href="." -->
-        <!--base href="."-->
+    <body onload="updateHeights(); showimage()">
 
         <!-- preview image -->
         <input type="file" id="photo" onchange="previewImage()"/><br>
@@ -181,6 +25,10 @@ category: fun
         <button id="upload" onclick="uploadImage()">Upload Image</button>
         <textarea id="description" placeholder="Enter image description"></textarea><br>
 
+        <input type="number" id="height" placeholder="Enter height meters"/>
+        <button id="store" onclick="storeHeight()">Store Height</button>
+        <div id="heights"></div>
+
         <!--display uploaded image from firebase -->
         <!-- id is "img" or "image" -->
         <img id="img" src="" height="200"><br>
@@ -189,23 +37,7 @@ category: fun
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
-        <!--script type="module" src="./index.js"></script-->
-        <script type="module">
-            const firebaseConfig = {
-                apiKey: "AIzaSyCvIAgaWEP4jef2skPJdPMZffXj5vdNDbc",
-                authDomain: "k-hm-challenge-usa.firebaseapp.com",
-                databaseURL: "https://k-hm-challenge-usa-default-rtdb.firebaseio.com",
-                projectId: "k-hm-challenge-usa",
-                storageBucket: "k-hm-challenge-usa.appspot.com",
-                messagingSenderId: "215394595845",
-                appId: "1:215394595845:web:a177f327ab9bac545d986c",
-                measurementId: "G-EXXF6NS1XZ"
-            }
-
-            // Initialize Firebase
-            firebase.initializeApp(firebaseConfig);
-            console.log(firebase);
-        </script>
+        <script type="module" src="../js/firebase.js"></script>
     </body>
 </html>
 
