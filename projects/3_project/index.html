@@ -120,104 +120,40 @@
 
 <p>Es macht mir Spaß, in den Bergen zu sein und ich bin gespannt, wie viel Höhenmeeter ich pro Jahr schaffen kann.</p>
 
-<style>
-  #image-container img {
-    max-width: 300px;
-    max-height: 300px;
-  }
-</style>
 
-<div>
-  <h1>Upload an Image</h1>
-  <form>
-    <label for="file">Select a file:</label>
-    <input type="file" id="file" name="file" accept="image/*">
-    <br>
-    <button type="submit">Upload</button>
-  </form>
-  <div id="image-container">
-  <!-- Placeholder for the uploaded image -->
-</div>
+    
+        <title>Firebase Image Upload using HTML and JavaScript</title>
+        <link rel="stylesheet" type="text/css" href="../css/style.css">
+    
 
-<div id="image-container">
-  <!-- Display the original image if available in local storage -->
-  
-    <img src="assets/img/7.jpg" alt="Original Image">
-  
-</div>
+    <script type="text/javascript" src="../js/functions.js"></script>
 
-<script>
-  const form = document.querySelector('form');
-  const imageContainer = document.getElementById('image-container');
+    
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent the form from submitting
+        <!-- preview image -->
+        <input type="file" id="photo" onchange="previewImage()"><br>
+        <img id="preview" src="" height="200" alt="Preview Image"><br>
 
-    const fileInput = document.getElementById('file');
-    const file = fileInput.files[0];
+        <!-- upload image -->
+        <button id="upload" onclick="uploadImage('jörn images')">Upload Image</button>
+        <textarea id="description" placeholder="Enter image description"></textarea><br>
 
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
+        <input type="number" id="height" placeholder="Enter height meters">
+        <button id="store" onclick="storeHeight()">Store Height</button>
+        <div id="heights"></div>
 
-      reader.addEventListener('load', (event) => {
-        // Create an <img> element and set its source to the uploaded file
-        const img = document.createElement('img');
-        img.src = event.target.result;
-        img.alt = file.name;
+        <!--display uploaded image from firebase -->
+        <!-- id is "img" or "image" -->
+        <img id="img" src="" height="200"><br>
+        <input type="button" value="view Image" id="viewbtn" onclick="showimage('jörn images')">        
 
-        // Add the <img> element to the image container
-        imageContainer.appendChild(img);
-      });
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
+        <script type="module" src="../js/firebase.js"></script>
+    
 
-      // Read the uploaded file as a data URL
-      reader.readAsDataURL(file);
-    }
-  });
-</script>
 
-<script>
-  const form = document.querySelector('form');
-  const imageContainer = document.getElementById('image-container');
-
-  // Check for a stored image on page load
-  window.addEventListener('load', () => {
-    if (localStorage.getItem('uploadedImage')) {
-      const img = document.createElement('img');
-      img.src = localStorage.getItem('uploadedImage');
-      img.alt = 'Uploaded Image';
-      imageContainer.appendChild(img);
-    }
-  });
-
-  form.addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent the form from submitting
-
-    const fileInput = document.getElementById('file');
-    const file = fileInput.files[0];
-
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-
-      reader.addEventListener('load', (event) => {
-        // Create an <img> element and set its source to the uploaded file
-        const img = document.createElement('img');
-        img.src = event.target.result;
-        img.alt = file.name;
-
-        // Add the <img> element to the image container
-        imageContainer.appendChild(img);
-
-        // Store the data URL in local storage
-        localStorage.setItem('uploadedImage', event.target.result);
-      });
-
-      // Read the uploaded file as a data URL
-      reader.readAsDataURL(file);
-    }
-  });
-</script>
-
-</div>
 
           </article>
 
