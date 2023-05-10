@@ -1,5 +1,5 @@
-function uploadImage() {
-    const storageRef = firebase.storage().ref("images");
+function uploadImage(folderName) {
+    const storageRef = firebase.storage().ref(folderName);
     const file = document.querySelector("#photo").files[0];
     const name = +new Date() + "-" + file.name;
     const metadata = {
@@ -15,7 +15,7 @@ function uploadImage() {
                 imageUrl: url,
                 description: description
             };
-            const dbRef = firebase.database().ref("images").push();
+            const dbRef = firebase.database().ref(folderName).push();
             return dbRef.set(imageObject).then(() => {
                 console.log("Image uploaded successfully");
                 alert("Image uploaded successfully");
@@ -43,8 +43,8 @@ function previewImage() {
 // here new
 var displayedImageURLs = [];
 
-function showimage() {
-    var databaseRef = firebase.database().ref("images");
+function showimage(folderName) {
+    var databaseRef = firebase.database().ref(folderName);
     // Create a <div> element with class "row"
     var rowDiv = document.createElement("div");
     rowDiv.classList.add("row");
@@ -123,49 +123,38 @@ function showimage() {
 
 
 window.addEventListener("load", function() {
-    showimage();
+  showimage('tim images');
+  updateHeights();
 });
 
-// new function
-/*function updateHeights(snapshot) {
-    var heights = [];
-    snapshot.forEach(function(childSnapshot) {
-      var childKey = childSnapshot.key;
-      var childData = childSnapshot.val();
-      var height = childData.height;
-      heights.push(height);
-    });
-    document.getElementById("heights").innerHTML = "Height measurements: " + heights.join(", ");
-  }*/
+function updateHeights(snapshot) {
+  var totalHeight = 0;
+  snapshot.forEach(function(childSnapshot) {
+    var childData = childSnapshot.val();
+    var height = parseInt(childData.height);
+    if (!isNaN(height)) {
+      totalHeight += height;
+    }
+  });
+  document.getElementById("heights").innerHTML = "Total height: " + totalHeight + " m";
+}
 
-  function updateHeights(snapshot) {
-    var totalHeight = 0;
-    snapshot.forEach(function(childSnapshot) {
-      var childData = childSnapshot.val();
-      var height = parseInt(childData.height);
-      if (!isNaN(height)) {
-        totalHeight += height;
-      }
-    });
-    document.getElementById("heights").innerHTML = "Total height: " + totalHeight + " m";
-  }
-  
 
-  function storeHeight() {
-    var height = document.getElementById("height").value;
-    firebase.database().ref().push({
-      height: height
-    }, function(error) {
-      if (error) {
-        console.log("Error storing height: " + error);
-      } else {
-        console.log("Height stored successfully");
-        firebase.database().ref().once('value', function(snapshot) {
-          updateHeights(snapshot);
-        });
-      }
-    });
-  }
+function storeHeight() {
+  var height = document.getElementById("height").value;
+  firebase.database().ref().push({
+    height: height
+  }, function(error) {
+    if (error) {
+      console.log("Error storing height: " + error);
+    } else {
+      console.log("Height stored successfully");
+      firebase.database().ref().once('value', function(snapshot) {
+        updateHeights(snapshot);
+      });
+    }
+  });
+}
   
 
 const errorMsgElement = document.querySelector('span#errorMsg');
