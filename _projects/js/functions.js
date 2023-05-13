@@ -40,9 +40,7 @@ function previewImage() {
     }
 }
 
-// here new
 var displayedImageURLs = [];
-
 function showimage(folderName) {
     var databaseRef = firebase.database().ref(folderName);
     // Create a <div> element with class "row"

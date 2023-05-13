@@ -1,20 +1,66 @@
-#photo{
-    margin-top: 200px;
-    margin-left: 450px;
+/* Button to select new image */
+.btn {
+    background-color: #008CBA;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
 }
-#preview{
-    margin-top: 20px;
-    margin-left: 450px;
+
+.btn:hover {
+    background-color: darkblue;
 }
-#upload{
-    margin-top: 20px;
-    margin-left: 450px;
+
+/* Input file to select new image */
+#photo {
+    visibility: hidden;
+    display: none;
 }
-#img{
-    margin-top: 20px;
-    margin-left: 450px;
+
+/* Preview image */
+#preview {
+    height: 200px;
 }
-#viewbtn{
-    margin-top: 20px;
-    margin-left: 450px;
+
+.button-container {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
+
+#upload {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+
+
+.input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  #description {
+    width: 40%;
+    height: 100px;
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: rgb(175, 188, 242);
+  }
+  
+  #height {
+    width: 40%;
+    height: 40px;
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: rgb(175, 188, 242);
+  }
