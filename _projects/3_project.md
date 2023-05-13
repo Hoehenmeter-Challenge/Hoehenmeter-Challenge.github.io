@@ -20,6 +20,11 @@ Es macht mir Spaß, in den Bergen zu sein und ich bin gespannt, wie viel Höhenm
     <script type="text/javascript" src="../js/functions.js"></script>
 
     <body onload="updateHeights(); showimage('jörn images')">
+        <script type="text/javascript">
+            window.addEventListener("load", function() {
+                showimage('jörn images');
+            });
+        </script>
 
         <!-- preview image -->
         <input type="file" id="photo" onchange="previewImage()"/><br>

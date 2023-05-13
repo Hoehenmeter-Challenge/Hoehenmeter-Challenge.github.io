@@ -16,6 +16,11 @@ category: fun
     <script type="text/javascript" src="../js/functions.js"></script>
 
     <body onload="updateHeights(); showimage('tim images')">
+        <script type="text/javascript">
+            window.addEventListener("load", function() {
+                showimage('tim images');
+            });
+        </script>
 
         <!-- preview image -->
         <input type="file" id="photo" onchange="previewImage()"/><br>
