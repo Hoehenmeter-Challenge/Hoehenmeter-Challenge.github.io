@@ -122,10 +122,10 @@ function showimage(folderName) {
 }
 
 
-window.addEventListener("load", function() {
+/*window.addEventListener("load", function() {
   showimage('tim images');
   updateHeights();
-});
+});*/
 
 function updateHeights(snapshot) {
   var totalHeight = 0;
