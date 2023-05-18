@@ -23,5 +23,3 @@ Hole dir Motivation und Tipps von der Community.
 Neben der 100.000 Höhenmeter Challenge gibt es auch eine 60.000 Höhenmeter und eine 30.000 Höhenmeter Challenge.
 
 Lade jedes Mal nach einem Training / einer Wanderung ein Gipfelfoto hoch, auf dem der Berg klar erkennbar ist.
-
-Bei Fragen kontaktiere mich gerne per E-Mail: tim.knissel[at]hotmail.de
