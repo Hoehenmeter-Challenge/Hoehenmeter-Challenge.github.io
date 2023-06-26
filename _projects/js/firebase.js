@@ -1,3 +1,4 @@
+// First version
 const firebaseConfig = {
     apiKey: "AIzaSyCvIAgaWEP4jef2skPJdPMZffXj5vdNDbc",
     authDomain: "k-hm-challenge-usa.firebaseapp.com",
@@ -11,4 +12,29 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-console.log(firebase);
+
+// Sign Up
+var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+var userId;
+var username;
+
+var uiConfig = {
+  signInOptions: [
+    firebase.auth.EmailAuthProvider.PROVIDER_ID
+  ],
+  signInSuccessUrl: 'http://localhost:8080/login',
+  callbacks: {
+    signInSuccessWithAuthResult: function(authResult, redirectUrl) {
+      // Retrieve the userId of the currently authenticated user
+      var userId = authResult.user.uid;
+      var username = authResult.user.displayName;
+
+      // Continue with the default behavior
+      return true;
+    }
+  },
+  // Additional config options...
+};
+
+ui.start('#firebaseui-auth-container', uiConfig);

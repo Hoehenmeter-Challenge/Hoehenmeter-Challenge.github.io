@@ -3,8 +3,8 @@ layout: page
 title: 100.000 hm 
 permalink: /projects/
 description: 100.000 Höhenmeter Challenge
-nav: true
-nav_order: 2
+nav: false
+nav_order: 
 display_categories:
 horizontal: false
 ---

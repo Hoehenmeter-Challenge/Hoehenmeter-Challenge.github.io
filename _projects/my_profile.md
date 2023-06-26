@@ -1,9 +1,9 @@
 ---
 layout: page
-title: leoni
-description: Wanderin
+title: Mein Profil
+description: Trailrunner
 img:
-importance: 4
+importance: 5
 category: fun
 ---
 
@@ -15,15 +15,15 @@ category: fun
 
     <script type="text/javascript" src="../js/functions.js"></script>
 
-    <body onload="updateHeights(); showimage('tim images')">
+    <body onload="updateHeights(); showimage()">
         <script type="text/javascript">
             window.addEventListener("load", function() {
-                showimage('tim images');
+                showimage();
                 storeHeight();
             });
         </script>
         
-        <button id="show User info" onclick="showUserDetail(); storeUserInformation()"></button>
+        <button id="show User info" onclick="showUserDetail()" style="width: 200px; height: 50px;">Show user info</button>
         <p>Welcome <span id="username-placeholder"></span> with username <span id="userId-placeholder"></span></p>
         <div id="heights"></div>
 
@@ -38,8 +38,10 @@ category: fun
         </div>
 
         <div class="button-container">
-            <button id="upload" onclick="uploadImage('tim images');storeHeight()">Bild und hm hochladen</button>
+            <button id="upload" onclick="uploadImage();storeHeight()">Bild und hm hochladen</button>
         </div>
+
+        <button id="show images" onclick="showimage()" style="width: 200px; height: 50px;">Show images</button>
         
         <!-- Firebase SDK -->
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
