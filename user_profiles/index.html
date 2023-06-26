@@ -17,9 +17,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Wenyi | 100.000 hm Challenge</title>
+    <title>Teilnehmer | 100.000 hm Challenge</title>
     <meta name="author" content="Tim  Knissel">
-    <meta name="description" content="Trailrunnerin">
+    <meta name="description" content="Alle Teilnehmer">
     <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
 
@@ -40,7 +40,7 @@
     <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
     
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="https://hoehenmeter-challenge.github.io/projects/2_project/">
+    <link rel="canonical" href="https://hoehenmeter-challenge.github.io/user_profiles/">
     
     <!-- Dark Mode -->
     
@@ -87,8 +87,8 @@
               <li class="nav-item ">
                 <a class="nav-link" href="/my_profile/">Mein Profil</a>
               </li>
-              <li class="nav-item ">
-                <a class="nav-link" href="/user_profiles/">Teilnehmer</a>
+              <li class="nav-item active">
+                <a class="nav-link" href="/user_profiles/">Teilnehmer<span class="sr-only">(current)</span></a>
               </li>
               <li class="nav-item ">
                 <a class="nav-link" href="/login/">Login</a>
@@ -121,61 +121,44 @@
         <div class="post">
 
           <header class="post-header">
-            <h1 class="post-title">Wenyi</h1>
-            <p class="post-description">Trailrunnerin</p>
+            <h1 class="post-title">Teilnehmer</h1>
+            <p class="post-description">Alle Teilnehmer</p>
           </header>
 
           <article>
-            <p>Hey, ich bin Wenyi und Trailrunnerin. In den Bergen gefällt mir die Natur und die Freiheit. Die 100.000 Höhenmeter Challenge gefällt mir, weil ich Motivation und Trainingstipps suche.</p>
+            
+    
+        <title>Firebase Image Upload using HTML and JavaScript</title>
+        <link rel="stylesheet" type="text/css" href="../projects/css/style.css">
+    
 
-<style>
-  #image-container img {
-    max-width: 300px;
-    max-height: 300px;
-  }
-</style>
+    <script type="text/javascript" src="../projects/js/functions.js"></script>
 
-<div>
-  <h1>Upload an Image</h1>
-  <form>
-    <label for="file">Select a file:</label>
-    <input type="file" id="file" name="file" accept="image/*">
-    <br>
-    <button type="submit">Upload</button>
-  </form>
-  <div id="image-container">
-  <!-- Placeholder for the uploaded image -->
-</div>
+    
+        <script type="text/javascript">
+            window.addEventListener("load", function() {
+                getUsernamesFromStorage();
+            });
+        </script>
 
-<script>
-  const form = document.querySelector('form');
-  const imageContainer = document.getElementById('image-container');
+        <ul id="usernames-container"></ul>
 
-  form.addEventListener('submit', (event) => {
-    event.preventDefault(); // Prevent the form from submitting
 
-    const fileInput = document.getElementById('file');
-    const file = fileInput.files[0];
 
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
+        
+        <!-- Firebase SDK -->
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css">
 
-      reader.addEventListener('load', (event) => {
-        // Create an <img> element and set its source to the uploaded file
-        const img = document.createElement('img');
-        img.src = event.target.result;
-        img.alt = file.name;
 
-        // Add the <img> element to the image container
-        imageContainer.appendChild(img);
-      });
+        <script type="module" src="../projects/js/firebase.js"></script>
+    
 
-      // Read the uploaded file as a data URL
-      reader.readAsDataURL(file);
-    }
-  });
-</script>
-</div>
 
           </article>
 
