@@ -1,4 +1,3 @@
-// First version
 const firebaseConfig = {
     apiKey: "AIzaSyCvIAgaWEP4jef2skPJdPMZffXj5vdNDbc",
     authDomain: "k-hm-challenge-usa.firebaseapp.com",
@@ -23,7 +22,7 @@ var uiConfig = {
   signInOptions: [
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
-  signInSuccessUrl: 'http://localhost:8080/login',
+  signInSuccessUrl: 'https://hoehenmeter-challenge.github.io/login/',
   callbacks: {
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
       // Retrieve the userId of the currently authenticated user

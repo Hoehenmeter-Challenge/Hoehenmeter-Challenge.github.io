@@ -1,17 +1,20 @@
 function showUserDetail() {
-  var user = firebase.auth().currentUser;
-  if (user) {
-    // User is signed in, retrieve the user ID and username
-    var userId = user.uid;
-    var username = user.displayName;
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var user = firebase.auth().currentUser;
+      // User is signed in, retrieve the user ID and username
+      var userId = user.uid;
+      var username = user.displayName;
 
-    // Display the user ID and username on the website
-    document.getElementById('userId-placeholder').textContent = userId;
-    document.getElementById('username-placeholder').textContent = username;
-  } else {
-    // User is not signed in, show the sign-in UI
-    ui.start('#firebaseui-auth-container', uiConfig);
-  }
+      // Display the user ID and username on the website
+      document.getElementById('userId-placeholder').textContent = userId;
+      document.getElementById('username-placeholder').textContent = username;
+    // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
 }
 
 
@@ -42,7 +45,7 @@ function storeUserInformation() {
     });
   } else {
     // User is not signed in, show the sign-in UI
-    ui.start('#firebaseui-auth-container', uiConfig);
+    //ui.start('#firebaseui-auth-container', uiConfig);
   }
 }
 
@@ -133,191 +136,285 @@ function previewImage() {
 
 var displayedImageURLs = [];
 function showimage_my_profile() {
-    var userId = firebase.auth().currentUser.uid;
-    var databaseRef = firebase.database().ref(userId);
-    // Create a <div> element with class "row"
-    var rowDiv = document.createElement("div");
-    rowDiv.classList.add("row");
-    // Initialize a counter variable to keep track of the number of images displayed
-    var counter = 0;
 
-    // Attach a listener to the database reference
-    databaseRef.on("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-            // Get the description and image URL for each image
-            var description = childSnapshot.child("description").val();
-            var imageURL = childSnapshot.child("imageUrl").val();
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var user = firebase.auth().currentUser;
+      // User is signed in, retrieve the user ID and username
+      var userId = user.uid;
+      var username = user.displayName;
 
-            // Check if the image has already been displayed
-            if (displayedImageURLs.indexOf(imageURL) === -1) {
-                // Add the image URL to the displayedImageURLs array
-                displayedImageURLs.push(imageURL);
+      var databaseRef = firebase.database().ref(userId);
+      // Create a <div> element with class "row"
+      var rowDiv = document.createElement("div");
+  rowDiv.classList.add("row");
+  var counter = 0;
 
-                // Create a <div> element with class "col-sm"
-                var colDiv = document.createElement("div");
-                colDiv.classList.add("col-sm", "mt-3", "mt-md-0");
+  databaseRef.on("value", function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+          var description = childSnapshot.child("description").val();
+          var imageURL = childSnapshot.child("imageUrl").val();
 
-                // Create an <img> element to display the image
-                var img = document.createElement("img");
-                img.src = imageURL;
-                img.height = 400;
-                img.width = 400;
-                img.classList.add("img-fluid", "rounded", "z-depth-1");
-                img.setAttribute("alt", description);
+          if (displayedImageURLs.indexOf(imageURL) === -1) {
+              displayedImageURLs.push(imageURL);
 
-                // Create a <p> element to display the description
-                var descriptionEl = document.createElement("p");
-                descriptionEl.innerText = description;
+              var colDiv = document.createElement("div");
+              colDiv.classList.add("col-sm", "mt-3", "mt-md-0");
 
-                // Create a <div> element with class "figure" and append the <img> and <p> elements to it
-                var figureDiv = document.createElement("div");
-                figureDiv.classList.add("figure");
-                figureDiv.appendChild(img);
-                figureDiv.appendChild(descriptionEl);
-                descriptionEl.classList.add("text-center");
+              var anchor = document.createElement("a");
+              anchor.classList.add("image-link"); // Add a CSS class for styling
 
-                // Append the <div> element with class "figure" to the <div> element with class "col-sm"
-                colDiv.appendChild(figureDiv);
+              var img = document.createElement("img");
+              img.src = imageURL;
+              img.classList.add("img-fluid", "rounded", "z-depth-1");
+              img.setAttribute("alt", description);
 
-                // Append the <div> element with class "col-sm" to the <div> element with class "row"
-                rowDiv.appendChild(colDiv);
+              anchor.appendChild(img); // Add the image to the anchor element
 
-                // Increment the counter variable
-                counter++;
+              var descriptionEl = document.createElement("p");
+              descriptionEl.innerText = description;
 
-                // Check if the counter is equal to 3
-                if (counter === 3) {
-                    // Reset the counter variable
-                    counter = 0;
-                    // Append the <div> element with class "row" to the body of the HTML document
-                    document.body.appendChild(rowDiv);
-                    // Create a new <div> element with class "row"
-                    rowDiv = document.createElement("div");
-                    rowDiv.classList.add("row");
-                }
-            }
-        });
+              var figureDiv = document.createElement("div");
+              figureDiv.classList.add("figure");
+              figureDiv.appendChild(anchor); // Add the anchor element to the figure
+              figureDiv.appendChild(descriptionEl);
+              descriptionEl.classList.add("text-center");
 
-        // Append the <div> element with class "row" to the body of the HTML document
-        document.body.appendChild(rowDiv);
+              colDiv.appendChild(figureDiv);
+              rowDiv.appendChild(colDiv);
+              counter++;
 
-        // Create a <div> element with class "caption" and add the caption text
-        var captionDiv = document.createElement("div");
-        captionDiv.classList.add("caption");
-        //captionDiv.innerText = "Caption photos easily.";
+              if (counter === 3) {
+                  counter = 0;
+                  document.body.appendChild(rowDiv);
+                  rowDiv = document.createElement("div");
+                  rowDiv.classList.add("row");
+              }
 
-        // Append the <div> element with class "caption" to the body of the HTML document
-        document.body.appendChild(captionDiv);
-    });
+              // Click event listener for enlarging the image
+              anchor.addEventListener("click", function(e) {
+                  e.preventDefault();
+                  showEnlargedImage(imageURL, description);
+              });
+          }
+      });
+
+      document.body.appendChild(rowDiv);
+      var captionDiv = document.createElement("div");
+      captionDiv.classList.add("caption");
+      document.body.appendChild(captionDiv);
+      });
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
 }
 
 
 var displayedImageURLs = [];
-function showImage_user_profiles(userId) {
-    var databaseRef = firebase.database().ref(userId);
-    // Create a <div> element with class "row"
-    var rowDiv = document.createElement("div");
-    rowDiv.classList.add("row");
-    // Initialize a counter variable to keep track of the number of images displayed
-    var counter = 0;
+function showImage_user_profile(userId) {
 
-    // Attach a listener to the database reference
-    databaseRef.on("value", function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-            // Get the description and image URL for each image
-            var description = childSnapshot.child("description").val();
-            var imageURL = childSnapshot.child("imageUrl").val();
+  databaseRef = firebase.database().ref(userId);
 
-            // Check if the image has already been displayed
-            if (displayedImageURLs.indexOf(imageURL) === -1) {
-                // Add the image URL to the displayedImageURLs array
-                displayedImageURLs.push(imageURL);
+  var rowDiv = document.createElement("div");
+  rowDiv.classList.add("row");
+  var counter = 0;
 
-                // Create a <div> element with class "col-sm"
-                var colDiv = document.createElement("div");
-                colDiv.classList.add("col-sm", "mt-3", "mt-md-0");
+  databaseRef.on("value", function(snapshot) {
+      snapshot.forEach(function(childSnapshot) {
+          var description = childSnapshot.child("description").val();
+          var imageURL = childSnapshot.child("imageUrl").val();
 
-                // Create an <img> element to display the image
-                var img = document.createElement("img");
-                img.src = imageURL;
-                img.height = 400;
-                img.width = 400;
-                img.classList.add("img-fluid", "rounded", "z-depth-1");
-                img.setAttribute("alt", description);
+          if (displayedImageURLs.indexOf(imageURL) === -1) {
+              displayedImageURLs.push(imageURL);
 
-                // Create a <p> element to display the description
-                var descriptionEl = document.createElement("p");
-                descriptionEl.innerText = description;
+              var colDiv = document.createElement("div");
+              colDiv.classList.add("col-sm", "mt-3", "mt-md-0");
 
-                // Create a <div> element with class "figure" and append the <img> and <p> elements to it
-                var figureDiv = document.createElement("div");
-                figureDiv.classList.add("figure");
-                figureDiv.appendChild(img);
-                figureDiv.appendChild(descriptionEl);
-                descriptionEl.classList.add("text-center");
+              var anchor = document.createElement("a");
+              anchor.classList.add("image-link"); // Add a CSS class for styling
 
-                // Append the <div> element with class "figure" to the <div> element with class "col-sm"
-                colDiv.appendChild(figureDiv);
+              var img = document.createElement("img");
+              img.src = imageURL;
+              img.classList.add("img-fluid", "rounded", "z-depth-1");
+              img.setAttribute("alt", description);
 
-                // Append the <div> element with class "col-sm" to the <div> element with class "row"
-                rowDiv.appendChild(colDiv);
+              anchor.appendChild(img); // Add the image to the anchor element
 
-                // Increment the counter variable
-                counter++;
+              var descriptionEl = document.createElement("p");
+              descriptionEl.innerText = description;
 
-                // Check if the counter is equal to 3
-                if (counter === 3) {
-                    // Reset the counter variable
-                    counter = 0;
-                    // Append the <div> element with class "row" to the body of the HTML document
-                    document.body.appendChild(rowDiv);
-                    // Create a new <div> element with class "row"
-                    rowDiv = document.createElement("div");
-                    rowDiv.classList.add("row");
-                }
-            }
-        });
+              var figureDiv = document.createElement("div");
+              figureDiv.classList.add("figure");
+              figureDiv.appendChild(anchor); // Add the anchor element to the figure
+              figureDiv.appendChild(descriptionEl);
+              descriptionEl.classList.add("text-center");
 
-        // Append the <div> element with class "row" to the body of the HTML document
-        document.body.appendChild(rowDiv);
+              colDiv.appendChild(figureDiv);
+              rowDiv.appendChild(colDiv);
+              counter++;
 
-        // Create a <div> element with class "caption" and add the caption text
-        var captionDiv = document.createElement("div");
-        captionDiv.classList.add("caption");
-        //captionDiv.innerText = "Caption photos easily.";
+              if (counter === 3) {
+                  counter = 0;
+                  document.body.appendChild(rowDiv);
+                  rowDiv = document.createElement("div");
+                  rowDiv.classList.add("row");
+              }
 
-        // Append the <div> element with class "caption" to the body of the HTML document
-        document.body.appendChild(captionDiv);
-    });
+              // Click event listener for enlarging the image
+              anchor.addEventListener("click", function(e) {
+                  e.preventDefault();
+                  showEnlargedImage(imageURL, description);
+              });
+          }
+      });
+
+      document.body.appendChild(rowDiv);
+      var captionDiv = document.createElement("div");
+      captionDiv.classList.add("caption");
+      document.body.appendChild(captionDiv);
+  });
 }
 
 
-function updateHeights(snapshot) {
-  var totalHeight = 0;
-  snapshot.forEach(function(childSnapshot) {
-    var childData = childSnapshot.val();
-    var height = parseInt(childData.height);
-    if (!isNaN(height)) {
-      totalHeight += height;
-    }
+function showEnlargedImage(imageURL, description) {
+  var modalDiv = document.createElement("div");
+  modalDiv.classList.add("modal");
+
+  var modalContentDiv = document.createElement("div");
+  modalContentDiv.classList.add("modal-content");
+
+  var closeButton = document.createElement("span");
+  closeButton.innerHTML = "&times;";
+  closeButton.classList.add("close-button");
+
+  var modalImg = document.createElement("img");
+  modalImg.src = imageURL;
+  modalImg.classList.add("enlarged-image");
+
+  var modalDescription = document.createElement("p");
+  modalDescription.innerText = description;
+
+  modalContentDiv.appendChild(closeButton);
+  modalContentDiv.appendChild(modalImg);
+  modalContentDiv.appendChild(modalDescription);
+  modalDiv.appendChild(modalContentDiv);
+  document.body.appendChild(modalDiv);
+
+  // Close the modal when clicked outside the image or on the close button
+  function closeModal() {
+      modalDiv.remove();
+      document.removeEventListener("keydown", handleKeyPress);
+  }
+
+  modalDiv.addEventListener("click", function(e) {
+      if (e.target === modalDiv || e.target === closeButton) {
+          closeModal();
+      }
   });
-  document.getElementById("heights").innerHTML = "Total height: " + totalHeight + " m";
+
+  // Close the modal when Escape key is pressed
+  function handleKeyPress(e) {
+      if (e.key === "Escape") {
+          closeModal();
+      }
+  }
+
+  document.addEventListener("keydown", handleKeyPress);
 }
 
 
 function storeHeight() {
-  var height = document.getElementById("height").value;
-  firebase.database().ref().push({
-    height: height
-  }, function(error) {
-    if (error) {
-      console.log("Error storing height: " + error);
+  var user = firebase.auth().currentUser;
+  if (user) {
+    var userId = user.uid;
+    var db = firebase.firestore();
+    var usersCollection = db.collection('users');
+    var userDoc = usersCollection.doc(userId);
+
+    var heightInput = document.getElementById('height');
+    var newHeight = parseFloat(heightInput.value);
+
+    // Retrieve the current height value from Firestore
+    userDoc.get().then(function(doc) {
+      if (doc.exists) {
+        var currentHeight = doc.data().height || 0;
+        var updatedHeight = currentHeight + newHeight;
+
+        // Update the height field in the document
+        userDoc.update({
+          height: updatedHeight
+        })
+        .then(function() {
+          console.log("Height stored successfully");
+          getHeightData();
+        })
+        .catch(function(error) {
+          console.error("Error storing height: ", error);
+        });
+      } else {
+        console.error("User document does not exist");
+      }
+    }).catch(function(error) {
+      console.error("Error retrieving user document: ", error);
+    });
+  } else {
+    // User is not signed in, show the sign-in UI
+    //ui.start('#firebaseui-auth-container', uiConfig);
+  }
+}
+
+
+function getHeightData() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var user = firebase.auth().currentUser;
+      if (user) {
+        var userId = user.uid;
+        var db = firebase.firestore();
+        var usersCollection = db.collection('users');
+        var userDoc = usersCollection.doc(userId);
+
+        // Retrieve the user document from Firestore
+        userDoc.get().then(function(doc) {
+          if (doc.exists) {
+            var heightData = doc.data().height || 0;
+            // Display the height data on the webpage
+            var heightDataElement = document.getElementById('height-data');
+            heightDataElement.textContent = heightData;
+          } else {
+            console.error("User document does not exist");
+          }
+        }).catch(function(error) {
+          console.error("Error retrieving user document: ", error);
+        });
+      }
     } else {
-      console.log("Height stored successfully");
-      firebase.database().ref().once('value', function(snapshot) {
-        updateHeights(snapshot);
-      });
+      // User is not signed in
+      console.error("User is not signed in");
     }
+  });
+}
+
+
+function getHeightData_user_profile(userId) {
+  var db = firebase.firestore();
+  var usersCollection = db.collection('users');
+  var userDoc = usersCollection.doc(userId);
+
+  // Retrieve the user document from Firestore
+  userDoc.get().then(function(doc) {
+    if (doc.exists) {
+      var heightData = doc.data().height || 0;
+      // Display the height data on the webpage
+      var heightDataElement = document.getElementById('height-data');
+      heightDataElement.textContent = heightData;
+    } else {
+      console.error("User document does not exist");
+    }
+  }).catch(function(error) {
+    console.error("Error retrieving user document: ", error);
   });
 }
 
