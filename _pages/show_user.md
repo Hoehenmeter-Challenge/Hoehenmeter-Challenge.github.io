@@ -17,23 +17,16 @@ horizontal: false
 
     <script type="text/javascript" src="../projects/js/functions.js"></script>
 
-    <body onload="">
-        <script type="text/javascript">
-            window.addEventListener("load", function() {
-                
-            });
-        </script>
-        
+    
+    <body>
         <script>
             // Retrieve the userId from localStorage
             var userId = localStorage.getItem('userId');
-
-            console.log(userId); // Output the userId to the console
-
-            //showImage_user_profiles(userId)
         </script>
 
-        <button id="show images" onclick="showImage_user_profiles(userId)" style="width: 200px; height: 50px">Show images</button>
+        <span id="height-data"></span> meters
+
+        <br>
         
         <!-- Firebase SDK -->
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
@@ -45,5 +38,12 @@ horizontal: false
         <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
 
         <script type="module" src="../projects/js/firebase.js"></script>
+
+        <script>
+            window.addEventListener("load", function() {
+                getHeightData_user_profile(userId);
+                showImage_user_profile_new(userId);
+            });
+        </script>
     </body>
 </html>
