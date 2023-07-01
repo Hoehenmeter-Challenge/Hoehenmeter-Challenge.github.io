@@ -42,7 +42,7 @@ horizontal: false
         <script>
             window.addEventListener("load", function() {
                 getHeightData_user_profile(userId);
-                showImage_user_profile_new(userId);
+                showImage_user_profile(userId);
             });
         </script>
     </body>
