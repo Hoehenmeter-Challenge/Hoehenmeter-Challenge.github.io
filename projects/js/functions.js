@@ -18,38 +18,6 @@ function showUserDetail() {
 }
 
 
-function storeUserInformation() {
-  var user = firebase.auth().currentUser;
-  if (user) {
-    // User is signed in, retrieve the user ID and username
-    var userId = user.uid;
-    var username = user.displayName;
-
-    // Access Firestore and create a reference to the users collection
-    var db = firebase.firestore();
-    var usersCollection = db.collection('users');
-
-    // Create a new document in the users collection using the user ID
-    var userDoc = usersCollection.doc(userId);
-
-    // Set the username as a field in the document
-    userDoc.set({
-      username: username,
-      userId: userId
-    })
-    .then(function() {
-      console.log("User information stored successfully");
-    })
-    .catch(function(error) {
-      console.error("Error storing user information: ", error);
-    });
-  } else {
-    // User is not signed in, show the sign-in UI
-    //ui.start('#firebaseui-auth-container', uiConfig);
-  }
-}
-
-
 function getUsernamesFromStorage() {
   // Access Firestore and create a reference to the users collection
   var db = firebase.firestore();
