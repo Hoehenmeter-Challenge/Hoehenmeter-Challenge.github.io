@@ -11,8 +11,8 @@ horizontal: false
 
 <script type="text/javascript" src="../projects/js/functions.js"></script>
 <div class="container">
-    <div id="firebaseui-auth-container" style="float: left; width: 200px; height: 400px;"></div>
-    <button id="store-user-info-button" onclick="storeUserInformation()" style="width: 150px; height: 150px;">Click to Finish Login or Account Creation</button>
+    <!--div id="firebaseui-auth-container" style="float: left; width: 200px; height: 400px;"></div-->
+    <div id="firebaseui-auth-container"></div>
 </div>
 
 <style>
