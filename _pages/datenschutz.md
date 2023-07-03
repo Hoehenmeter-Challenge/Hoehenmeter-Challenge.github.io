@@ -1,7 +1,7 @@
 ---
 layout: page
-title: Impressum
-permalink: /impressum/
+title: Datenschutzerklärung
+permalink: /datenschutz/
 description:
 nav: false
 nav_order:
