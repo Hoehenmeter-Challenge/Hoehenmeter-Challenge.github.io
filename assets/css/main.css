@@ -374,6 +374,15 @@ footer.sticky-bottom {
   font-size: 0.9rem;
 }
 
+/*footer.sticky-bottom {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  border-top: 1px solid var(--global-divider-color);
+  padding-top: 40px;
+  padding-bottom: 40px;
+  font-size: 0.9rem;
+}*/
 .cv {
   margin-bottom: 40px;
 }
