@@ -17,16 +17,9 @@ horizontal: false
 
     <script type="text/javascript" src="../projects/js/functions.js"></script>
 
-    <body onload="getUsernamesFromStorage">
-        <script type="text/javascript">
-            window.addEventListener("load", function() {
-                getUsernamesFromStorage();
-            });
-        </script>
+    <body>
 
         <ul id="usernames-container"></ul>
-
-
 
         
         <!-- Firebase SDK -->
@@ -40,5 +33,11 @@ horizontal: false
 
 
         <script type="module" src="../projects/js/firebase.js"></script>
+
+        <script>
+            window.addEventListener("load", function() {
+                getUsernamesFromStorage();
+            });
+        </script>
     </body>
 </html>

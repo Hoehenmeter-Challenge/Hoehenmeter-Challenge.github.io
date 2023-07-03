@@ -22,8 +22,8 @@ var uiConfig = {
   signInOptions: [
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
-  //signInSuccessUrl: 'https://hoehenmeter-challenge.github.io/login/',
-  signInSuccessUrl: 'https://localhost:8080/login/',
+  signInSuccessUrl: 'https://hoehenmeter-challenge.github.io/login/',
+  //signInSuccessUrl: 'https://localhost:8080/login/',
   callbacks: {
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
       // Retrieve the userId of the currently authenticated user
@@ -35,21 +35,26 @@ var uiConfig = {
 
       // Create a new document in the users collection using the user ID
       var userDoc = usersCollection.doc(userId);
+      userDoc.get()
+        .then(function(doc) {
+          if (!doc.exists) {
+            // User doesn't exist, create a new document
+            // Set the username as a field in the document
+            userDoc.set({
+              username: username,
+              userId: userId
+            })
+            .then(function() {
+              console.log("User information stored successfully");
+            })
+            .catch(function(error) {
+              console.error("Error storing user information: ", error);
+            });
 
-      // Set the username as a field in the document
-      userDoc.set({
-        username: username,
-        userId: userId
-      })
-      .then(function() {
-        console.log("User information stored successfully");
-      })
-      .catch(function(error) {
-        console.error("Error storing user information: ", error);
-      });
-
-      // Continue with the default behavior
-      //return true;
+            // Continue with the default behavior
+            //return true;
+          }
+        });
     }
   },
   // Additional config options...

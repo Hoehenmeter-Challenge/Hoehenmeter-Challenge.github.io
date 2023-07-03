@@ -1,0 +1,61 @@
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>
+<script>
+  // Function to initialize Google Analytics
+  function initializeAnalytics() {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ window.dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', '{{ site.google_analytics }}');
+  }
+
+  // Function to decline the use of cookies
+  function declineCookies() {
+    // Set a cookie to remember user's preference (declined)
+    document.cookie = "cookieConsent=false; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+    // Hide the cookie consent pop-up
+    document.getElementById('cookieConsentPopup').style.display = 'none';
+  }
+
+  // Function to set the cookie consent
+  function setCookieConsent() {
+    // Set a cookie to remember user's consent
+    document.cookie = "cookieConsent=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+    // Initialize Google Analytics
+    initializeAnalytics();
+    // Hide the cookie consent pop-up
+    document.getElementById('cookieConsentPopup').style.display = 'none';
+  }
+
+  // Check if the user has given consent or declined cookies
+  var consentCookie = document.cookie.replace(/(?:(?:^|.*;\s*)cookieConsent\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+  if (consentCookie === "true") {
+    // Initialize Google Analytics if consent has been given
+    initializeAnalytics();
+  } else if (consentCookie === "false") {
+    // User has declined cookies, do not initialize Google Analytics
+  } else {
+    // Show the cookie consent pop-up if consent has not been given or declined
+    var cookieConsentPopup = document.createElement('div');
+    cookieConsentPopup.id = 'cookieConsentPopup';
+    cookieConsentPopup.innerHTML = `
+      <div id="cookieConsentContent">
+        <p>Diese Website verwendet Cookies, um sicherzustellen, dass Sie die beste Erfahrung erhalten.</p>
+        <p>Klicken Sie auf "Akzeptieren", um der Verwendung von Cookies zuzustimmen, oder "Ablehnen", um Cookies abzulehnen.</p>
+        <button onclick="setCookieConsent()">Akzeptieren</button>
+        <button onclick="declineCookies()">Ablehnen</button>
+      </div>
+    `;
+    document.body.appendChild(cookieConsentPopup);
+
+    // Apply CSS styles to position the pop-up window
+    cookieConsentPopup.style.position = 'fixed';
+    cookieConsentPopup.style.top = '50%';
+    cookieConsentPopup.style.left = '50%';
+    cookieConsentPopup.style.transform = 'translate(-50%, -50%)';
+    cookieConsentPopup.style.backgroundColor = '#ffffff';
+    cookieConsentPopup.style.padding = '20px';
+    cookieConsentPopup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+    cookieConsentPopup.style.zIndex = '9999';
+  }
+</script>

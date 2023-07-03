@@ -19,26 +19,36 @@ horizontal: false
     
     <body>
 
-        <p>Welcome <span id="username-placeholder"></span> with username <span id="userId-placeholder"></span></p>
+        <p>Willkommen <span id="username-placeholder"></span></p>
+        <br>
+        <p>Aktuelle Höhenmeter: <span id="height-data"></span> hm</p>
+        <br>
+
+        <p>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseSection" role="button" aria-expanded="false" aria-controls="collapseSection">
+                Neues Eintrag erstellen
+            </a>
+        </p>
 
         <br>
-        <span id="height-data"></span> meters
-        <br>
 
-        <label for="photo" class="btn">Neues Bild auswählen</label>
-        <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
+        <div class="collapse" id="collapseSection">
+            <label for="photo" class="btn">Neues Bild auswählen</label>
+            <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
 
-        <img id="preview"/>
+            <img id="preview"/>
 
-        <div class="input-container">
-            <textarea id="description" placeholder="Bergname, Datum und kurze Beschreibung"></textarea>
-            <input type="number" id="height" placeholder="Höhenmeter eingeben"/>
+            <div class="input-container">
+                <textarea id="description" placeholder="Bergname, Datum und kurze Beschreibung"></textarea>
+                <input type="number" id="height" placeholder="Höhenmeter eingeben"/>
+            </div>
+
+            <div class="button-container">
+                <button id="upload" onclick="uploadImage();storeHeight()">Bild und hm hochladen</button>
+            </div>
         </div>
 
-        <div class="button-container">
-            <button id="upload" onclick="uploadImage();storeHeight()">Bild und hm hochladen</button>
-        </div>
-
+        <p>Deine Bilder</p>
 
         <!-- Firebase SDK -->
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
