@@ -7,7 +7,7 @@ function showUserDetail() {
       var username = user.displayName;
 
       // Display the user ID and username on the website
-      document.getElementById('userId-placeholder').textContent = userId;
+      //document.getElementById('userId-placeholder').textContent = userId;
       document.getElementById('username-placeholder').textContent = username;
     // ...
     } else {
@@ -19,6 +19,62 @@ function showUserDetail() {
 
 
 function getUsernamesFromStorage() {
+  // Access Firestore and create a reference to the users collection
+  var db = firebase.firestore();
+  var usersCollection = db.collection('users');
+
+  // Get all documents from the users collection
+  usersCollection.get()
+    .then(function(querySnapshot) {
+      // Iterate over each document
+      querySnapshot.forEach(function(doc) {
+        // Get the username from the document data
+        var username = doc.data().username;
+        var userId = doc.data().userId;
+
+        // Create a new div element for displaying the username
+        var usernameBox = document.createElement('div');
+        usernameBox.classList.add('user-box');
+        
+        // Create an image element
+        var userImage = document.createElement('img');
+        // Set the source of the image (replace 'image-url' with the actual URL of the image)
+        //userImage.src = 'image-url';
+        userImage.src = 'https://firebasestorage.googleapis.com/v0/b/k-hm-challenge-usa.appspot.com/o/wuoM5TqmcIX6DIz0KTFhG9RDD5A3%2F1687817547723-3_Mountain.jpg?alt=media&token=66c12506-33d9-473b-b936-af4e55eefd7b'
+        // Add a class to the image element
+        userImage.classList.add('user-image');
+        
+        // Create a span element for displaying the username text
+        var usernameText = document.createElement('span');
+        usernameText.textContent = username;
+        usernameText.classList.add('username-text');
+
+        // Append the image and username text to the username box
+        usernameBox.appendChild(userImage);
+        usernameBox.appendChild(usernameText);
+
+        // Add an event listener to the username box
+        usernameBox.addEventListener('click', function() {
+          // Store the userId in localStorage
+          localStorage.setItem('userId', userId);
+
+          // Redirect to the new webpage without query parameters
+          window.location.href = 'show_user.html';
+          //window.location.href = 'show_user.html?userId=' + userId;
+        });
+
+        // Append the username box to the webpage
+        document.getElementById('usernames-container').appendChild(usernameBox);
+      });
+    })
+    .catch(function(error) {
+      console.error("Error retrieving usernames: ", error);
+    });
+}
+
+
+
+function getUsernamesFromStorage_old() {
   // Access Firestore and create a reference to the users collection
   var db = firebase.firestore();
   var usersCollection = db.collection('users');
