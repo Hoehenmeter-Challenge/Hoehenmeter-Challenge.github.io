@@ -28,21 +28,28 @@ function getUsernamesFromStorage() {
     .then(function(querySnapshot) {
       // Iterate over each document
       querySnapshot.forEach(function(doc) {
-        // Get the username from the document data
+        // Get the username and userId from the document data
         var username = doc.data().username;
         var userId = doc.data().userId;
 
-        // Create a new div element for displaying the username
+        // Create a new div element for displaying the username and height data
         var usernameBox = document.createElement('div');
         usernameBox.classList.add('user-box');
         
         // Create an image element
         var userImage = document.createElement('img');
-        // Set the source of the image (replace 'image-url' with the actual URL of the image)
-        //userImage.src = 'image-url';
-        userImage.src = 'https://firebasestorage.googleapis.com/v0/b/k-hm-challenge-usa.appspot.com/o/wuoM5TqmcIX6DIz0KTFhG9RDD5A3%2F1687817547723-3_Mountain.jpg?alt=media&token=66c12506-33d9-473b-b936-af4e55eefd7b'
-        // Add a class to the image element
         userImage.classList.add('user-image');
+        
+        // Get the profile picture URL from Firebase Storage
+        var storageRef = firebase.storage().ref(userId + '/prof_pic');
+        storageRef.getDownloadURL()
+          .then(function(url) {
+            // Set the source of the image
+            userImage.src = url;
+          })
+          .catch(function(error) {
+            console.error("Error getting profile picture: ", error);
+          });
         
         // Create a span element for displaying the username text
         var usernameText = document.createElement('span');
@@ -53,6 +60,25 @@ function getUsernamesFromStorage() {
         usernameBox.appendChild(userImage);
         usernameBox.appendChild(usernameText);
 
+        // Retrieve the user document from Firestore
+        var userDoc = usersCollection.doc(userId);
+        userDoc.get().then(function(doc) {
+          if (doc.exists) {
+            var heightData = doc.data().height || 0;
+            // Create a span element for displaying the height data
+            var heightDataElement = document.createElement('span');
+            heightDataElement.textContent = "    " + heightData + " hm";
+            heightDataElement.classList.add('height-data');
+
+            // Append the height data element to the username box
+            usernameBox.appendChild(heightDataElement);
+          } else {
+            console.error("User document does not exist");
+          }
+        }).catch(function(error) {
+          console.error("Error retrieving user document: ", error);
+        });
+
         // Add an event listener to the username box
         usernameBox.addEventListener('click', function() {
           // Store the userId in localStorage
@@ -73,45 +99,33 @@ function getUsernamesFromStorage() {
 }
 
 
+function uploadProfImage() {
+  var userId = firebase.auth().currentUser.uid;
+  const storageRef = firebase.storage().ref(userId);
+  const file = document.querySelector("#selectImage").files[0];
+  const name = "prof_pic";
+  const metadata = {
+    contentType: file.type
+  };
 
-function getUsernamesFromStorage_old() {
-  // Access Firestore and create a reference to the users collection
-  var db = firebase.firestore();
-  var usersCollection = db.collection('users');
+  const uploadTask = storageRef.child(name).put(file, metadata);
 
-  // Get all documents from the users collection
-  usersCollection.get()
-    .then(function(querySnapshot) {
-      // Iterate over each document
-      querySnapshot.forEach(function(doc) {
-        // Get the username from the document data
-        var username = doc.data().username;
-        var userId = doc.data().userId;
-
-        // Create a new div element for displaying the username
-        var usernameBox = document.createElement('div');
-        usernameBox.textContent = username;
-        usernameBox.classList.add('user-box'); 
-
-        // Add an event listener to the username box
-        usernameBox.addEventListener('click', function() {
-          // Store the userId in localStorage
-          localStorage.setItem('userId', userId);
-
-          // Redirect to the new webpage without query parameters
-          window.location.href = 'show_user.html';
-          //window.location.href = 'show_user.html?userId=' + userId;
+  uploadTask
+    .then(snapshot => {
+      return snapshot.ref.getDownloadURL().then(url => {
+        const imageObject = {
+          imageUrl: url
+        };
+        const dbRef = firebase.database().ref(userId).push();
+        return dbRef.set(imageObject).then(() => {
+          console.log("Image uploaded successfully");
+          alert("Image uploaded successfully");
+          document.querySelector("#image").src = url;
         });
-
-        // Append the username box to the webpage
-        document.getElementById('usernames-container').appendChild(usernameBox);
       });
     })
-    .catch(function(error) {
-      console.error("Error retrieving usernames: ", error);
-    });
+    .catch(console.error);
 }
-
 
 
 function uploadImage() {

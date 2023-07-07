@@ -141,14 +141,16 @@
   padding: 20px; /* Increase the padding to make the box bigger */
   border: 1px solid #ccc;
   margin-bottom: 10px;
+  margin-right: 20px;
   cursor: pointer;
   width: 300px; /* Adjust the width to make the box wider */
+  height: 200px; /* Adjust the height to make the box taller */
 }
 
 .user-image {
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
+  width: 130px; /* Increase the width of the user image */
+  height: 130px; /* Increase the height of the user image */
+  margin-right: 20px; /* Increase the margin between the image and text */
   border-radius: 50%;
   object-fit: cover;
 }
@@ -156,4 +158,9 @@
 .username-text {
   font-size: 16px;
   font-weight: bold;
+}
+
+.height-data {
+  font-size: 14px; /* Adjust the font size of the height data */
+  margin-left: 10px; /* Add margin between the username and height data */
 }
