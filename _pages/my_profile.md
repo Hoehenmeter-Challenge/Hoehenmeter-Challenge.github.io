@@ -50,14 +50,16 @@ horizontal: false
 
         <br>
 
-        <div>
+        <!--div>
             <input type="file" id="selectImage" style="display: none;">
-            <button onclick="document.querySelector('#selectImage').click()">Select Image</button>
-            <button onclick="uploadProfImage()">Upload</button>
-        </div>
+            <button onclick="document.querySelector('#selectImage').click()">Profilbild auswählen</button>
+            <button onclick="uploadProfImage()">Update</button>
+        </div-->
 
 
         <p>Deine Bilder</p>
+
+        <ul id="content-container"></ul>
 
         <!-- Firebase SDK -->
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>

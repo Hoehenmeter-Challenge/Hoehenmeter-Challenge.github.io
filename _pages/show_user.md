@@ -27,6 +27,8 @@ horizontal: false
         <span id="height-data"></span> meters
 
         <br>
+
+        <ul id="content-container"></ul>
         
         <!-- Firebase SDK -->
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>

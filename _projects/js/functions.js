@@ -120,7 +120,7 @@ function uploadProfImage() {
         return dbRef.set(imageObject).then(() => {
           console.log("Image uploaded successfully");
           alert("Image uploaded successfully");
-          document.querySelector("#image").src = url;
+          document.querySelector("#selectImage").src = url;
         });
       });
     })
@@ -150,7 +150,10 @@ function uploadImage() {
             return dbRef.set(imageObject).then(() => {
                 console.log("Image uploaded successfully");
                 alert("Image uploaded successfully");
-                document.querySelector("#image").src = url;
+                // Add the new image to the displayed image list
+                const imageListItem = document.createElement("li");
+                const imageElement = document.createElement("img");
+                imageElement.src = url;
             });
         });
     }).catch(console.error);
@@ -158,90 +161,91 @@ function uploadImage() {
 
 
 function previewImage() {
-    const preview = document.querySelector('#preview');
-    const file = document.querySelector("#photo").files[0];
-    const reader = new FileReader();
+  const preview = document.querySelector('#preview');
+  const file = document.querySelector("#photo").files[0];
+  const reader = new FileReader();
 
-    reader.addEventListener("load", function () {
-        // convert image file to data URL
-        preview.src = reader.result;
-    }, false);
-    if (file) {
-        reader.readAsDataURL(file);
-    }
+  reader.addEventListener("load", function () {
+      // convert image file to data URL
+      preview.src = reader.result;
+  }, false);
+  if (file) {
+      reader.readAsDataURL(file);
+  }
 }
 
 
 var displayedImageURLs = [];
 function showimage_my_profile() {
-
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      var user = firebase.auth().currentUser;
-      // User is signed in, retrieve the user ID and username
       var userId = user.uid;
       var username = user.displayName;
 
       var databaseRef = firebase.database().ref(userId);
-      // Create a <div> element with class "row"
-      var rowDiv = document.createElement("div");
-  rowDiv.classList.add("row");
-  var counter = 0;
+      var containerDiv = document.createElement('div'); // Create a container for the rows
+      containerDiv.classList.add('container');
+      var rowDiv = null;
+      var counter = 0;
 
-  databaseRef.on("value", function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-          var description = childSnapshot.child("description").val();
-          var imageURL = childSnapshot.child("imageUrl").val();
+      databaseRef.on('value', function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+          var description = childSnapshot.child('description').val();
+          var imageURL = childSnapshot.child('imageUrl').val();
 
           if (displayedImageURLs.indexOf(imageURL) === -1) {
-              displayedImageURLs.push(imageURL);
+            displayedImageURLs.push(imageURL);
 
-              var colDiv = document.createElement("div");
-              colDiv.classList.add("col-sm", "mt-3", "mt-md-0");
+            var colDiv = document.createElement('div');
+            colDiv.classList.add('col-4', 'mb-3'); // Modified class names
 
-              var anchor = document.createElement("a");
-              anchor.classList.add("image-link"); // Add a CSS class for styling
+            var anchor = document.createElement('a');
+            anchor.classList.add('image-link');
 
-              var img = document.createElement("img");
-              img.src = imageURL;
-              img.classList.add("img-fluid", "rounded", "z-depth-1");
-              img.setAttribute("alt", description);
+            var img = document.createElement('img');
+            img.src = imageURL;
+            img.classList.add('img-fluid', 'rounded', 'z-depth-1');
+            img.setAttribute('alt', description);
 
-              anchor.appendChild(img); // Add the image to the anchor element
+            anchor.appendChild(img);
 
-              var descriptionEl = document.createElement("p");
-              descriptionEl.innerText = description;
+            var descriptionEl = document.createElement('p');
+            descriptionEl.innerText = description;
 
-              var figureDiv = document.createElement("div");
-              figureDiv.classList.add("figure");
-              figureDiv.appendChild(anchor); // Add the anchor element to the figure
-              figureDiv.appendChild(descriptionEl);
-              descriptionEl.classList.add("text-center");
+            var figureDiv = document.createElement('div');
+            figureDiv.classList.add('figure');
+            figureDiv.appendChild(anchor);
+            figureDiv.appendChild(descriptionEl);
+            descriptionEl.classList.add('text-center');
 
-              colDiv.appendChild(figureDiv);
-              rowDiv.appendChild(colDiv);
-              counter++;
+            colDiv.appendChild(figureDiv);
 
-              if (counter === 3) {
-                  counter = 0;
-                  document.body.appendChild(rowDiv);
-                  rowDiv = document.createElement("div");
-                  rowDiv.classList.add("row");
-              }
+            if (counter % 3 === 0 && rowDiv !== null) { // Modified condition for creating a new row
+              rowDiv = null; // Reset the rowDiv variable
+            }
 
-              // Click event listener for enlarging the image
-              anchor.addEventListener("click", function(e) {
-                  e.preventDefault();
-                  showEnlargedImage(imageURL, description);
-              });
+            if (rowDiv === null) {
+              rowDiv = document.createElement('div');
+              rowDiv.classList.add('row');
+              containerDiv.appendChild(rowDiv); // Append the row to the container
+            }
+
+            rowDiv.appendChild(colDiv);
+            counter++;
+
+            anchor.addEventListener('click', function(e) {
+              e.preventDefault();
+              showEnlargedImage(imageURL, description);
+            });
           }
+        });
       });
 
-      document.body.appendChild(rowDiv);
-      var captionDiv = document.createElement("div");
-      captionDiv.classList.add("caption");
-      document.body.appendChild(captionDiv);
-      });
+      document.getElementById('content-container').appendChild(containerDiv); // Append the container to the content container
+
+      var captionDiv = document.createElement('div');
+      captionDiv.classList.add('caption');
+      document.getElementById('content-container').appendChild(captionDiv); // Append the caption to the content container
     } else {
       // User is signed out
       // ...
@@ -252,67 +256,70 @@ function showimage_my_profile() {
 
 var displayedImageURLs = [];
 function showImage_user_profile(userId) {
-
-  databaseRef = firebase.database().ref(userId);
-
-  var rowDiv = document.createElement("div");
-  rowDiv.classList.add("row");
+  var databaseRef = firebase.database().ref(userId);
+  var containerDiv = document.createElement('div'); // Create a container for the rows
+  containerDiv.classList.add('container');
+  var rowDiv = null;
   var counter = 0;
 
-  databaseRef.on("value", function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-          var description = childSnapshot.child("description").val();
-          var imageURL = childSnapshot.child("imageUrl").val();
+  databaseRef.on('value', function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+      var description = childSnapshot.child('description').val();
+      var imageURL = childSnapshot.child('imageUrl').val();
 
-          if (displayedImageURLs.indexOf(imageURL) === -1) {
-              displayedImageURLs.push(imageURL);
+      if (displayedImageURLs.indexOf(imageURL) === -1) {
+        displayedImageURLs.push(imageURL);
 
-              var colDiv = document.createElement("div");
-              colDiv.classList.add("col-sm", "mt-3", "mt-md-0");
+        var colDiv = document.createElement('div');
+        colDiv.classList.add('col-4', 'mb-3'); // Modified class names
 
-              var anchor = document.createElement("a");
-              anchor.classList.add("image-link"); // Add a CSS class for styling
+        var anchor = document.createElement('a');
+        anchor.classList.add('image-link');
 
-              var img = document.createElement("img");
-              img.src = imageURL;
-              img.classList.add("img-fluid", "rounded", "z-depth-1");
-              img.setAttribute("alt", description);
+        var img = document.createElement('img');
+        img.src = imageURL;
+        img.classList.add('img-fluid', 'rounded', 'z-depth-1');
+        img.setAttribute('alt', description);
 
-              anchor.appendChild(img); // Add the image to the anchor element
+        anchor.appendChild(img);
 
-              var descriptionEl = document.createElement("p");
-              descriptionEl.innerText = description;
+        var descriptionEl = document.createElement('p');
+        descriptionEl.innerText = description;
 
-              var figureDiv = document.createElement("div");
-              figureDiv.classList.add("figure");
-              figureDiv.appendChild(anchor); // Add the anchor element to the figure
-              figureDiv.appendChild(descriptionEl);
-              descriptionEl.classList.add("text-center");
+        var figureDiv = document.createElement('div');
+        figureDiv.classList.add('figure');
+        figureDiv.appendChild(anchor);
+        figureDiv.appendChild(descriptionEl);
+        descriptionEl.classList.add('text-center');
 
-              colDiv.appendChild(figureDiv);
-              rowDiv.appendChild(colDiv);
-              counter++;
+        colDiv.appendChild(figureDiv);
 
-              if (counter === 3) {
-                  counter = 0;
-                  document.body.appendChild(rowDiv);
-                  rowDiv = document.createElement("div");
-                  rowDiv.classList.add("row");
-              }
+        if (counter % 3 === 0 && rowDiv !== null) { // Modified condition for creating a new row
+          rowDiv = null; // Reset the rowDiv variable
+        }
 
-              // Click event listener for enlarging the image
-              anchor.addEventListener("click", function(e) {
-                  e.preventDefault();
-                  showEnlargedImage(imageURL, description);
-              });
-          }
-      });
+        if (rowDiv === null) {
+          rowDiv = document.createElement('div');
+          rowDiv.classList.add('row');
+          containerDiv.appendChild(rowDiv); // Append the row to the container
+        }
 
-      document.body.appendChild(rowDiv);
-      var captionDiv = document.createElement("div");
-      captionDiv.classList.add("caption");
-      document.body.appendChild(captionDiv);
+        rowDiv.appendChild(colDiv);
+        counter++;
+
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          showEnlargedImage(imageURL, description);
+        });
+      }
+    });
   });
+
+  document.getElementById('content-container').appendChild(containerDiv); // Append the container to the content container
+
+  var captionDiv = document.createElement('div');
+  captionDiv.classList.add('caption');
+  document.getElementById('content-container').appendChild(captionDiv); // Append the caption to the content container
 }
 
 
