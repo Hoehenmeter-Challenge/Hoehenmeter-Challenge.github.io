@@ -39,8 +39,9 @@ horizontal: false
             <img id="preview"/>
 
             <div class="input-container">
-                <textarea id="description" placeholder="Bergname, Datum und kurze Beschreibung"></textarea>
+                <textarea id="description" placeholder="Bergname und Beschreibung"></textarea>
                 <input type="number" id="height" placeholder="Höhenmeter eingeben"/>
+                <input type="date" id="date" placeholder="Datum wählen"/>
             </div>
 
             <div class="button-container">
