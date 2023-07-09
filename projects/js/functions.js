@@ -193,6 +193,11 @@ function showimage_my_profile() {
           var description = childSnapshot.child('description').val();
           var imageURL = childSnapshot.child('imageUrl').val();
 
+          if (imageURL.includes('prof_pic')) {
+            // Skip the image with name 'prof_pic'
+            return;
+          }
+
           if (displayedImageURLs.indexOf(imageURL) === -1) {
             displayedImageURLs.push(imageURL);
 
@@ -266,6 +271,11 @@ function showImage_user_profile(userId) {
     snapshot.forEach(function(childSnapshot) {
       var description = childSnapshot.child('description').val();
       var imageURL = childSnapshot.child('imageUrl').val();
+
+      if (imageURL.includes('prof_pic')) {
+        // Skip the image with name 'prof_pic'
+        return;
+      }
 
       if (displayedImageURLs.indexOf(imageURL) === -1) {
         displayedImageURLs.push(imageURL);
