@@ -50,11 +50,11 @@ horizontal: false
 
         <br>
 
-        <!--div>
+        <div>
             <input type="file" id="selectImage" style="display: none;">
             <button onclick="document.querySelector('#selectImage').click()">Profilbild auswählen</button>
             <button onclick="uploadProfImage()">Update</button>
-        </div-->
+        </div>
 
 
         <p>Deine Bilder</p>
