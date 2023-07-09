@@ -26,22 +26,23 @@ horizontal: false
 
         <p>
             <a class="btn btn-primary" data-toggle="collapse" href="#collapseSection" role="button" aria-expanded="false" aria-controls="collapseSection">
-                Neues Eintrag erstellen
+                Neuen Eintrag erstellen
             </a>
         </p>
 
         <br>
 
         <div class="collapse" id="collapseSection">
+        <!--div class="collapse" id="collapseSection" style="display: flex; flex-direction: column; align-items: center;"-->
+
             <label for="photo" class="btn">Neues Bild auswählen</label>
             <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
-
-            <img id="preview"/>
+            <img id="preview" style="display: none;">
 
             <div class="input-container">
-                <textarea id="description" placeholder="Bergname und Beschreibung"></textarea>
-                <input type="number" id="height" placeholder="Höhenmeter eingeben"/>
-                <input type="date" id="date" placeholder="Datum wählen"/>
+                <textarea id="description" placeholder="Bergname / Tour"></textarea>
+                <input type="number" id="height" placeholder="Höhenmeter"/>
+                <input type="date" id="date" placeholder="Datum"/>
             </div>
 
             <div class="button-container">
