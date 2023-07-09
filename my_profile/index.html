@@ -288,6 +288,24 @@
     document.getElementById('cookieConsentPopup').style.display = 'none';
   }
 
+  // Function to save Google Analytics consent
+  function saveAnalyticsConsent() {
+    var consentCheckbox = document.getElementById('analyticsConsentCheckbox');
+    var gaCheckbox = document.getElementById('gaConsentCheckbox');
+    var isChecked = consentCheckbox.checked;
+    var isGaChecked = gaCheckbox.checked;
+    // Set a cookie to remember user's Google Analytics consent
+    document.cookie = "analyticsConsent=" + isChecked + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+    // Set a cookie to remember user's _ga cookie consent
+    document.cookie = "_gaConsent=" + isGaChecked + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+    // Initialize Google Analytics if consent has been given
+    if (isChecked) {
+      initializeAnalytics();
+    }
+    // Hide the cookie consent pop-up
+    document.getElementById('cookieConsentPopup').style.display = 'none';
+  }
+
   // Check if the user has given consent or declined cookies
   var consentCookie = document.cookie.replace(/(?:(?:^|.*;\s*)cookieConsent\s*\=\s*([^;]*).*$)|^.*$/, "$1");
   if (consentCookie === "true") {
@@ -303,8 +321,9 @@
       <div id="cookieConsentContent">
         <p>Diese Website verwendet Cookies, um sicherzustellen, dass Sie die beste Erfahrung erhalten.</p>
         <p>Klicken Sie auf "Akzeptieren", um der Verwendung von Cookies zuzustimmen, oder "Ablehnen", um Cookies abzulehnen.</p>
-        <button onclick="setCookieConsent()">Akzeptieren</button>
-        <button onclick="declineCookies()">Ablehnen</button>
+        <button onclick="setCookieConsent()">1. Nur notwendige</button>
+        <button onclick="showAnalyticsConsentSection()">2. Zur Auswahl</button>
+        <button class="accept-button" onclick="setCookieConsent()">3. Alle akzeptieren</button>
       </div>
     `;
     document.body.appendChild(cookieConsentPopup);
@@ -319,7 +338,40 @@
     cookieConsentPopup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
     cookieConsentPopup.style.zIndex = '9999';
   }
+
+  // Function to show the Google Analytics consent section
+  function showAnalyticsConsentSection() {
+    // Clear the current content
+    var consentContent = document.getElementById('cookieConsentContent');
+    consentContent.innerHTML = '';
+
+    // Create the new content for Google Analytics consent
+    var analyticsConsentContent = document.createElement('div');
+    analyticsConsentContent.innerHTML = `
+      <p>Bitte wählen Sie Ihre Datenschutzeinstellungen:</p>
+      <div>
+        <label for="analyticsConsentCheckbox">
+          <input type="checkbox" id="analyticsConsentCheckbox" name="analyticsConsentCheckbox"> Google Analytics
+        </label>
+      </div>
+      <div>
+        <label for="gaConsentCheckbox">
+          <input type="checkbox" id="gaConsentCheckbox" name="gaConsentCheckbox"> _ga Cookie
+        </label>
+      </div>
+      <button onclick="saveAnalyticsConsent()">Speichern</button>
+    `;
+
+    consentContent.appendChild(analyticsConsentContent);
+  }
 </script>
+
+<style>
+  .accept-button {
+    background-color: blue;
+    color: white;
+  }
+</style>
 
     
 
