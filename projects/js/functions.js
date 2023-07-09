@@ -129,34 +129,40 @@ function uploadProfImage() {
 
 
 function uploadImage() {
-    var userId = firebase.auth().currentUser.uid;
-    const storageRef = firebase.storage().ref(userId);
-    const file = document.querySelector("#photo").files[0];
-    const name = +new Date() + "-" + file.name;
-    const metadata = {
-        contentType: file.type
-    };
-    const description = document.querySelector("#description").value;
+  var userId = firebase.auth().currentUser.uid;
+  const storageRef = firebase.storage().ref(userId);
+  const file = document.querySelector("#photo").files[0];
+  const name = +new Date() + "-" + file.name;
+  const metadata = {
+    contentType: file.type
+  };
+  const description = document.querySelector("#description").value;
+  const height = document.querySelector("#height").value;
+  const date = new Date(document.querySelector("#date").value);
+  const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+  const formattedDate = date.toLocaleDateString('de-DE', options);
 
-    const uploadTask = storageRef.child(name).put(file, metadata);
+  const uploadTask = storageRef.child(name).put(file, metadata);
 
-    uploadTask.then(snapshot => {
-        return snapshot.ref.getDownloadURL().then(url => {
-            const imageObject = {
-                imageUrl: url,
-                description: description
-            };
-            const dbRef = firebase.database().ref(userId).push();
-            return dbRef.set(imageObject).then(() => {
-                console.log("Image uploaded successfully");
-                alert("Image uploaded successfully");
-                // Add the new image to the displayed image list
-                const imageListItem = document.createElement("li");
-                const imageElement = document.createElement("img");
-                imageElement.src = url;
-            });
-        });
-    }).catch(console.error);
+  uploadTask.then(snapshot => {
+    return snapshot.ref.getDownloadURL().then(url => {
+      const imageObject = {
+        imageUrl: url,
+        description: description,
+        height: height,
+        date: formattedDate
+      };
+      const dbRef = firebase.database().ref(userId).push();
+      return dbRef.set(imageObject).then(() => {
+        console.log("Image uploaded successfully");
+        alert("Image uploaded successfully");
+        // Add the new image to the displayed image list
+        const imageListItem = document.createElement("li");
+        const imageElement = document.createElement("img");
+        imageElement.src = url;
+      });
+    });
+  }).catch(console.error);
 }
 
 
@@ -192,6 +198,8 @@ function showimage_my_profile() {
         snapshot.forEach(function(childSnapshot) {
           var description = childSnapshot.child('description').val();
           var imageURL = childSnapshot.child('imageUrl').val();
+          var height = childSnapshot.child('height').val();
+          var date = childSnapshot.child('date').val();
 
           if (imageURL.includes('prof_pic')) {
             // Skip the image with name 'prof_pic'
@@ -216,12 +224,22 @@ function showimage_my_profile() {
 
             var descriptionEl = document.createElement('p');
             descriptionEl.innerText = description;
+            descriptionEl.classList.add('text-center');
+
+            var heightEl = document.createElement('p');
+            heightEl.innerText = height + " hm";
+            heightEl.classList.add('text-center');
+
+            var dateEl = document.createElement('p');
+            dateEl.innerText = "Datum: " + date;
+            dateEl.classList.add('text-center');
 
             var figureDiv = document.createElement('div');
             figureDiv.classList.add('figure');
             figureDiv.appendChild(anchor);
             figureDiv.appendChild(descriptionEl);
-            descriptionEl.classList.add('text-center');
+            figureDiv.appendChild(heightEl);
+            figureDiv.appendChild(dateEl);
 
             colDiv.appendChild(figureDiv);
 
@@ -271,6 +289,8 @@ function showImage_user_profile(userId) {
     snapshot.forEach(function(childSnapshot) {
       var description = childSnapshot.child('description').val();
       var imageURL = childSnapshot.child('imageUrl').val();
+      var height = childSnapshot.child('height').val();
+      var date = childSnapshot.child('date').val();
 
       if (imageURL.includes('prof_pic')) {
         // Skip the image with name 'prof_pic'
@@ -295,12 +315,22 @@ function showImage_user_profile(userId) {
 
         var descriptionEl = document.createElement('p');
         descriptionEl.innerText = description;
+        descriptionEl.classList.add('text-center');
+
+        var heightEl = document.createElement('p');
+        heightEl.innerText = height + " hm";
+        heightEl.classList.add('text-center');
+
+        var dateEl = document.createElement('p');
+        dateEl.innerText = "Datum: " + date;
+        dateEl.classList.add('text-center');
 
         var figureDiv = document.createElement('div');
         figureDiv.classList.add('figure');
         figureDiv.appendChild(anchor);
         figureDiv.appendChild(descriptionEl);
-        descriptionEl.classList.add('text-center');
+        figureDiv.appendChild(heightEl);
+        figureDiv.appendChild(dateEl);
 
         colDiv.appendChild(figureDiv);
 
