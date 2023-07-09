@@ -30,6 +30,15 @@
     height: 200px;
 }
 
+#profilePicture {
+  visibility: hidden;
+  display: none;
+}
+
+#preview_profilePicture {
+  height: 200px;
+}
+
 .button-container {
     text-align: center;
     margin-top: 30px;
@@ -37,6 +46,15 @@
 }
 
 #upload {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+#profilePicture_upload {
     background-color: #4CAF50;
     color: white;
     font-size: 16px;
@@ -169,4 +187,34 @@
 .height-data {
   font-size: 14px; /* Adjust the font size of the height data */
   margin-left: 10px; /* Add margin between the username and height data */
+}
+
+
+.user-info-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#welcome-text {
+  font-size: 34px; /* Adjust the font size as needed */
+}
+
+#username-placeholder-all {
+  font-size: 34px;
+}
+
+#height-data {
+  font-size: 50px; /* Adjust the font size as needed */
+  text-align: right;
+}
+
+#collapse-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.btn-primary {
+  margin-top: 10px; /* Adjust the top margin as needed */
 }

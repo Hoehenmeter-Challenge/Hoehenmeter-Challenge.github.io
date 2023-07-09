@@ -17,9 +17,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Anderes Profil anzeigen | 100.000 hm Challenge</title>
+    <title>Teilnehmer Profil | 100.000 hm Challenge</title>
     <meta name="author" content="Tim  Knissel">
-    <meta name="description" content="Anderes Profil anschauen">
+    <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+">
     <meta name="keywords" content="jekyll, jekyll-theme, academic-website, portfolio-website">
 
 
@@ -121,8 +122,8 @@
         <div class="post">
 
           <header class="post-header">
-            <h1 class="post-title">Anderes Profil anzeigen</h1>
-            <p class="post-description">Anderes Profil anschauen</p>
+            <h1 class="post-title">Teilnehmer Profil</h1>
+            <p class="post-description"></p>
           </header>
 
           <article>
@@ -141,7 +142,10 @@
             var userId = localStorage.getItem('userId');
         </script>
 
-        <span id="height-data"></span> meters
+        <p class="user-info-container">
+            <span>Profil von: <span id="username-placeholder-all"></span></span>
+            <span>Aktuelle Höhenmeter: <span id="height-data"></span> hm</span>
+        </p>
 
         <br>
 

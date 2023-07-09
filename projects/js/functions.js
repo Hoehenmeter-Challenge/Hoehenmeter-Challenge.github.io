@@ -102,7 +102,7 @@ function getUsernamesFromStorage() {
 function uploadProfImage() {
   var userId = firebase.auth().currentUser.uid;
   const storageRef = firebase.storage().ref(userId);
-  const file = document.querySelector("#selectImage").files[0];
+  const file = document.querySelector("#profilePicture").files[0];
   const name = "prof_pic";
   const metadata = {
     contentType: file.type
@@ -120,7 +120,7 @@ function uploadProfImage() {
         return dbRef.set(imageObject).then(() => {
           console.log("Image uploaded successfully");
           alert("Image uploaded successfully");
-          document.querySelector("#selectImage").src = url;
+          document.querySelector("#profilePicture").src = url;
         });
       });
     })
@@ -169,6 +169,25 @@ function uploadImage() {
 function previewImage() {
   const preview = document.querySelector('#preview');
   const file = document.querySelector("#photo").files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener("load", function () {
+    // convert image file to data URL
+    preview.src = reader.result;
+    preview.style.display = 'block'; // Show the preview image
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    preview.style.display = 'none'; // Hide the preview image
+  }
+}
+
+
+function previewImage_profile() {
+  const preview = document.querySelector('#preview_profilePicture');
+  const file = document.querySelector("#profilePicture").files[0];
   const reader = new FileReader();
 
   reader.addEventListener("load", function () {
@@ -512,9 +531,13 @@ function getHeightData_user_profile(userId) {
   userDoc.get().then(function(doc) {
     if (doc.exists) {
       var heightData = doc.data().height || 0;
+      var username = doc.data().username || "";
       // Display the height data on the webpage
       var heightDataElement = document.getElementById('height-data');
       heightDataElement.textContent = heightData;
+
+      var usernameElement = document.getElementById('username-placeholder-all'); // Assuming you have an element with id 'username' to display the username
+      usernameElement.textContent = username;
     } else {
       console.error("User document does not exist");
     }
