@@ -1,8 +1,8 @@
 ---
 layout: page
-title: Anderes Profil anzeigen
+title: Teilnehmer Profil
 permalink: /user_profiles/show_user
-description: Anderes Profil anschauen
+description:
 nav: false
 nav_order: 
 display_categories:
@@ -24,7 +24,10 @@ horizontal: false
             var userId = localStorage.getItem('userId');
         </script>
 
-        <span id="height-data"></span> meters
+        <p class="user-info-container">
+            <span>Profil von: <span id="username-placeholder-all"></span></span>
+            <span>Aktuelle Höhenmeter: <span id="height-data"></span> hm</span>
+        </p>
 
         <br>
 

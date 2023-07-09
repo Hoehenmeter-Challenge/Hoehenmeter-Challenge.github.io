@@ -2,7 +2,7 @@
 layout: page
 title: Mein Profil
 permalink: /my_profile/
-description: Mein Profil anschauen
+description:
 nav: true
 nav_order: 3
 display_categories:
@@ -19,43 +19,53 @@ horizontal: false
     
     <body>
 
-        <p>Willkommen <span id="username-placeholder"></span></p>
-        <br>
-        <p>Aktuelle Höhenmeter: <span id="height-data"></span> hm</p>
-        <br>
-
-        <p>
-            <a class="btn btn-primary" data-toggle="collapse" href="#collapseSection" role="button" aria-expanded="false" aria-controls="collapseSection">
-                Neuen Eintrag erstellen
-            </a>
+        <p class="user-info-container">
+            <span id="welcome-text">Willkommen <span id="username-placeholder"></span></span>
+            <span>Aktuelle Höhenmeter: <span id="height-data"></span> hm</span>
         </p>
 
         <br>
+        <div id="collapse-buttons">
+            <p>
+                <a class="btn btn-primary" data-toggle="collapse" href="#collapseSection" role="button" aria-expanded="false" aria-controls="collapseSection">
+                    Neuen Eintrag erstellen
+                </a>
+            </p>
 
-        <div class="collapse" id="collapseSection">
-        <!--div class="collapse" id="collapseSection" style="display: flex; flex-direction: column; align-items: center;"-->
+            <br>
 
-            <label for="photo" class="btn">Neues Bild auswählen</label>
-            <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
-            <img id="preview" style="display: none;">
+            <div class="collapse" id="collapseSection">
+                <h3>Neuer Eintrag</h3>
+                <label for="photo" class="btn">Neues Bild auswählen</label>
+                <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
+                <img id="preview" style="display: none;">
 
-            <div class="input-container">
-                <textarea id="description" placeholder="Bergname / Tour"></textarea>
-                <input type="number" id="height" placeholder="Höhenmeter"/>
-                <input type="date" id="date" placeholder="Datum"/>
+                <div class="input-container">
+                    <textarea id="description" placeholder="Bergname / Tour"></textarea>
+                    <input type="number" id="height" placeholder="Höhenmeter"/>
+                    <input type="date" id="date" placeholder="Datum"/>
+                </div>
+
+                <div class="button-container">
+                    <button id="upload" onclick="uploadImage();storeHeight()">Bild und hm hochladen</button>
+                </div>
             </div>
 
-            <div class="button-container">
-                <button id="upload" onclick="uploadImage();storeHeight()">Bild und hm hochladen</button>
+            <br>
+
+            <p>
+                <a class="btn btn-primary" data-toggle="collapse" href="#profilbildSection" role="button" aria-expanded="false" aria-controls="profilbildSection">
+                    Neues Profilbild
+                </a>
+            </p>
+
+            <div class="collapse" id="profilbildSection">
+                <h3>Neues Profilbild</h3>
+                <label for="profilePicture" class="btn">Neues Bild auswählen</label>
+                <input id="profilePicture" style="visibility:hidden;" type="file" onchange="previewImage_profile()">
+                <img id="preview_profilePicture" style="display: none;">
+                <button id="profilePicture_upload" onclick="uploadProfImage()">Update Profilbild</button>
             </div>
-        </div>
-
-        <br>
-
-        <div>
-            <input type="file" id="selectImage" style="display: none;">
-            <button onclick="document.querySelector('#selectImage').click()">Profilbild auswählen</button>
-            <button onclick="uploadProfImage()">Update</button>
         </div>
 
 
