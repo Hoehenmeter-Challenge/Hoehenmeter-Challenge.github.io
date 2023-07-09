@@ -172,6 +172,26 @@ function previewImage() {
   const reader = new FileReader();
 
   reader.addEventListener("load", function () {
+    // convert image file to data URL
+    preview.src = reader.result;
+    preview.style.display = 'block'; // Show the preview image
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    preview.style.display = 'none'; // Hide the preview image
+  }
+}
+
+
+
+function previewImage_old() {
+  const preview = document.querySelector('#preview');
+  const file = document.querySelector("#photo").files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener("load", function () {
       // convert image file to data URL
       preview.src = reader.result;
   }, false);
