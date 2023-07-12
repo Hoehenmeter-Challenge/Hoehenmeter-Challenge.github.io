@@ -204,7 +204,7 @@ function previewImage_profile() {
 }
 
 
-function deleteImage(imageURL) {
+function deleteImage(imageURL, height) {
   var userId = firebase.auth().currentUser.uid;
 
   // Find the image in the database
@@ -215,85 +215,65 @@ function deleteImage(imageURL) {
       snapshot.forEach(function (childSnapshot) {
         var childData = childSnapshot.val();
         if (childData.imageUrl === imageURL) {
-          // Remove the image from the database
-          childSnapshot.ref
-            .remove()
-            .then(function () {
-              // Delete the image file from storage
-              var storageRef = firebase.storage().refFromURL(imageURL);
-              storageRef
-                .delete()
-                .then(function () {
-                  console.log("Image deleted successfully");
-                  alert("Image deleted successfully");
+          // Retrieve the current height value from Firestore
+          var db = firebase.firestore();
+          var usersCollection = db.collection('users');
+          var userDoc = usersCollection.doc(userId);
 
-                  // Remove the image container from the displayed image list
-                  var contentContainer = document.getElementById("content-container");
-                  var imageContainers = contentContainer.getElementsByClassName("figure");
-                  for (var i = 0; i < imageContainers.length; i++) {
-                    var imageElement = imageContainers[i].querySelector("img");
-                    if (imageElement.src === imageURL) {
-                      var container = imageElement.parentNode.parentNode; // Get the parent container element
-                      container.parentNode.removeChild(container);
-                      break;
-                    }
-                  }
+          userDoc.get()
+            .then(function(doc) {
+              if (doc.exists) {
+                var currentHeight = doc.data().height || 0;
+                var updatedHeight = currentHeight - height;
+
+                // Update the height field in the document
+                userDoc.update({
+                  height: updatedHeight
                 })
-                .catch(function (error) {
-                  console.error("Error deleting image from storage:", error);
-                });
+                  .then(function() {
+                    console.log("Height updated successfully");
+                  })
+                  .catch(function(error) {
+                    console.error("Error updating height:", error);
+                  });
+
+                // Remove the image from the database
+                childSnapshot.ref
+                  .remove()
+                  .then(function () {
+                    // Delete the image file from storage
+                    var storageRef = firebase.storage().refFromURL(imageURL);
+                    storageRef
+                      .delete()
+                      .then(function () {
+                        console.log("Image deleted successfully");
+                        alert("Image deleted successfully");
+
+                        // Remove the image container from the displayed image list
+                        var contentContainer = document.getElementById("content-container");
+                        var imageContainers = contentContainer.getElementsByClassName("figure");
+                        for (var i = 0; i < imageContainers.length; i++) {
+                          var imageElement = imageContainers[i].querySelector("img");
+                          if (imageElement.src === imageURL) {
+                            var container = imageElement.parentNode.parentNode; // Get the parent container element
+                            container.parentNode.removeChild(container);
+                            break;
+                          }
+                        }
+                      })
+                      .catch(function (error) {
+                        console.error("Error deleting image from storage:", error);
+                      });
+                  })
+                  .catch(function (error) {
+                    console.error("Error deleting image from database:", error);
+                  });
+              } else {
+                console.error("User document does not exist");
+              }
             })
-            .catch(function (error) {
-              console.error("Error deleting image from database:", error);
-            });
-        }
-      });
-    })
-    .catch(console.error);
-}
-
-
-
-function deleteImage_old(imageURL) {
-  var userId = firebase.auth().currentUser.uid;
-
-  // Find the image in the database
-  var databaseRef = firebase.database().ref(userId);
-  databaseRef
-    .once("value")
-    .then(function (snapshot) {
-      snapshot.forEach(function (childSnapshot) {
-        var childData = childSnapshot.val();
-        if (childData.imageUrl === imageURL) {
-          // Remove the image from the database
-          childSnapshot.ref
-            .remove()
-            .then(function () {
-              // Delete the image file from storage
-              var storageRef = firebase.storage().refFromURL(imageURL);
-              storageRef
-                .delete()
-                .then(function () {
-                  console.log("Image deleted successfully");
-                  alert("Image deleted successfully");
-
-                  // Remove the image from the displayed image list
-                  var contentContainer = document.getElementById("content-container");
-                  var imageElements = contentContainer.getElementsByTagName("img");
-                  for (var i = 0; i < imageElements.length; i++) {
-                    if (imageElements[i].src === imageURL) {
-                      var listItem = imageElements[i].parentNode;
-                      listItem.parentNode.removeChild(listItem);
-                      break;
-                    }
-                  }
-                })
-                .catch(function (error) {
-                  console.error("Error deleting image from storage:", error);
-                });
-            })
-            .catch(function (error) {
-              console.error("Error deleting image from database:", error);
+            .catch(function(error) {
+              console.error("Error retrieving user document:", error);
             });
         }
       });
