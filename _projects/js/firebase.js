@@ -22,7 +22,7 @@ var uiConfig = {
   signInOptions: [
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
-  signInSuccessUrl: 'https://hoehenmeter-challenge.github.io/login/',
+  signInSuccessUrl: 'https://hoehenmeter-challenge.github.io/my_profile/',
   //signInSuccessUrl: 'https://localhost:8080/login/',
   callbacks: {
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
