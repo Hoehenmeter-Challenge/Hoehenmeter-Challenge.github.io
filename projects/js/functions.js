@@ -204,20 +204,103 @@ function previewImage_profile() {
 }
 
 
+function deleteImage(imageURL) {
+  var userId = firebase.auth().currentUser.uid;
 
-function previewImage_old() {
-  const preview = document.querySelector('#preview');
-  const file = document.querySelector("#photo").files[0];
-  const reader = new FileReader();
+  // Find the image in the database
+  var databaseRef = firebase.database().ref(userId);
+  databaseRef
+    .once("value")
+    .then(function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+        var childData = childSnapshot.val();
+        if (childData.imageUrl === imageURL) {
+          // Remove the image from the database
+          childSnapshot.ref
+            .remove()
+            .then(function () {
+              // Delete the image file from storage
+              var storageRef = firebase.storage().refFromURL(imageURL);
+              storageRef
+                .delete()
+                .then(function () {
+                  console.log("Image deleted successfully");
+                  alert("Image deleted successfully");
 
-  reader.addEventListener("load", function () {
-      // convert image file to data URL
-      preview.src = reader.result;
-  }, false);
-  if (file) {
-      reader.readAsDataURL(file);
-  }
+                  // Remove the image container from the displayed image list
+                  var contentContainer = document.getElementById("content-container");
+                  var imageContainers = contentContainer.getElementsByClassName("figure");
+                  for (var i = 0; i < imageContainers.length; i++) {
+                    var imageElement = imageContainers[i].querySelector("img");
+                    if (imageElement.src === imageURL) {
+                      var container = imageElement.parentNode.parentNode; // Get the parent container element
+                      container.parentNode.removeChild(container);
+                      break;
+                    }
+                  }
+                })
+                .catch(function (error) {
+                  console.error("Error deleting image from storage:", error);
+                });
+            })
+            .catch(function (error) {
+              console.error("Error deleting image from database:", error);
+            });
+        }
+      });
+    })
+    .catch(console.error);
 }
+
+
+
+function deleteImage_old(imageURL) {
+  var userId = firebase.auth().currentUser.uid;
+
+  // Find the image in the database
+  var databaseRef = firebase.database().ref(userId);
+  databaseRef
+    .once("value")
+    .then(function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+        var childData = childSnapshot.val();
+        if (childData.imageUrl === imageURL) {
+          // Remove the image from the database
+          childSnapshot.ref
+            .remove()
+            .then(function () {
+              // Delete the image file from storage
+              var storageRef = firebase.storage().refFromURL(imageURL);
+              storageRef
+                .delete()
+                .then(function () {
+                  console.log("Image deleted successfully");
+                  alert("Image deleted successfully");
+
+                  // Remove the image from the displayed image list
+                  var contentContainer = document.getElementById("content-container");
+                  var imageElements = contentContainer.getElementsByTagName("img");
+                  for (var i = 0; i < imageElements.length; i++) {
+                    if (imageElements[i].src === imageURL) {
+                      var listItem = imageElements[i].parentNode;
+                      listItem.parentNode.removeChild(listItem);
+                      break;
+                    }
+                  }
+                })
+                .catch(function (error) {
+                  console.error("Error deleting image from storage:", error);
+                });
+            })
+            .catch(function (error) {
+              console.error("Error deleting image from database:", error);
+            });
+        }
+      });
+    })
+    .catch(console.error);
+}
+
 
 
 var displayedImageURLs = [];
@@ -273,12 +356,20 @@ function showimage_my_profile() {
             dateEl.innerText = "Datum: " + date;
             dateEl.classList.add('text-center');
 
+            var deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Löschen';
+            deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'delete-button');
+            deleteButton.addEventListener('click', function() {
+              deleteImage(imageURL);
+            });
+
             var figureDiv = document.createElement('div');
-            figureDiv.classList.add('figure');
+            figureDiv.classList.add('figure', 'text-center');
             figureDiv.appendChild(anchor);
             figureDiv.appendChild(descriptionEl);
             figureDiv.appendChild(heightEl);
             figureDiv.appendChild(dateEl);
+            figureDiv.appendChild(deleteButton);
 
             colDiv.appendChild(figureDiv);
 

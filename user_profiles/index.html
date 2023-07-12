@@ -221,6 +221,8 @@
   function declineCookies() {
     // Set a cookie to remember user's preference (declined)
     document.cookie = "cookieConsent=false; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+    // Remove the _ga cookie by setting its expiration date to a past date
+    document.cookie = "_ga=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     // Hide the cookie consent pop-up
     document.getElementById('cookieConsentPopup').style.display = 'none';
   }
@@ -243,8 +245,14 @@
     var isGaChecked = gaCheckbox.checked;
     // Set a cookie to remember user's Google Analytics consent
     document.cookie = "analyticsConsent=" + isChecked + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
-    // Set a cookie to remember user's _ga cookie consent
-    document.cookie = "_gaConsent=" + isGaChecked + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+    // If Google Analytics is allowed, set the _ga cookie consent
+    if (isChecked) {
+      document.cookie = "_gaConsent=" + isGaChecked + "; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+    } else {
+      // If Google Analytics is not allowed, remove both _ga and _gaConsent cookies by setting their expiration dates to a past date
+      document.cookie = "_ga=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+      document.cookie = "_gaConsent=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+    }
     // Initialize Google Analytics if consent has been given
     if (isChecked) {
       initializeAnalytics();
@@ -268,7 +276,7 @@
       <div id="cookieConsentContent">
         <p>Diese Website verwendet Cookies, um sicherzustellen, dass Sie die beste Erfahrung erhalten.</p>
         <p>Klicken Sie auf "Akzeptieren", um der Verwendung von Cookies zuzustimmen, oder "Ablehnen", um Cookies abzulehnen.</p>
-        <button onclick="setCookieConsent()">1. Nur notwendige</button>
+        <button onclick="declineCookies()">1. Nur notwendige</button>
         <button onclick="showAnalyticsConsentSection()">2. Zur Auswahl</button>
         <button class="accept-button" onclick="setCookieConsent()">3. Alle akzeptieren</button>
       </div>
@@ -319,7 +327,6 @@
     color: white;
   }
 </style>
-
     
 
 <!-- Scrolling Progress Bar -->

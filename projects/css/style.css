@@ -218,3 +218,10 @@
 .btn-primary {
   margin-top: 10px; /* Adjust the top margin as needed */
 }
+
+.delete-button {
+  padding: 0.2rem 0.4rem; /* Adjust the padding as needed */
+  font-size: 0.8rem; /* Adjust the font size as needed */
+  margin: 0 auto;
+  text-align: center;
+}
