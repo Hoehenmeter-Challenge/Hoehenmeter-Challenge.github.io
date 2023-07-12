@@ -236,6 +236,10 @@ function deleteImage(imageURL, height) {
                   .catch(function(error) {
                     console.error("Error updating height:", error);
                   });
+                  
+                // Update the displayed height value
+                var heightElement = document.getElementById("height-data");
+                heightElement.textContent = updatedHeight; // Update the text content
 
                 // Remove the image from the database
                 childSnapshot.ref
