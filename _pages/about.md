@@ -41,12 +41,10 @@ social: true  # includes social icons at the bottom of the page
 <body>
   <div class="container">
 
-    <p>Hier ist die 100.000 Höhenmeter Challenge!</p>
+    <p>Hier ist die Höhenmeter Challenge!</p>
 
     <p>Zähle deine Höhenmeter pro Jahr und teile deine Erfahrungen mit anderen Trailrunnern und Wanderern. 
     Hole dir Motivation und Tipps von der Community.</p>
-
-    <p>100.000 hm, das ist ungefähr 12 Mal pro Jahr vom Meer auf den Mt. Everest!</p>
 
     <p>Neben der 100.000 Höhenmeter Challenge gibt es auch eine 60.000 Höhenmeter und eine 30.000 Höhenmeter Challenge.</p>
 
