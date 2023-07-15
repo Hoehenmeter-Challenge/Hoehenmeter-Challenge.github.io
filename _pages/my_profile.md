@@ -21,8 +21,18 @@ horizontal: false
 
         <p class="user-info-container">
             <span id="welcome-text">Willkommen <span id="username-placeholder"></span></span>
+            <!--span>Aktuelle Challenge: <span id="category-data"></span></span-->
             <span>Aktuelle Höhenmeter: <span id="height-data"></span> hm</span>
         </p>
+
+        <div>
+            <p>Deine aktuell gewählte Challenge:</p>
+            <ul id="category-data" hidden></ul>
+
+            <button class="category-button" id="category1Button" onclick="storeCategory('category1')">30.000 hm</button>
+            <button class="category-button" id="category2Button" onclick="storeCategory('category2')">60.000 hm</button>
+            <button class="category-button" id="category3Button" onclick="storeCategory('category3')">100.000 hm</button>
+        </div>
 
         <br>
         <div id="collapse-buttons">
@@ -87,7 +97,7 @@ horizontal: false
         <script>
             window.addEventListener("load", function() {
                 showUserDetail();
-                getHeightData();
+                getUserData();
                 showimage_my_profile();
             });
         </script>

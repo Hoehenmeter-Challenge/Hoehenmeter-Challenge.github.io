@@ -22,8 +22,6 @@ var uiConfig = {
   signInOptions: [
     firebase.auth.EmailAuthProvider.PROVIDER_ID
   ],
-  signInSuccessUrl: 'https://hoehenmeter-challenge.github.io/my_profile/',
-  //signInSuccessUrl: 'https://localhost:8080/login/',
   callbacks: {
     signInSuccessWithAuthResult: function(authResult, redirectUrl) {
       // Retrieve the userId of the currently authenticated user
@@ -46,6 +44,7 @@ var uiConfig = {
             })
             .then(function() {
               console.log("User information stored successfully");
+              window.location.assign('http://hoehenmeter-challenge.github.io/my_profile/');
             })
             .catch(function(error) {
               console.error("Error storing user information: ", error);

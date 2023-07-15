@@ -19,6 +19,11 @@ horizontal: false
 
     <body>
 
+        <button class="category-button" onclick="getUserDataFromStorage('All')">Alle anzeigen</button>
+        <button class="category-button" onclick="getUserDataFromStorage('category1')">30.000 hm</button>
+        <button class="category-button" onclick="getUserDataFromStorage('category2')">60.000 hm</button>
+        <button class="category-button" onclick="getUserDataFromStorage('category3')">100.000 hm</button>
+
         <ul id="usernames-container"></ul>
 
         
@@ -36,7 +41,8 @@ horizontal: false
 
         <script>
             window.addEventListener("load", function() {
-                getUsernamesFromStorage();
+                //getUserDataFromStorage();
+                getUserDataFromStorage('All');
             });
         </script>
     </body>
