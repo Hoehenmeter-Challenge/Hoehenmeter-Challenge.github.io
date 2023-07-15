@@ -18,7 +18,7 @@ function showUserDetail() {
 }
 
 
-function getUsernamesFromStorage() {
+function getUserDataFromStorage() {
   // Access Firestore and create a reference to the users collection
   var db = firebase.firestore();
   var usersCollection = db.collection('users');
@@ -97,6 +97,99 @@ function getUsernamesFromStorage() {
       console.error("Error retrieving usernames: ", error);
     });
 }
+
+
+function getUserDataFromStorage(category) {
+  // Access Firestore and create a reference to the users collection
+  var db = firebase.firestore();
+  var usersCollection = db.collection('users');
+
+  // Create a query based on the category parameter
+  var query = usersCollection;
+  if (category !== 'All') {
+    query = query.where('category', '==', category);
+  }
+
+  // Get the documents matching the query
+  query.get()
+    .then(function(querySnapshot) {
+      // Clear the usernames container before appending new data
+      var usernamesContainer = document.getElementById('usernames-container');
+      usernamesContainer.innerHTML = '';
+
+      // Iterate over each document
+      querySnapshot.forEach(function(doc) {
+        // Get the username and userId from the document data
+        var username = doc.data().username;
+        var userId = doc.data().userId;
+
+        // Create a new div element for displaying the username and height data
+        var usernameBox = document.createElement('div');
+        usernameBox.classList.add('user-box');
+
+        // Create an image element
+        var userImage = document.createElement('img');
+        userImage.classList.add('user-image');
+
+        // Get the profile picture URL from Firebase Storage
+        var storageRef = firebase.storage().ref(userId + '/prof_pic');
+        storageRef.getDownloadURL()
+          .then(function(url) {
+            // Set the source of the image
+            userImage.src = url;
+          })
+          .catch(function(error) {
+            console.error("Error getting profile picture: ", error);
+          });
+
+        // Create a span element for displaying the username text
+        var usernameText = document.createElement('span');
+        usernameText.textContent = username;
+        usernameText.classList.add('username-text');
+
+        // Append the image and username text to the username box
+        usernameBox.appendChild(userImage);
+        usernameBox.appendChild(usernameText);
+
+        // Retrieve the user document from Firestore
+        var userDoc = usersCollection.doc(userId);
+        userDoc.get().then(function(doc) {
+          if (doc.exists) {
+            var heightData = doc.data().height || 0;
+            // Create a span element for displaying the height data
+            var heightDataElement = document.createElement('span');
+            heightDataElement.textContent = "    " + heightData + " hm";
+            heightDataElement.classList.add('height-data');
+
+            // Append the height data element to the username box
+            usernameBox.appendChild(heightDataElement);
+          } else {
+            console.error("User document does not exist");
+          }
+        }).catch(function(error) {
+          console.error("Error retrieving user document: ", error);
+        });
+
+        // Add an event listener to the username box
+        usernameBox.addEventListener('click', function() {
+          // Store the userId in localStorage
+          localStorage.setItem('userId', userId);
+
+          // Redirect to the new webpage without query parameters
+          window.location.href = 'show_user.html';
+          //window.location.href = 'show_user.html?userId=' + userId;
+        });
+
+        // Append the username box to the usernames container
+        usernamesContainer.appendChild(usernameBox);
+      });
+    })
+    .catch(function(error) {
+      console.error("Error retrieving usernames: ", error);
+    });
+}
+
+
 
 
 function uploadProfImage() {
@@ -477,50 +570,53 @@ function showImage_user_profile(userId) {
 }
 
 
+
+
+
 function showEnlargedImage(imageURL, description) {
-  var modalDiv = document.createElement("div");
-  modalDiv.classList.add("modal");
+    var modalDiv = document.createElement("div");
+    modalDiv.classList.add("modal");
 
-  var modalContentDiv = document.createElement("div");
-  modalContentDiv.classList.add("modal-content");
+    var modalContentDiv = document.createElement("div");
+    modalContentDiv.classList.add("modal-content");
 
-  var closeButton = document.createElement("span");
-  closeButton.innerHTML = "&times;";
-  closeButton.classList.add("close-button");
+    var closeButton = document.createElement("span");
+    closeButton.innerHTML = "&times;";
+    closeButton.classList.add("close-button");
 
-  var modalImg = document.createElement("img");
-  modalImg.src = imageURL;
-  modalImg.classList.add("enlarged-image");
+    var modalImg = document.createElement("img");
+    modalImg.src = imageURL;
+    modalImg.classList.add("enlarged-image");
 
-  var modalDescription = document.createElement("p");
-  modalDescription.innerText = description;
+    var modalDescription = document.createElement("p");
+    modalDescription.innerText = description;
 
-  modalContentDiv.appendChild(closeButton);
-  modalContentDiv.appendChild(modalImg);
-  modalContentDiv.appendChild(modalDescription);
-  modalDiv.appendChild(modalContentDiv);
-  document.body.appendChild(modalDiv);
+    modalContentDiv.appendChild(closeButton);
+    modalContentDiv.appendChild(modalImg);
+    modalContentDiv.appendChild(modalDescription);
+    modalDiv.appendChild(modalContentDiv);
+    document.body.appendChild(modalDiv);
 
-  // Close the modal when clicked outside the image or on the close button
-  function closeModal() {
-      modalDiv.remove();
-      document.removeEventListener("keydown", handleKeyPress);
-  }
+    // Close the modal when clicked outside the image or on the close button
+    function closeModal() {
+        modalDiv.remove();
+        document.removeEventListener("keydown", handleKeyPress);
+    }
 
-  modalDiv.addEventListener("click", function(e) {
-      if (e.target === modalDiv || e.target === closeButton) {
-          closeModal();
-      }
-  });
+    modalDiv.addEventListener("click", function(e) {
+        if (e.target === modalDiv || e.target === closeButton) {
+            closeModal();
+        }
+    });
 
-  // Close the modal when Escape key is pressed
-  function handleKeyPress(e) {
-      if (e.key === "Escape") {
-          closeModal();
-      }
-  }
+    // Close the modal when Escape key is pressed
+    function handleKeyPress(e) {
+        if (e.key === "Escape") {
+            closeModal();
+        }
+    }
 
-  document.addEventListener("keydown", handleKeyPress);
+    document.addEventListener("keydown", handleKeyPress);
 }
 
 
@@ -547,7 +643,7 @@ function storeHeight() {
         })
         .then(function() {
           console.log("Height stored successfully");
-          getHeightData();
+          getUserData();
         })
         .catch(function(error) {
           console.error("Error storing height: ", error);
@@ -565,7 +661,7 @@ function storeHeight() {
 }
 
 
-function getHeightData() {
+function getUserData() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       var user = firebase.auth().currentUser;
@@ -582,6 +678,21 @@ function getHeightData() {
             // Display the height data on the webpage
             var heightDataElement = document.getElementById('height-data');
             heightDataElement.textContent = heightData;
+            
+            // category
+            var category = doc.data().category || 'No category';
+            var categoryDataElement = document.getElementById('category-data');
+            categoryDataElement.textContent = category;
+
+            // Highlight the active category button
+            var category1Button = document.getElementById('category1Button');
+            var category2Button = document.getElementById('category2Button');
+            var category3Button = document.getElementById('category3Button');
+
+            category1Button.style.backgroundColor = category === 'category1' ? 'green' : 'rgba(105, 105, 105, 0.3)';
+            category2Button.style.backgroundColor = category === 'category2' ? 'green' : 'rgba(105, 105, 105, 0.3)';
+            category3Button.style.backgroundColor = category === 'category3' ? 'green' : 'rgba(105, 105, 105, 0.3)';
+
           } else {
             console.error("User document does not exist");
           }
@@ -620,6 +731,36 @@ function getHeightData_user_profile(userId) {
     console.error("Error retrieving user document: ", error);
   });
 }
+
+
+function storeCategory(category) {
+  var user = firebase.auth().currentUser;
+  if (user) {
+    var userId = user.uid;
+    var db = firebase.firestore();
+    var usersCollection = db.collection('users');
+    var userDoc = usersCollection.doc(userId);
+
+    // Update the category field in the document
+    userDoc.update({
+      category: category
+    })
+    .then(function() {
+      console.log("Category stored successfully");
+      getUserData();
+    })
+    .catch(function(error) {
+      console.error("Error storing category: ", error);
+    });
+  } else {
+    // User is not signed in, show the sign-in UI
+    //ui.start('#firebaseui-auth-container', uiConfig);
+  }
+}
+
+
+
+
 
 
 function removeAccount(){
