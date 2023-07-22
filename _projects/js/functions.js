@@ -328,7 +328,7 @@ function showimage_my_profile() {
             displayedImageURLs.push(imageURL);
 
             var colDiv = document.createElement('div');
-            colDiv.classList.add('col-md-4', 'mb-3'); // Modified class names
+            colDiv.classList.add('col-md-4', 'mb-3', 'image-column'); // Modified class names
 
             var anchor = document.createElement('a');
             anchor.classList.add('image-link');
@@ -427,7 +427,7 @@ function showImage_user_profile(userId) {
         displayedImageURLs.push(imageURL);
 
         var colDiv = document.createElement('div');
-        colDiv.classList.add('col-4', 'mb-3'); // Modified class names
+        colDiv.classList.add('col-md-4', 'mb-3', 'image-column'); // Modified class names
 
         var anchor = document.createElement('a');
         anchor.classList.add('image-link');
