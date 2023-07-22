@@ -394,10 +394,6 @@ footer.sticky-bottom {
   .repo {
     max-width: 50%;
   }
-  .image-column {
-    border: 1px solid #ccc;
-    padding: 5px;
-  }
 }
 .header-bar {
   border-bottom: 1px solid var(--global-divider-color);
@@ -894,6 +890,10 @@ d-appendix a:hover, d-appendix a.footnote-backlink:hover {
   }
   d-article d-contents nav {
     grid-column: none;
+  }
+  d-article d-contents .image-column {
+    border: 1px solid #ccc;
+    padding: 5px;
   }
 }
 
