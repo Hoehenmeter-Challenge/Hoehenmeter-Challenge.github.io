@@ -41,7 +41,6 @@ horizontal: false
 
         <script>
             window.addEventListener("load", function() {
-                //getUserDataFromStorage();
                 getUserDataFromStorage('All');
             });
         </script>

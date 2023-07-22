@@ -18,87 +18,6 @@ function showUserDetail() {
 }
 
 
-function getUserDataFromStorage() {
-  // Access Firestore and create a reference to the users collection
-  var db = firebase.firestore();
-  var usersCollection = db.collection('users');
-
-  // Get all documents from the users collection
-  usersCollection.get()
-    .then(function(querySnapshot) {
-      // Iterate over each document
-      querySnapshot.forEach(function(doc) {
-        // Get the username and userId from the document data
-        var username = doc.data().username;
-        var userId = doc.data().userId;
-
-        // Create a new div element for displaying the username and height data
-        var usernameBox = document.createElement('div');
-        usernameBox.classList.add('user-box');
-        
-        // Create an image element
-        var userImage = document.createElement('img');
-        userImage.classList.add('user-image');
-        
-        // Get the profile picture URL from Firebase Storage
-        var storageRef = firebase.storage().ref(userId + '/prof_pic');
-        storageRef.getDownloadURL()
-          .then(function(url) {
-            // Set the source of the image
-            userImage.src = url;
-          })
-          .catch(function(error) {
-            console.error("Error getting profile picture: ", error);
-          });
-        
-        // Create a span element for displaying the username text
-        var usernameText = document.createElement('span');
-        usernameText.textContent = username;
-        usernameText.classList.add('username-text');
-
-        // Append the image and username text to the username box
-        usernameBox.appendChild(userImage);
-        usernameBox.appendChild(usernameText);
-
-        // Retrieve the user document from Firestore
-        var userDoc = usersCollection.doc(userId);
-        userDoc.get().then(function(doc) {
-          if (doc.exists) {
-            var heightData = doc.data().height || 0;
-            // Create a span element for displaying the height data
-            var heightDataElement = document.createElement('span');
-            heightDataElement.textContent = "    " + heightData + " hm";
-            heightDataElement.classList.add('height-data');
-
-            // Append the height data element to the username box
-            usernameBox.appendChild(heightDataElement);
-          } else {
-            console.error("User document does not exist");
-          }
-        }).catch(function(error) {
-          console.error("Error retrieving user document: ", error);
-        });
-
-        // Add an event listener to the username box
-        usernameBox.addEventListener('click', function() {
-          // Store the userId in localStorage
-          localStorage.setItem('userId', userId);
-
-          // Redirect to the new webpage without query parameters
-          window.location.href = 'show_user.html';
-          //window.location.href = 'show_user.html?userId=' + userId;
-        });
-
-        // Append the username box to the webpage
-        document.getElementById('usernames-container').appendChild(usernameBox);
-      });
-    })
-    .catch(function(error) {
-      console.error("Error retrieving usernames: ", error);
-    });
-}
-
-
 function getUserDataFromStorage(category) {
   // Access Firestore and create a reference to the users collection
   var db = firebase.firestore();
@@ -409,7 +328,7 @@ function showimage_my_profile() {
             displayedImageURLs.push(imageURL);
 
             var colDiv = document.createElement('div');
-            colDiv.classList.add('col-4', 'mb-3'); // Modified class names
+            colDiv.classList.add('col-md-4', 'mb-3'); // Modified class names
 
             var anchor = document.createElement('a');
             anchor.classList.add('image-link');
