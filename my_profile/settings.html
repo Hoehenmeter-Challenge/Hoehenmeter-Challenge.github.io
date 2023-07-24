@@ -17,7 +17,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Mein Profil | Höhenmeter Challenge</title>
+    <title>Einstellungen | Höhenmeter Challenge</title>
     <meta name="author" content="Tim  Knissel">
     <meta name="description" content="A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
 ">
@@ -41,7 +41,7 @@
     <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%E2%9A%9B%EF%B8%8F&lt;/text&gt;&lt;/svg&gt;">
     
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="https://hoehenmeter-challenge.github.io/my_profile/">
+    <link rel="canonical" href="https://hoehenmeter-challenge.github.io/my_profile/settings">
     
     <!-- Dark Mode -->
     
@@ -85,8 +85,8 @@
               </li>
 
               <!-- Other pages -->
-              <li class="nav-item active">
-                <a class="nav-link" href="/my_profile/">Mein Profil<span class="sr-only">(current)</span></a>
+              <li class="nav-item ">
+                <a class="nav-link" href="/my_profile/">Mein Profil</a>
               </li>
               <li class="nav-item ">
                 <a class="nav-link" href="/user_profiles/">Teilnehmer</a>
@@ -122,7 +122,7 @@
         <div class="post">
 
           <header class="post-header">
-            <h1 class="post-title">Mein Profil</h1>
+            <h1 class="post-title">Einstellungen</h1>
             <p class="post-description"></p>
           </header>
 
@@ -139,14 +139,12 @@
 
         <p class="user-info-container">
             <span id="welcome-text">Willkommen <span id="username-placeholder"></span></span>
-            <!--span>Aktuelle Challenge: <span id="category-data"></span></span-->
-            <span>Aktuelle Höhenmeter: <span id="height-data"></span> hm</span>
-        </p>
-
-        <button id="redirectToSettings" class="btn">Einstellungen</button>
+            </p>
+<ul id="height-data" hidden=""></ul>
+        
 
         <div>
-            <p>Deine Challenge:</p>
+            <p>Deine aktuell gewählte Challenge:</p>
             <ul id="category-data" hidden=""></ul>
 
             <button class="category-button" id="category1Button" onclick="storeCategory('category1')">30.000 hm</button>
@@ -157,38 +155,20 @@
         <br>
         <div id="collapse-buttons">
             <p>
-                <a class="btn btn-primary" data-toggle="collapse" href="#collapseSection" role="button" aria-expanded="false" aria-controls="collapseSection">
-                    Neuen Eintrag erstellen
+                <a class="btn btn-primary" data-toggle="collapse" href="#profilbildSection" role="button" aria-expanded="false" aria-controls="profilbildSection">
+                    Neues Profilbild
                 </a>
             </p>
 
-            <br>
-
-            <div class="collapse" id="collapseSection">
-                <h3>Neuer Eintrag</h3>
-                <label for="photo" class="btn">Neues Bild auswählen</label>
-                <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
-                <img id="preview" style="display: none;">
-
-                <div class="input-container">
-                    <textarea id="description" placeholder="Bergname / Tour"></textarea>
-                    <input type="number" id="height" placeholder="Höhenmeter">
-                    <input type="date" id="date" placeholder="Datum">
-                </div>
-
-                <div class="button-container">
-                    <button id="upload" onclick="uploadImage();storeHeight()">Bild und hm hochladen</button>
-                </div>
+            <div class="collapse" id="profilbildSection">
+                <h3>Neues Profilbild</h3>
+                <label for="profilePicture" class="btn">Neues Bild auswählen</label>
+                <input id="profilePicture" style="visibility:hidden;" type="file" onchange="previewImage_profile()">
+                <img id="preview_profilePicture" style="display: none;">
+                <button id="profilePicture_upload" onclick="uploadProfImage()">Update Profilbild</button>
             </div>
-
-            <br>
-
         </div>
 
-
-        <p>Deine Bilder</p>
-
-        <ul id="content-container"></ul>
 
         <!-- Firebase SDK -->
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
@@ -202,20 +182,9 @@
         <script type="module" src="../projects/js/firebase.js"></script>
 
         <script>
-            // Get a reference to the button element
-            const redirectButton = document.getElementById('redirectToSettings');
-            // Add a click event listener to the button
-            redirectButton.addEventListener('click', function() {
-            // Redirect to the new webpage
-            window.location.href = 'settings.html';
-            });
-        </script>
-
-        <script>
             window.addEventListener("load", function() {
                 showUserDetail();
-                getUserData_only_one();
-                showimage_my_profile();
+                getUserData();
             });
         </script>
     

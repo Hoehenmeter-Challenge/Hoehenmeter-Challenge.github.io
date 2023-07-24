@@ -626,6 +626,54 @@ function getUserData() {
   });
 }
 
+function getUserData_only_one() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var user = firebase.auth().currentUser;
+      if (user) {
+        var userId = user.uid;
+        var db = firebase.firestore();
+        var usersCollection = db.collection('users');
+        var userDoc = usersCollection.doc(userId);
+
+        // Retrieve the user document from Firestore
+        userDoc.get().then(function(doc) {
+          if (doc.exists) {
+            var heightData = doc.data().height || 0;
+            // Display the height data on the webpage
+            var heightDataElement = document.getElementById('height-data');
+            heightDataElement.textContent = heightData;
+
+            // category
+            var category = doc.data().category || 'No category';
+            var categoryDataElement = document.getElementById('category-data');
+            categoryDataElement.textContent = category;
+
+            // Hide all buttons first
+            var categoryButtons = document.getElementsByClassName('category-button');
+            for (var i = 0; i < categoryButtons.length; i++) {
+              categoryButtons[i].style.display = 'none';
+            }
+
+            // Show the selected category button
+            var selectedButton = document.getElementById(category + 'Button');
+            selectedButton.style.display = 'block';
+
+          } else {
+            console.error("User document does not exist");
+          }
+        }).catch(function(error) {
+          console.error("Error retrieving user document: ", error);
+        });
+      }
+    } else {
+      // User is not signed in
+      console.error("User is not signed in");
+    }
+  });
+}
+
+
 
 function getHeightData_user_profile(userId) {
   var db = firebase.firestore();
