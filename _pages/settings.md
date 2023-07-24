@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Mein Profil
-permalink: /my_profile/
+title: Einstellungen
+permalink: /my_profile/settings
 description:
-nav: true
-nav_order: 3
+nav: false
+nav_order:
 display_categories:
 horizontal: false
 ---
@@ -21,14 +21,11 @@ horizontal: false
 
         <p class="user-info-container">
             <span id="welcome-text">Willkommen <span id="username-placeholder"></span></span>
-            <!--span>Aktuelle Challenge: <span id="category-data"></span></span-->
-            <span>Aktuelle Höhenmeter: <span id="height-data"></span> hm</span>
+            <ul id="height-data" hidden></ul>
         </p>
 
-        <button id="redirectToSettings" class="btn">Einstellungen</button>
-
         <div>
-            <p>Deine Challenge:</p>
+            <p>Deine aktuell gewählte Challenge:</p>
             <ul id="category-data" hidden></ul>
 
             <button class="category-button" id="category1Button" onclick="storeCategory('category1')">30.000 hm</button>
@@ -39,38 +36,20 @@ horizontal: false
         <br>
         <div id="collapse-buttons">
             <p>
-                <a class="btn btn-primary" data-toggle="collapse" href="#collapseSection" role="button" aria-expanded="false" aria-controls="collapseSection">
-                    Neuen Eintrag erstellen
+                <a class="btn btn-primary" data-toggle="collapse" href="#profilbildSection" role="button" aria-expanded="false" aria-controls="profilbildSection">
+                    Neues Profilbild
                 </a>
             </p>
 
-            <br>
-
-            <div class="collapse" id="collapseSection">
-                <h3>Neuer Eintrag</h3>
-                <label for="photo" class="btn">Neues Bild auswählen</label>
-                <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
-                <img id="preview" style="display: none;">
-
-                <div class="input-container">
-                    <textarea id="description" placeholder="Bergname / Tour"></textarea>
-                    <input type="number" id="height" placeholder="Höhenmeter"/>
-                    <input type="date" id="date" placeholder="Datum"/>
-                </div>
-
-                <div class="button-container">
-                    <button id="upload" onclick="uploadImage();storeHeight()">Bild und hm hochladen</button>
-                </div>
+            <div class="collapse" id="profilbildSection">
+                <h3>Neues Profilbild</h3>
+                <label for="profilePicture" class="btn">Neues Bild auswählen</label>
+                <input id="profilePicture" style="visibility:hidden;" type="file" onchange="previewImage_profile()">
+                <img id="preview_profilePicture" style="display: none;">
+                <button id="profilePicture_upload" onclick="uploadProfImage()">Update Profilbild</button>
             </div>
-
-            <br>
-
         </div>
 
-
-        <p>Deine Bilder</p>
-
-        <ul id="content-container"></ul>
 
         <!-- Firebase SDK -->
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
@@ -84,20 +63,9 @@ horizontal: false
         <script type="module" src="../projects/js/firebase.js"></script>
 
         <script>
-            // Get a reference to the button element
-            const redirectButton = document.getElementById('redirectToSettings');
-            // Add a click event listener to the button
-            redirectButton.addEventListener('click', function() {
-            // Redirect to the new webpage
-            window.location.href = 'settings.html';
-            });
-        </script>
-
-        <script>
             window.addEventListener("load", function() {
                 showUserDetail();
-                getUserData_only_one();
-                showimage_my_profile();
+                getUserData();
             });
         </script>
     </body>
