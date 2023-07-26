@@ -34,22 +34,18 @@ horizontal: false
         </div>
 
         <br>
-        <div id="collapse-buttons">
-            <p>
-                <a class="btn btn-primary" data-toggle="collapse" href="#profilbildSection" role="button" aria-expanded="false" aria-controls="profilbildSection">
-                    Neues Profilbild
-                </a>
-            </p>
 
-            <div class="collapse" id="profilbildSection">
-                <h3>Neues Profilbild</h3>
-                <label for="profilePicture" class="btn">Neues Bild auswählen</label>
-                <input id="profilePicture" style="visibility:hidden;" type="file" onchange="previewImage_profile()">
-                <img id="preview_profilePicture" style="display: none;">
-                <button id="profilePicture_upload" onclick="uploadProfImage()">Update Profilbild</button>
+        <div id="collapse-buttons">
+            <div class="collapse-container">
+                <div class="collapse" id="profilbildSection">
+                    <label for="profilePicture" class="btn">Neues Profilbild auswählen</label>
+                    <input id="profilePicture" style="visibility:hidden;" type="file" onchange="previewImage_profile()">
+                    <img id="preview_profilePicture" style="display: none;">
+                    <br>
+                    <button id="profilePicture_upload" onclick="uploadProfImage()">Update Profilbild</button>
+                </div>
             </div>
         </div>
-
 
         <!-- Firebase SDK -->
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
@@ -64,7 +60,7 @@ horizontal: false
 
         <script>
             window.addEventListener("load", function() {
-                showUserDetail();
+                // showUserName();
                 getUserData();
             });
         </script>

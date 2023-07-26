@@ -1,18 +1,12 @@
 ---
-layout: about
+layout: page
 title: about
-permalink: /
-subtitle: 
-
-profile:
-  align: right
-  image: prof_pic_mountain.jpg
-  image_circular: false # crops the image to make it circular
-
-news: false  # includes a list of news items
-latest_posts: true  # includes a list of the newest posts
-selected_papers: false # includes a list of papers marked as "selected={true}"
-social: true  # includes social icons at the bottom of the page
+permalink: /about/
+description:
+nav: true
+nav_order: 4
+display_categories:
+horizontal: false
 ---
 
 <html>

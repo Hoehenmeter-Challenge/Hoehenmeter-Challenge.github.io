@@ -1,4 +1,4 @@
-function showUserDetail() {
+/*function showUserName() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       var user = firebase.auth().currentUser;
@@ -15,7 +15,7 @@ function showUserDetail() {
       // ...
     }
   });
-}
+}*/
 
 
 function getUserDataFromStorage(category) {
@@ -589,6 +589,9 @@ function getUserData() {
         var db = firebase.firestore();
         var usersCollection = db.collection('users');
         var userDoc = usersCollection.doc(userId);
+
+        var username = user.displayName;
+        document.getElementById('username-placeholder').textContent = username;
 
         // Retrieve the user document from Firestore
         userDoc.get().then(function(doc) {

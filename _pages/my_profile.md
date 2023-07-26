@@ -37,34 +37,33 @@ horizontal: false
         </div>
 
         <br>
+
         <div id="collapse-buttons">
-            <p>
-                <a class="btn btn-primary" data-toggle="collapse" href="#collapseSection" role="button" aria-expanded="false" aria-controls="collapseSection">
-                    Neuen Eintrag erstellen
-                </a>
-            </p>
+            <div class="collapse-container">
+                <p>
+                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseSection" role="button" aria-expanded="false" aria-controls="collapseSection">
+                        Neuen Eintrag erstellen
+                    </a>
+                </p>
 
-            <br>
+                
 
-            <div class="collapse" id="collapseSection">
-                <h3>Neuer Eintrag</h3>
-                <label for="photo" class="btn">Neues Bild auswählen</label>
-                <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
-                <img id="preview" style="display: none;">
+                <div class="collapse" id="collapseSection">
+                    <label for="photo" class="btn">Neues Bild auswählen</label>
+                    <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
+                    <img id="preview" style="display: none;">
 
-                <div class="input-container">
-                    <textarea id="description" placeholder="Bergname / Tour"></textarea>
-                    <input type="number" id="height" placeholder="Höhenmeter"/>
-                    <input type="date" id="date" placeholder="Datum"/>
-                </div>
+                    <div class="input-container">
+                        <textarea id="description" placeholder="Bergname / Tour"></textarea>
+                        <input type="number" id="height" placeholder="Höhenmeter"/>
+                        <input type="date" id="date" placeholder="Datum"/>
+                    </div>
 
-                <div class="button-container">
-                    <button id="upload" onclick="uploadImage();storeHeight()">Bild und hm hochladen</button>
+                    <div class="button-container">
+                        <button id="upload" onclick="uploadImage();storeHeight()">Bild und hm hochladen</button>
+                    </div>
                 </div>
             </div>
-
-            <br>
-
         </div>
 
 
@@ -95,7 +94,8 @@ horizontal: false
 
         <script>
             window.addEventListener("load", function() {
-                showUserDetail();
+                // showUserName();
+                getUserData();
                 getUserData_only_one();
                 showimage_my_profile();
             });
