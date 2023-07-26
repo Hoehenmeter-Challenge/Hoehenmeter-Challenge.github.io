@@ -29,6 +29,9 @@ function getUserDataFromStorage(category) {
     query = query.where('category', '==', category);
   }
 
+  // Add an orderBy clause to sort by height in ascending order
+  // query = query.orderBy('date', 'desc'); // 'height', 'date' (date does not work)
+
   // Get the documents matching the query
   query.get()
     .then(function(querySnapshot) {
