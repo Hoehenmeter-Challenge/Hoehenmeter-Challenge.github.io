@@ -1,7 +1,7 @@
 ---
 layout: page
 title: Teilnehmer Profil
-permalink: /user_profiles/show_user
+permalink: /show_user
 description:
 nav: false
 nav_order: 
