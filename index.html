@@ -76,7 +76,7 @@
 
               <!-- About -->
               <li class="nav-item active">
-                <a class="nav-link" href="/">about<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/">Teilnehmer<span class="sr-only">(current)</span></a>
               </li>
               
               <!-- Blog -->
@@ -89,7 +89,7 @@
                 <a class="nav-link" href="/my_profile/">Mein Profil</a>
               </li>
               <li class="nav-item ">
-                <a class="nav-link" href="/user_profiles/">Teilnehmer</a>
+                <a class="nav-link" href="/about/">about</a>
               </li>
               <li class="nav-item ">
                 <a class="nav-link" href="/login/">Login</a>
@@ -128,64 +128,45 @@
         </header>
 
         <article>
-          <div class="profile float-right">
-
-              <figure>
-
-  <picture>
-    
-    <source class="responsive-img-srcset" media="(max-width: 480px)" srcset="/assets/img/prof_pic_mountain-480.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 800px)" srcset="/assets/img/prof_pic_mountain-800.webp"></source>
-    <source class="responsive-img-srcset" media="(max-width: 1400px)" srcset="/assets/img/prof_pic_mountain-1400.webp"></source>
-    
-
-    <!-- Fallback to the original file -->
-    <img src="/assets/img/prof_pic_mountain.jpg" class="img-fluid z-depth-1 rounded" width="auto" height="auto" alt="prof_pic_mountain.jpg" onerror="this.onerror=null; $('.responsive-img-srcset').remove();">
-
-  </picture>
-
-</figure>
-
-          </div>
+          
 
           <div class="clearfix">
             
+    
+        <title>Firebase Image Upload using HTML and JavaScript</title>
+        <link rel="stylesheet" type="text/css" href="../projects/css/style.css">
+    
 
-  <!--link rel="stylesheet" type="text/css" href="styles.css"-->
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      /*background-color: #f2f2f2;*/
-      color: #333;
-    }
+    <script type="text/javascript" src="../projects/js/functions.js"></script>
 
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+    
 
-    p {
-      font-size: 18px;
-      line-height: 1.5;
-      margin-bottom: 15px;
-    }
-  </style>
+        <button class="category-button" onclick="getUserDataFromStorage('All')">Alle anzeigen</button>
+        <button class="category-button" onclick="getUserDataFromStorage('category1')">30.000 hm</button>
+        <button class="category-button" onclick="getUserDataFromStorage('category2')">60.000 hm</button>
+        <button class="category-button" onclick="getUserDataFromStorage('category3')">100.000 hm</button>
 
+        <ul id="usernames-container"></ul>
 
-  <div class="container">
-
-    <p>Hier ist die Höhenmeter Challenge!</p>
-
-    <p>Zähle deine Höhenmeter pro Jahr und teile deine Erfahrungen mit anderen Trailrunnern und Wanderern. 
-    Hole dir Motivation und Tipps von der Community.</p>
-
-    <p>Neben der 100.000 Höhenmeter Challenge gibt es auch eine 60.000 Höhenmeter und eine 30.000 Höhenmeter Challenge.</p>
-
-    <p>Lade jedes Mal nach einem Training / einer Wanderung ein Gipfelfoto hoch, auf dem der Berg klar erkennbar ist und dokumentiere so dein Training und Bergerlebnisse.</p>
-  </div>
+        
+        <!-- Firebase SDK -->
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+        <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css">
 
 
+        <script type="module" src="../projects/js/firebase.js"></script>
+
+        <script>
+            window.addEventListener("load", function() {
+                getUserDataFromStorage('All');
+            });
+        </script>
+    
 
 
           </div>
@@ -197,19 +178,6 @@
           
 
           <!-- Social -->
-            <div class="social">
-              <div class="contact-icons">
-                <a href="mailto:%74%69%6D.%6B%6E%69%73%73%65%6C@%68%6F%74%6D%61%69%6C.%64%65" title="email"><i class="fas fa-envelope"></i></a>
-            
-
-              </div>
-
-              <div class="contact-note">
-                Bei Fragen kontaktiere mich gerne per E-Mail: tim.knissel[at]hotmail.de
-
-              </div>
-              
-            </div>
         </article>
 
 </div>
