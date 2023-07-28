@@ -374,7 +374,7 @@ function showimage_my_profile() {
             deleteButton.innerText = 'Löschen';
             deleteButton.classList.add('btn', 'btn-danger', 'btn-sm', 'delete-button');
             deleteButton.addEventListener('click', function() {
-              deleteImage(imageURL);
+              deleteImage(imageURL, height);
             });
 
             var figureDiv = document.createElement('div');
