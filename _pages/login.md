@@ -1,10 +1,10 @@
 ---
 layout: page
-title: Login
+title: Anmeldung
 permalink: /login/
 description: Login or Register
 nav: true
-nav_order: 5
+nav_order: 3
 display_categories:
 horizontal: false
 ---

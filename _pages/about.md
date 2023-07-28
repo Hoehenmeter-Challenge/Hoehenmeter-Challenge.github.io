@@ -42,7 +42,7 @@ horizontal: false
 
     <p>Neben der 100.000 Höhenmeter Challenge gibt es auch eine 60.000 Höhenmeter und eine 30.000 Höhenmeter Challenge.</p>
 
-    <p>Lade jedes Mal nach einem Training / einer Wanderung ein Gipfelfoto hoch, auf dem der Berg klar erkennbar ist und dokumentiere so dein Training und Bergerlebnisse.</p>
+    <p>Lade jedes Mal nach einem Training / einer Wanderung ein Gipfelfoto hoch, auf dem der Berg klar erkennbar ist und dokumentiere so dein Training und deine Bergerlebnisse.</p>
   </div>
 </body>
 </html>
