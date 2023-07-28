@@ -79,20 +79,16 @@
                 <a class="nav-link" href="/">Teilnehmer<span class="sr-only">(current)</span></a>
               </li>
               
-              <!-- Blog -->
-              <li class="nav-item ">
-                <a class="nav-link" href="/blog/">blog</a>
-              </li>
 
               <!-- Other pages -->
               <li class="nav-item ">
                 <a class="nav-link" href="/my_profile/">Mein Profil</a>
               </li>
               <li class="nav-item ">
-                <a class="nav-link" href="/about/">about</a>
+                <a class="nav-link" href="/login/">Anmeldung</a>
               </li>
               <li class="nav-item ">
-                <a class="nav-link" href="/login/">Login</a>
+                <a class="nav-link" href="/about/">about</a>
               </li>
 
               <!-- Toogle theme mode -->
@@ -124,7 +120,7 @@
           <h1 class="post-title">
            Höhenmeter Challenge
           </h1>
-          <p class="desc"></p>
+          <p class="desc">Wie viele Höhenmeter kannst du innerhalb von einem Jahr sammeln?</p>
         </header>
 
         <article>
@@ -140,11 +136,15 @@
     <script type="text/javascript" src="../projects/js/functions.js"></script>
 
     
-
-        <button class="category-button" onclick="getUserDataFromStorage('All')">Alle anzeigen</button>
-        <button class="category-button" onclick="getUserDataFromStorage('category1')">30.000 hm</button>
-        <button class="category-button" onclick="getUserDataFromStorage('category2')">60.000 hm</button>
-        <button class="category-button" onclick="getUserDataFromStorage('category3')">100.000 hm</button>
+        <br>
+        <div class="category-button-container">
+            <button class="category-button" onclick="getUserDataFromStorage('All')">Alle anzeigen</button>
+            <button class="category-button" onclick="getUserDataFromStorage('category1')">30.000 hm</button>
+            <button class="category-button" onclick="getUserDataFromStorage('category2')">60.000 hm</button>
+            <button class="category-button" onclick="getUserDataFromStorage('category3')">100.000 hm</button>
+        </div>
+        
+        <br>
 
         <ul id="usernames-container"></ul>
 

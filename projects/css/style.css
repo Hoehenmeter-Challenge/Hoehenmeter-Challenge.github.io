@@ -249,6 +249,11 @@
   text-align: center;
 }
 
+.category-button-container {
+  display: flex;
+  justify-content: center;
+}
+
 .category-button {
   background-color: #4CAF50;
   border: none;
