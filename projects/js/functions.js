@@ -142,6 +142,21 @@ function uploadProfImage() {
     .catch(console.error);
 }
 
+function disableAndExecute() {
+  // Disable the button when clicked
+  document.getElementById("upload").disabled = true;
+
+  // Call your functions here (uploadImage and storeHeight)
+  uploadImage();
+  storeHeight();
+
+  // Re-enable the button after 5 seconds
+  setTimeout(function () {
+    document.getElementById("upload").disabled = false;
+  }, 5000);
+}
+
+
 
 function uploadImage() {
   var userId = firebase.auth().currentUser.uid;
