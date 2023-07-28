@@ -60,7 +60,7 @@ horizontal: false
                     </div>
 
                     <div class="button-container">
-                        <button id="upload" onclick="uploadImage();storeHeight()">Bild und hm hochladen</button>
+                        <button id="upload" onclick="disableAndExecute()">Bild und hm hochladen</button>
                     </div>
                 </div>
             </div>
