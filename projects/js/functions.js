@@ -134,7 +134,7 @@ function uploadProfImage() {
         const dbRef = firebase.database().ref(userId).push();
         return dbRef.set(imageObject).then(() => {
           console.log("Image uploaded successfully");
-          alert("Image uploaded successfully");
+          //alert("Image uploaded successfully");
           document.querySelector("#profilePicture").src = url;
         });
       });
@@ -185,7 +185,7 @@ function uploadImage() {
       const dbRef = firebase.database().ref(userId).push();
       return dbRef.set(imageObject).then(() => {
         console.log("Image uploaded successfully");
-        alert("Image uploaded successfully");
+        //alert("Image uploaded successfully");
         // Add the new image to the displayed image list
         const imageListItem = document.createElement("li");
         const imageElement = document.createElement("img");
@@ -195,6 +195,14 @@ function uploadImage() {
   }).catch(console.error);
 }
 
+function openImageSelector() {
+  // Show the collapsed section when "Neuer Eintrag" is clicked
+  var collapseSection = document.getElementById("collapseSection");
+  collapseSection.style.display = "block";
+
+  // Trigger the image selection immediately
+  document.getElementById("photo").click();
+}
 
 function previewImage() {
   const preview = document.querySelector('#preview');
@@ -281,7 +289,7 @@ function deleteImage(imageURL, height) {
                       .delete()
                       .then(function () {
                         console.log("Image deleted successfully");
-                        alert("Image deleted successfully");
+                        //alert("Image deleted successfully");
 
                         // Remove the image container from the displayed image list
                         var contentContainer = document.getElementById("content-container");
