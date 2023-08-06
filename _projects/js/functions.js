@@ -146,6 +146,8 @@ function disableAndExecute() {
   // Disable the button when clicked
   document.getElementById("upload").disabled = true;
 
+  document.getElementById("loading").style.display = "block";
+
   // Call your functions here (uploadImage and storeHeight)
   uploadImage();
   storeHeight();
@@ -153,9 +155,9 @@ function disableAndExecute() {
   // Re-enable the button after 5 seconds
   setTimeout(function () {
     document.getElementById("upload").disabled = false;
-  }, 5000);
+    document.getElementById("loading").style.display = "none";
+  }, 8000);
 }
-
 
 
 function uploadImage() {
@@ -185,6 +187,8 @@ function uploadImage() {
       const dbRef = firebase.database().ref(userId).push();
       return dbRef.set(imageObject).then(() => {
         console.log("Image uploaded successfully");
+        document.getElementById("status").style.display = "block";
+        document.getElementById("loading").style.display = "none";
         //alert("Image uploaded successfully");
         // Add the new image to the displayed image list
         const imageListItem = document.createElement("li");
@@ -324,7 +328,6 @@ function deleteImage(imageURL, height) {
 }
 
 
-
 var displayedImageURLs = [];
 function showimage_my_profile() {
   firebase.auth().onAuthStateChanged((user) => {
@@ -339,6 +342,9 @@ function showimage_my_profile() {
       var counter = 0;
 
       databaseRef.on('value', function(snapshot) {
+        // Create an array to hold the image data for sorting
+        var imageData = [];
+
         snapshot.forEach(function(childSnapshot) {
           var description = childSnapshot.child('description').val();
           var imageURL = childSnapshot.child('imageUrl').val();
@@ -349,6 +355,31 @@ function showimage_my_profile() {
             // Skip the image with name 'prof_pic'
             return;
           }
+
+          imageData.push({
+            imageURL: imageURL,
+            description: description,
+            height: height,
+            date: date
+          });
+        });
+
+        // Sort the imageData array based on the date in descending order (newest to oldest)
+        imageData.sort(function(a, b) {
+          var dateA = new Date(parseGermanDate(b.date));
+          var dateB = new Date(parseGermanDate(a.date));
+          return dateA - dateB;
+        });
+
+        // Clear displayedImageURLs and containerDiv before repopulating
+        displayedImageURLs = [];
+        containerDiv.innerHTML = '';
+
+        imageData.forEach(function(data) {
+          var imageURL = data.imageURL;
+          var description = data.description;
+          var height = data.height;
+          var date = data.date;
 
           if (displayedImageURLs.indexOf(imageURL) === -1) {
             displayedImageURLs.push(imageURL);
@@ -414,16 +445,13 @@ function showimage_my_profile() {
             });
           }
         });
+
+        document.getElementById('content-container').appendChild(containerDiv); // Append the container to the content container
+
+        var captionDiv = document.createElement('div');
+        captionDiv.classList.add('caption');
+        document.getElementById('content-container').appendChild(captionDiv); // Append the caption to the content container
       });
-
-      document.getElementById('content-container').appendChild(containerDiv); // Append the container to the content container
-
-      var captionDiv = document.createElement('div');
-      captionDiv.classList.add('caption');
-      document.getElementById('content-container').appendChild(captionDiv); // Append the caption to the content container
-    } else {
-      // User is signed out
-      // ...
     }
   });
 }
@@ -438,6 +466,9 @@ function showImage_user_profile(userId) {
   var counter = 0;
 
   databaseRef.on('value', function(snapshot) {
+    // Create an array to hold the image data for sorting
+    var imageData = [];
+
     snapshot.forEach(function(childSnapshot) {
       var description = childSnapshot.child('description').val();
       var imageURL = childSnapshot.child('imageUrl').val();
@@ -448,6 +479,31 @@ function showImage_user_profile(userId) {
         // Skip the image with name 'prof_pic'
         return;
       }
+
+      imageData.push({
+        imageURL: imageURL,
+        description: description,
+        height: height,
+        date: date
+      });
+    });
+
+    // Sort the imageData array based on the date in descending order (newest to oldest)
+    imageData.sort(function(a, b) {
+      var dateA = new Date(parseGermanDate(b.date));
+      var dateB = new Date(parseGermanDate(a.date));
+      return dateA - dateB;
+    });
+
+    // Clear displayedImageURLs and containerDiv before repopulating
+    displayedImageURLs = [];
+    containerDiv.innerHTML = '';
+
+    imageData.forEach(function(data) {
+      var imageURL = data.imageURL;
+      var description = data.description;
+      var height = data.height;
+      var date = data.date;
 
       if (displayedImageURLs.indexOf(imageURL) === -1) {
         displayedImageURLs.push(imageURL);
@@ -514,8 +570,14 @@ function showImage_user_profile(userId) {
   document.getElementById('content-container').appendChild(captionDiv); // Append the caption to the content container
 }
 
-
-
+// Helper function to parse German date format (dd.mm.yyyy) to a format accepted by Date constructor (mm/dd/yyyy)
+function parseGermanDate(germanDate) {
+  var parts = germanDate.split('.');
+  if (parts.length === 3) {
+    return parts[1] + '/' + parts[0] + '/' + parts[2];
+  }
+  return germanDate;
+}
 
 
 function showEnlargedImage(imageURL, description) {

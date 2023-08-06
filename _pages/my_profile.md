@@ -38,60 +38,35 @@ horizontal: false
 
         <br>
 
-        <!--div id="collapse-buttons">
+        <div id="collapse-buttons">
             <div class="collapse-container">
                 <p>
-                    <a class="btn btn-primary" data-toggle="collapse" href="#collapseSection" role="button" aria-expanded="false" aria-controls="collapseSection">
-                        Neuen Eintrag erstellen
-                    </a>
+                    <button class="btn btn-primary" onclick="openImageSelector()">Neuen Eintrag erstellen</button>
                 </p>
 
-                
-
-                <div class="collapse" id="collapseSection">
-                    <label for="photo" class="btn">Neues Bild auswählen</label>
+                <div class="collapse" id="collapseSection" style="display:none;">
+                    <!-- Remove the button for selecting a new image -->
                     <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
                     <img id="preview" style="display: none;">
 
                     <div class="input-container">
                         <textarea id="description" placeholder="Bergname / Tour"></textarea>
-                        <input type="number" id="height" placeholder="Höhenmeter"/>
-                        <input type="date" id="date" placeholder="Datum"/>
+                        <input type="number" id="height" placeholder="Höhenmeter" />
+                        <input type="date" id="date" placeholder="Datum" />
                     </div>
 
                     <div class="button-container">
                         <button id="upload" onclick="disableAndExecute()">Bild und hm hochladen</button>
+                        <div id="status" style="display: none; color: green; font-weight: bold;">Erfolgreich gespeichert!</div>
                     </div>
+
+                    <div id="loading" style="display: none;">
+                        Eintrag wird gespeichert, bitte warten...
+                    </div>
+
                 </div>
             </div>
-        </div-->
-
-        <div id="collapse-buttons">
-    <div class="collapse-container">
-        <p>
-            <button class="btn btn-primary" onclick="openImageSelector()">Neuen Eintrag erstellen</button>
-        </p>
-
-        <div class="collapse" id="collapseSection" style="display:none;">
-            <!-- Remove the button for selecting a new image -->
-            <input id="photo" style="visibility:hidden;" type="file" onchange="previewImage()">
-            <img id="preview" style="display: none;">
-
-            <div class="input-container">
-                <textarea id="description" placeholder="Bergname / Tour"></textarea>
-                <input type="number" id="height" placeholder="Höhenmeter" />
-                <input type="date" id="date" placeholder="Datum" />
-            </div>
-
-            <div class="button-container">
-                <!-- Update the onclick attribute to call the existing function -->
-                <button id="upload" onclick="disableAndExecute()">Bild und hm hochladen</button>
-            </div>
         </div>
-    </div>
-</div>
-
-
 
         <p>Deine Bilder</p>
 
@@ -120,7 +95,6 @@ horizontal: false
 
         <script>
             window.addEventListener("load", function() {
-                // showUserName();
                 getUserData();
                 getUserData_only_one();
                 showimage_my_profile();
