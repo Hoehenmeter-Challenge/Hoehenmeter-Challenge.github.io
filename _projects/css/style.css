@@ -1,14 +1,3 @@
-/*.collapse {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}*/
-
-/*.collapse {
-  float: left;
-}*/
-
-
 /* Button to select new image */
 .btn {
     background-color: #008CBA;
@@ -233,10 +222,6 @@
   flex-direction: column;
   align-items: center;
 }
-
-/*#collapse-buttons {
-  float: left;
-}*/
 
 .btn-primary {
   margin-top: 10px; /* Adjust the top margin as needed */

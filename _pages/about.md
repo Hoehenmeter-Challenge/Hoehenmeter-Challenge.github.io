@@ -43,8 +43,8 @@ horizontal: false
 
     <p>Es gibt drei Challenges: Die 100.000 Höhenmeter Challenge, die 60.000 Höhenmeter Challenge und die 30.000 Höhenmeter Challenge.</p>
 
-    <p>100.000 Höhenmeter pro Jahr bedeutet ca. 2000 hm pro Woche</p>
-    <p>60.000 Höhenmeter pro Jahr bedeutet ca. 1100 hm pro Woche</p>
+    <p>100.000 Höhenmeter pro Jahr bedeutet ca. 2.000 hm pro Woche</p>
+    <p>60.000 Höhenmeter pro Jahr bedeutet ca. 1.100 hm pro Woche</p>
     <p>30.000 Höhenmeter pro Jahr bedeutet ca. 550 hm pro Woche</p>
 
     <p>Lade jedes Mal nach einem Training / einer Wanderung ein Gipfelfoto hoch, auf dem der Berg klar erkennbar ist und dokumentiere so dein Training und deine Bergerlebnisse.</p>
