@@ -2,7 +2,7 @@
 layout: about
 title: Teilnehmer
 permalink: /
-subtitle: Wie viele Höhenmeter kannst du innerhalb von einem Jahr sammeln?
+subtitle: Wie viele Höhenmeter kannst du innerhalb von einem Jahr mit Trailrunning / Wandern / Skitouren sammeln?
 news: False  # includes a list of news items
 latest_posts: false  # includes a list of the newest posts
 selected_papers: False # includes a list of papers marked as "selected={true}"
