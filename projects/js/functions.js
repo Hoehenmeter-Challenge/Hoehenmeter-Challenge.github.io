@@ -817,26 +817,51 @@ function storeCategory(category) {
 }
 
 
-
-
-
-
-function removeAccount(){
+function removeAccount() {
   var user = firebase.auth().currentUser;
+  var userId = user.uid;
 
   // Prompt the user to confirm the account removal
   var confirmDelete = confirm("Bist du sicher, dass du den Account löschen willst? Diese Aktion kann nicht rückgängig gemacht werden.");
 
   if (confirmDelete) {
-    // Delete the user account
-    user.delete().then(function() {
-      alert("Account erfolgreich gelöscht")
-      // Account removal successful.
-      // You can redirect the user to a different page or update the UI as needed.
-    }).catch(function(error) {
-      // An error happened during account removal.
-      console.log(error);
-    });
+    // Delete user data from Firestore
+    var firestoreRef = firebase.firestore().collection("users").doc(userId);
+    firestoreRef.delete()
+      .then(function () {
+        // Delete user data from Realtime Database
+        var realtimeRef = firebase.database().ref(userId);
+        realtimeRef.remove()
+          .then(function () {
+            // Delete user data from Firebase Storage
+            var storageRef = firebase.storage().ref(userId);
+            storageRef.listAll()
+              .then(function (listResult) {
+                var deletePromises = listResult.items.map(function (item) {
+                  return item.delete();
+                });
+                return Promise.all(deletePromises);
+              })
+              .then(function () {
+                // All related data has been deleted, now delete the user account
+                return user.delete();
+              })
+              .then(function () {
+                alert("Account erfolgreich gelöscht");
+                // Account removal successful.
+                // You can redirect the user to a different page or update the UI as needed.
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   }
 }
 
