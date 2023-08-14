@@ -1,23 +1,3 @@
-/*function showUserName() {
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      var user = firebase.auth().currentUser;
-      // User is signed in, retrieve the user ID and username
-      var userId = user.uid;
-      var username = user.displayName;
-
-      // Display the user ID and username on the website
-      //document.getElementById('userId-placeholder').textContent = userId;
-      document.getElementById('username-placeholder').textContent = username;
-    // ...
-    } else {
-      // User is signed out
-      // ...
-    }
-  });
-}*/
-
-
 function getUserDataFromStorage(category) {
   // Access Firestore and create a reference to the users collection
   var db = firebase.firestore();
@@ -98,8 +78,7 @@ function getUserDataFromStorage(category) {
           localStorage.setItem('userId', userId);
 
           // Redirect to the new webpage without query parameters
-          window.location.href = 'show_user.html';
-          //window.location.href = 'show_user.html?userId=' + userId;
+          window.location.href = '/show_user/';
         });
 
         // Append the username box to the usernames container
@@ -667,8 +646,65 @@ function storeHeight() {
   }
 }
 
-
 function getUserData() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var userId = user.uid;
+      var db = firebase.firestore();
+      var usersCollection = db.collection('users');
+      var userDoc = usersCollection.doc(userId);
+
+      var username = user.displayName;
+      document.getElementById('username-placeholder').textContent = username;
+
+      // Retrieve the user document from Firestore
+      userDoc.get().then(function(doc) {
+        if (doc.exists) {
+          var heightData = doc.data().height || 0;
+          // Display the height data on the webpage
+          var heightDataElement = document.getElementById('height-data');
+          heightDataElement.textContent = heightData;
+          
+          // category
+          var category = doc.data().category || 'No category';
+          var categoryDataElement = document.getElementById('category-data');
+          categoryDataElement.textContent = category;
+
+          // Highlight the active category button
+          var category1Button = document.getElementById('category1Button');
+          var category2Button = document.getElementById('category2Button');
+          var category3Button = document.getElementById('category3Button');
+
+          category1Button.style.backgroundColor = category === 'category1' ? 'green' : 'rgba(105, 105, 105, 0.3)';
+          category2Button.style.backgroundColor = category === 'category2' ? 'green' : 'rgba(105, 105, 105, 0.3)';
+          category3Button.style.backgroundColor = category === 'category3' ? 'green' : 'rgba(105, 105, 105, 0.3)';
+
+          var errorMessageElement = document.getElementById('error-message');
+          errorMessageElement.style.display = 'none';
+
+        } else {
+          console.error("User document does not exist");
+        }
+      }).catch(function(error) {
+        console.error("Error retrieving user document: ", error);
+      });
+    } else {
+      // User is not signed in, notify or redirect them
+      console.error("User is not signed in");
+      // You can show a notification to the user or redirect them to a sign-in page
+      // For example, you can show a message on the webpage
+      //var errorMessageElement = document.getElementById('error-message');
+      //errorMessageElement.textContent = "Du bist nicht angemeldet. Bitte melde dich an, um auf deine Daten zuzugreifen oder mit einem neuen Account zu starten.";
+      var errorMessageElement = document.getElementById('error-message');
+      errorMessageElement.style.display = 'block';
+      // Or you can redirect them to a sign-in page
+      // window.location.href = "signin.html";
+    }
+  });
+}
+
+
+function getUserData_old() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
       var user = firebase.auth().currentUser;
