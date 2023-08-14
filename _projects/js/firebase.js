@@ -43,8 +43,9 @@ var uiConfig = {
               userId: userId
             })
             .then(function() {
-              console.log("User information stored successfully");
-              window.location.assign('http://hoehenmeter-challenge.github.io/my_profile/');
+              redirectToProfile();
+              //console.log("User created successfully");
+              //window.location.assign('http://hoehenmeter-challenge.github.io/my_profile/');
             })
             .catch(function(error) {
               console.error("Error storing user information: ", error);
@@ -52,7 +53,11 @@ var uiConfig = {
 
             // Continue with the default behavior
             //return true;
+          } else {
+            redirectToProfile();
           }
+          //console.log("User logged in or signed up");
+          //window.location.assign('http://hoehenmeter-challenge.github.io/my_profile/');
         });
     }
   },
@@ -60,3 +65,8 @@ var uiConfig = {
 };
 
 ui.start('#firebaseui-auth-container', uiConfig);
+
+function redirectToProfile() {
+  console.log("User logged in or signed up");
+  window.location.assign('http://hoehenmeter-challenge.github.io/my_profile/');
+}

@@ -8,12 +8,6 @@ nav_order: 3
 display_categories:
 horizontal: false
 ---
-<!--div>
-  <p>Willkommen bei der Höhenmeter-Challenge! Wir freuen uns, dass du dabei sein möchtest.</p>
-  <br>
-  <p>Anstatt von deinem Vor- und Nachnamen kannst du auch gerne einen beliebigen user-Namen nehmen. Der Name wird auf dem öffentlichen Profil angezeigt.</p>
-  <p>Die Anmeldung dauert nur ein paar Sekunden.</p>
-</div-->
 
 <div style="text-align: center; font-size: 18px;">
   <p style="font-size: 24px;"><strong>Willkommen bei der Höhenmeter-Challenge!</strong></p>

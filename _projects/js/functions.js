@@ -649,6 +649,8 @@ function storeHeight() {
 function getUserData() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
+      document.getElementById('content').style.display = 'block';
+      document.getElementById('error-message').style.display = 'none';
       var userId = user.uid;
       var db = firebase.firestore();
       var usersCollection = db.collection('users');
@@ -691,14 +693,8 @@ function getUserData() {
     } else {
       // User is not signed in, notify or redirect them
       console.error("User is not signed in");
-      // You can show a notification to the user or redirect them to a sign-in page
-      // For example, you can show a message on the webpage
-      //var errorMessageElement = document.getElementById('error-message');
-      //errorMessageElement.textContent = "Du bist nicht angemeldet. Bitte melde dich an, um auf deine Daten zuzugreifen oder mit einem neuen Account zu starten.";
-      var errorMessageElement = document.getElementById('error-message');
-      errorMessageElement.style.display = 'block';
-      // Or you can redirect them to a sign-in page
-      // window.location.href = "signin.html";
+      document.getElementById('content').style.display = 'none';
+      document.getElementById('error-message').style.display = 'block';
     }
   });
 }
