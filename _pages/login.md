@@ -2,12 +2,28 @@
 layout: page
 title: Anmeldung
 permalink: /login/
-description: Login or Register
+description: Login oder Neuanmeldung
 nav: true
 nav_order: 3
 display_categories:
 horizontal: false
 ---
+<!--div>
+  <p>Willkommen bei der Höhenmeter-Challenge! Wir freuen uns, dass du dabei sein möchtest.</p>
+  <br>
+  <p>Anstatt von deinem Vor- und Nachnamen kannst du auch gerne einen beliebigen user-Namen nehmen. Der Name wird auf dem öffentlichen Profil angezeigt.</p>
+  <p>Die Anmeldung dauert nur ein paar Sekunden.</p>
+</div-->
+
+<div style="text-align: center; font-size: 18px;">
+  <p style="font-size: 24px;"><strong>Willkommen bei der Höhenmeter-Challenge!</strong></p>
+  <p>Wir freuen uns auf deine Teilnahme.</p>
+  <p>Du kannst einen <strong>beliebigen user-Name statt deinem Vor-und Nachname</strong> verwenden.</p>
+  <p>Die Anmeldung dauert nur ein paar Sekunden.</p>
+  <p>Beginne die Anmeldung mit der Eingabe deiner E-Mail Adresse.</p>
+  <br>
+</div>
+
 
 <script type="text/javascript" src="../projects/js/functions.js"></script>
 <div class="container">
@@ -32,6 +48,6 @@ horizontal: false
 <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-auth.js"></script>
 <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-firestore.js"></script>
-<script type="module" src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth__de.js"></script>
 <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/6.0.1/firebase-ui-auth.css" />
 <script type="module" src="../projects/js/firebase.js"></script>
