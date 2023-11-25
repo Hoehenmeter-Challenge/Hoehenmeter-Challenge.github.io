@@ -28,6 +28,7 @@ horizontal: false
             <span>Profil von: <span id="username-placeholder-all"></span></span>
             <span>Aktuelle Höhenmeter: <span id="height-data"></span> hm</span>
         </p>
+        <span>Start-Datum: <span id="earliest-date-container-user"></span></span>
 
         <br>
 
@@ -46,6 +47,7 @@ horizontal: false
             window.addEventListener("load", function() {
                 getHeightData_user_profile(userId);
                 showImage_user_profile(userId);
+                displayEarliestDateUser(userId);
             });
         </script>
     </body>

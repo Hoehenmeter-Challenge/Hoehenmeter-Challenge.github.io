@@ -13,6 +13,10 @@ horizontal: false
     <head>
         <title>Firebase Image Upload using HTML and JavaScript</title>
         <link rel="stylesheet" type="text/css" href="../projects/css/style.css">
+        <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+        <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
+        <!-- Essential JS 2 stylesheets -->
+        <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
     </head>
 
     <script type="text/javascript" src="../projects/js/functions.js"></script>
@@ -24,6 +28,14 @@ horizontal: false
                 <span>Aktuelle Höhenmeter: <span id="height-data"></span> hm</span>
             </p>
 
+            <span>Start-Datum: <span id="earliest-date-container-my"></span></span>
+            <br>
+            <span>Tage vergangen: <span id="days-passed-container"></span></span>
+            <br>
+            <span>Tage verbleiben: <span id="days-left-container"></span></span>
+            <br>
+            <div id="days-pie-chart" style="width: 300px; height: 300px;"></div>
+            <br>
             <button id="redirectToSettings" class="btn">Einstellungen</button>
 
             <div>
@@ -101,6 +113,8 @@ horizontal: false
                 getUserData();
                 getUserData_only_one();
                 showimage_my_profile();
+                displayEarliestDateMy();
+                displayDaysPassedLeftMy();
             });
         </script>
     </body>

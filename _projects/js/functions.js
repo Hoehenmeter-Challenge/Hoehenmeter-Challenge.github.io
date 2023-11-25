@@ -664,8 +664,16 @@ function getUserData() {
         if (doc.exists) {
           var heightData = doc.data().height || 0;
           // Display the height data on the webpage
-          var heightDataElement = document.getElementById('height-data');
-          heightDataElement.textContent = heightData;
+          var heightDataElement = document.getElementById('height-data')
+          // Check if the height data is larger than 1000
+          if (heightData > 1000) {
+              // Format the height data with a dot
+              var formattedHeight = (heightData / 1000).toFixed(3);
+              heightDataElement.textContent = formattedHeight;
+          } else {
+              // Display the original height data
+              heightDataElement.textContent = heightData;
+          }
           
           // category
           var category = doc.data().category || 'No category';
@@ -700,55 +708,6 @@ function getUserData() {
 }
 
 
-function getUserData_old() {
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      var user = firebase.auth().currentUser;
-      if (user) {
-        var userId = user.uid;
-        var db = firebase.firestore();
-        var usersCollection = db.collection('users');
-        var userDoc = usersCollection.doc(userId);
-
-        var username = user.displayName;
-        document.getElementById('username-placeholder').textContent = username;
-
-        // Retrieve the user document from Firestore
-        userDoc.get().then(function(doc) {
-          if (doc.exists) {
-            var heightData = doc.data().height || 0;
-            // Display the height data on the webpage
-            var heightDataElement = document.getElementById('height-data');
-            heightDataElement.textContent = heightData;
-            
-            // category
-            var category = doc.data().category || 'No category';
-            var categoryDataElement = document.getElementById('category-data');
-            categoryDataElement.textContent = category;
-
-            // Highlight the active category button
-            var category1Button = document.getElementById('category1Button');
-            var category2Button = document.getElementById('category2Button');
-            var category3Button = document.getElementById('category3Button');
-
-            category1Button.style.backgroundColor = category === 'category1' ? 'green' : 'rgba(105, 105, 105, 0.3)';
-            category2Button.style.backgroundColor = category === 'category2' ? 'green' : 'rgba(105, 105, 105, 0.3)';
-            category3Button.style.backgroundColor = category === 'category3' ? 'green' : 'rgba(105, 105, 105, 0.3)';
-
-          } else {
-            console.error("User document does not exist");
-          }
-        }).catch(function(error) {
-          console.error("Error retrieving user document: ", error);
-        });
-      }
-    } else {
-      // User is not signed in
-      console.error("User is not signed in");
-    }
-  });
-}
-
 function getUserData_only_one() {
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
@@ -765,7 +724,15 @@ function getUserData_only_one() {
             var heightData = doc.data().height || 0;
             // Display the height data on the webpage
             var heightDataElement = document.getElementById('height-data');
-            heightDataElement.textContent = heightData;
+            // Check if the height data is larger than 1000
+            if (heightData > 1000) {
+                // Format the height data with a dot
+                var formattedHeight = (heightData / 1000).toFixed(3);
+                heightDataElement.textContent = formattedHeight;
+            } else {
+                // Display the original height data
+                heightDataElement.textContent = heightData;
+            }
 
             // category
             var category = doc.data().category || 'No category';
@@ -810,7 +777,15 @@ function getHeightData_user_profile(userId) {
       var username = doc.data().username || "";
       // Display the height data on the webpage
       var heightDataElement = document.getElementById('height-data');
-      heightDataElement.textContent = heightData;
+      // Check if the height data is larger than 1000
+      if (heightData > 1000) {
+        // Format the height data with a dot
+        var formattedHeight = (heightData / 1000).toFixed(3);
+        heightDataElement.textContent = formattedHeight;
+    } else {
+        // Display the original height data
+        heightDataElement.textContent = heightData;
+    }
 
       var usernameElement = document.getElementById('username-placeholder-all'); // Assuming you have an element with id 'username' to display the username
       usernameElement.textContent = username;
@@ -908,5 +883,153 @@ function signOut(){
     console.log(error);
   });
 }
+
+
+function displayEarliestDateMy() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var userId = user.uid;
+      var databaseRef = firebase.database().ref(userId);
+
+      databaseRef.once('value', function(snapshot) {
+        var earliestDate = null;
+
+        snapshot.forEach(function(childSnapshot) {
+          var date = childSnapshot.child('date').val();
+
+          if (!date) {
+            return;
+          }
+
+          var currentDate = new Date(parseGermanDate(date));
+
+          if (earliestDate === null || currentDate < earliestDate) {
+            earliestDate = currentDate;
+          }
+        });
+
+        if (earliestDate !== null) {
+          // Display the earliest date in the HTML span with id "earliest-date-container"
+          var earliestDateContainer = document.getElementById('earliest-date-container-my');
+          earliestDateContainer.innerText = formatDate(earliestDate);
+        }
+      });
+    }
+  });
+}
+
+
+function displayEarliestDateUser(userId) {
+    var databaseRef = firebase.database().ref(userId);
+
+    databaseRef.once('value', function(snapshot) {
+      var earliestDate = null;
+
+      snapshot.forEach(function(childSnapshot) {
+        var date = childSnapshot.child('date').val();
+
+        if (!date) {
+          return;
+        }
+
+        var currentDate = new Date(parseGermanDate(date));
+
+        if (earliestDate === null || currentDate < earliestDate) {
+          earliestDate = currentDate;
+        }
+      });
+
+      if (earliestDate !== null) {
+        // Display the earliest date in the HTML span with id "earliest-date-container"
+        var earliestDateContainer = document.getElementById('earliest-date-container-user');
+        earliestDateContainer.innerText = formatDate(earliestDate);
+      }
+    });
+}
+
+// Helper function to format the date
+function formatDate(date) {
+  var options = { year: 'numeric', month: 'long', day: 'numeric' };
+  return date.toLocaleDateString('de-DE', options);
+}
+
+
+var daysPassed = 0;
+var daysLeft = 0;
+
+function daysPieChart(daysPassed, daysLeft){
+  console.log(daysPassed);
+  console.log(daysLeft);
+  var pie = new ej.charts.AccumulationChart({
+    //Initializing Series
+    series: [
+        {
+            dataSource: [
+                { 'x': 'Tags vergangen', y: daysLeft },
+                { 'x': 'Tage verbleibend', y: daysPassed }
+            ],
+            dataLabel: {
+                visible: true,
+                position: 'Inside',
+            },
+            xName: 'x',
+            yName: 'y'
+        }
+    ],
+  });
+  pie.appendTo('#days-pie-chart');
+}
+
+
+// Function to display the number of days passed since the starting day
+function displayDaysPassedLeftMy() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var userId = user.uid;
+      var databaseRef = firebase.database().ref(userId);
+
+      databaseRef.once('value', function(snapshot) {
+        var earliestDate = null;
+
+        snapshot.forEach(function(childSnapshot) {
+          var date = childSnapshot.child('date').val();
+
+          if (!date) {
+            return;
+          }
+
+          var currentDate = new Date(parseGermanDate(date));
+
+          if (earliestDate === null || currentDate < earliestDate) {
+            earliestDate = currentDate;
+          }
+        });
+
+        if (earliestDate !== null) {
+          // Calculate the number of days passed since the starting day
+          var today = new Date();
+          var daysPassed = Math.floor((today - earliestDate) / (24 * 60 * 60 * 1000));
+      
+          // Display the number of days passed in the HTML span with id "days-passed-container"
+          var daysPassedContainer = document.getElementById('days-passed-container');
+          daysPassedContainer.innerText = daysPassed + " Tage vergangen";
+
+          var oneYearLater = new Date(earliestDate);
+          oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+          var daysLeft = Math.ceil((oneYearLater - today) / (24 * 60 * 60 * 1000));
+      
+          // Display the number of days left in the HTML span with id "days-left-container"
+          var daysLeftContainer = document.getElementById('days-left-container');
+          daysLeftContainer.innerText = daysLeft + " Tage verbleiben";
+      
+          // Call the function to update the progress pie chart
+          daysPieChart(daysPassed, daysLeft);
+        }
+      });
+    }
+  });
+}
+
+
 
 const errorMsgElement = document.querySelector('span#errorMsg');
