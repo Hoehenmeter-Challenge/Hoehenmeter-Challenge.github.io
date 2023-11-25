@@ -965,8 +965,8 @@ function daysPieChart(daysPassed, daysLeft){
     series: [
         {
             dataSource: [
-                { 'x': 'Tags vergangen', y: daysLeft },
-                { 'x': 'Tage verbleibend', y: daysPassed }
+                { 'x': 'Tags vergangen', y: daysPassed },
+                { 'x': 'Tage verbleibend', y: daysLeft }
             ],
             dataLabel: {
                 visible: true,
