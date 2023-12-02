@@ -1011,16 +1011,16 @@ function displayDaysPassedLeftMy() {
           var daysPassed = Math.floor((today - earliestDate) / (24 * 60 * 60 * 1000));
       
           // Display the number of days passed in the HTML span with id "days-passed-container"
-          var daysPassedContainer = document.getElementById('days-passed-container');
-          daysPassedContainer.innerText = daysPassed + " Tage vergangen";
+          // var daysPassedContainer = document.getElementById('days-passed-container');
+          // daysPassedContainer.innerText = daysPassed + " Tage vergangen";
 
           var oneYearLater = new Date(earliestDate);
           oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
           var daysLeft = Math.ceil((oneYearLater - today) / (24 * 60 * 60 * 1000));
       
           // Display the number of days left in the HTML span with id "days-left-container"
-          var daysLeftContainer = document.getElementById('days-left-container');
-          daysLeftContainer.innerText = daysLeft + " Tage verbleiben";
+          // var daysLeftContainer = document.getElementById('days-left-container');
+          // daysLeftContainer.innerText = daysLeft + " Tage verbleiben";
       
           // Call the function to update the progress pie chart
           daysPieChart(daysPassed, daysLeft);
@@ -1030,6 +1030,68 @@ function displayDaysPassedLeftMy() {
   });
 }
 
+function heightPieChart(heightData, missingHeight){
+  //console.log(daysPassed);
+  //console.log(daysLeft);
+  var pie = new ej.charts.AccumulationChart({
+    //Initializing Series
+    series: [
+        {
+            dataSource: [
+                { 'x': 'HM gemacht', y: heightData },
+                { 'x': 'HM verbleibend', y: missingHeight }
+            ],
+            dataLabel: {
+                visible: true,
+                position: 'Inside',
+            },
+            xName: 'x',
+            yName: 'y'
+        }
+    ],
+  });
+  pie.appendTo('#height-pie-chart');
+}
 
+function displayHeightPieChart() {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      var userId = user.uid;
+      var db = firebase.firestore();
+      var usersCollection = db.collection('users');
+      var userDoc = usersCollection.doc(userId);
+
+      // Retrieve the user document from Firestore
+      userDoc.get().then(function(doc) {
+        if (doc.exists) {
+          var heightData = doc.data().height || 0;
+          var category = doc.data().category || 'No category';
+
+          // Calculate missing height based on category
+          var missingHeight;
+          switch (category) {
+            case 'category1':
+              missingHeight = 30000 - heightData;
+              break;
+            case 'category2':
+              missingHeight = 60000 - heightData;
+              break;
+            case 'category3':
+              missingHeight = 100000 - heightData;
+              break;
+            default:
+              missingHeight = 0;
+          }
+          heightPieChart(heightData, missingHeight)
+          
+        } else {
+          console.error("User document does not exist");
+        }
+      }).catch(function(error) {
+        console.error("Error retrieving user document: ", error);
+      });
+    }
+  });
+}
 
 const errorMsgElement = document.querySelector('span#errorMsg');

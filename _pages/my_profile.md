@@ -30,11 +30,10 @@ horizontal: false
 
             <span>Start-Datum: <span id="earliest-date-container-my"></span></span>
             <br>
-            <span>Tage vergangen: <span id="days-passed-container"></span></span>
-            <br>
-            <span>Tage verbleiben: <span id="days-left-container"></span></span>
-            <br>
-            <div id="days-pie-chart" style="width: 300px; height: 300px;"></div>
+            <div id="charts-container" style="display: flex;">
+                <div id="days-pie-chart" style="width: 300px; height: 300px;"></div>
+                <div id="height-pie-chart" style="width: 300px; height: 300px;"></div>
+            </div>
             <br>
             <button id="redirectToSettings" class="btn">Einstellungen</button>
 
@@ -115,6 +114,7 @@ horizontal: false
                 showimage_my_profile();
                 displayEarliestDateMy();
                 displayDaysPassedLeftMy();
+                displayHeightPieChart();
             });
         </script>
     </body>

@@ -18,7 +18,7 @@ horizontal: false
     <script type="text/javascript" src="../projects/js/functions.js"></script>
     
     <body>
-
+    <div id="content" style="display: none;">
         <p class="user-info-container">
             <span id="welcome-text">Willkommen <span id="username-placeholder"></span></span>
             <ul id="height-data" hidden></ul>
@@ -47,6 +47,10 @@ horizontal: false
             </div>
         </div>
 
+        <div id="error-message" class="error-banner" style="display: none;">
+            Du bist nicht angemeldet. Bitte <a href="../login/">hier anmelden</a>, um auf deine Daten zuzugreifen oder mit einem neuen Account zu starten.
+        </div>
+
         <!-- Firebase SDK -->
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
         <script type="module" src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
@@ -58,9 +62,9 @@ horizontal: false
 
         <script>
             window.addEventListener("load", function() {
-                // showUserName();
                 getUserData();
             });
         </script>
+    </div>
     </body>
 </html>
