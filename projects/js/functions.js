@@ -958,8 +958,6 @@ var daysPassed = 0;
 var daysLeft = 0;
 
 function daysPieChart(daysPassed, daysLeft){
-  console.log(daysPassed);
-  console.log(daysLeft);
   var pie = new ej.charts.AccumulationChart({
     //Initializing Series
     series: [
@@ -1030,9 +1028,42 @@ function displayDaysPassedLeftMy() {
   });
 }
 
+function displayDaysPassedLeftUser(userId) {
+      var databaseRef = firebase.database().ref(userId);
+
+      databaseRef.once('value', function(snapshot) {
+        var earliestDate = null;
+
+        snapshot.forEach(function(childSnapshot) {
+          var date = childSnapshot.child('date').val();
+
+          if (!date) {
+            return;
+          }
+
+          var currentDate = new Date(parseGermanDate(date));
+
+          if (earliestDate === null || currentDate < earliestDate) {
+            earliestDate = currentDate;
+          }
+        });
+
+        if (earliestDate !== null) {
+          // Calculate the number of days passed since the starting day
+          var today = new Date();
+          var daysPassed = Math.floor((today - earliestDate) / (24 * 60 * 60 * 1000));
+
+          var oneYearLater = new Date(earliestDate);
+          oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+          var daysLeft = Math.ceil((oneYearLater - today) / (24 * 60 * 60 * 1000));
+      
+          // Call the function to update the progress pie chart
+          daysPieChart(daysPassed, daysLeft);
+        }
+      });
+}
+
 function heightPieChart(heightData, missingHeight){
-  //console.log(daysPassed);
-  //console.log(daysLeft);
   var pie = new ej.charts.AccumulationChart({
     //Initializing Series
     series: [
@@ -1092,6 +1123,42 @@ function displayHeightPieChart() {
       });
     }
   });
+}
+
+function displayHeightPieChartUser(userId) {
+      var db = firebase.firestore();
+      var usersCollection = db.collection('users');
+      var userDoc = usersCollection.doc(userId);
+
+      // Retrieve the user document from Firestore
+      userDoc.get().then(function(doc) {
+        if (doc.exists) {
+          var heightData = doc.data().height || 0;
+          var category = doc.data().category || 'No category';
+
+          // Calculate missing height based on category
+          var missingHeight;
+          switch (category) {
+            case 'category1':
+              missingHeight = 30000 - heightData;
+              break;
+            case 'category2':
+              missingHeight = 60000 - heightData;
+              break;
+            case 'category3':
+              missingHeight = 100000 - heightData;
+              break;
+            default:
+              missingHeight = 0;
+          }
+          heightPieChart(heightData, missingHeight)
+          
+        } else {
+          console.error("User document does not exist");
+        }
+      }).catch(function(error) {
+        console.error("Error retrieving user document: ", error);
+      });
 }
 
 const errorMsgElement = document.querySelector('span#errorMsg');
