@@ -13,6 +13,10 @@ horizontal: false
     <head>
         <title>Firebase Image Upload using HTML and JavaScript</title>
         <link rel="stylesheet" type="text/css" href="../projects/css/style.css">
+        <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js" type="text/javascript"></script>
+        <script src="https://cdn.syncfusion.com/ej2/dist/ej2.min.js"></script>
+        <!-- Essential JS 2 stylesheets -->
+        <link rel="stylesheet" href="https://cdn.syncfusion.com/ej2/material.css" />
     </head>
 
     <script type="text/javascript" src="../projects/js/functions.js"></script>
@@ -29,6 +33,11 @@ horizontal: false
             <span>Aktuelle Höhenmeter: <span id="height-data"></span> hm</span>
         </p>
         <span>Start-Datum: <span id="earliest-date-container-user"></span></span>
+        <br>
+        <div id="charts-container" style="display: flex;">
+            <div id="days-pie-chart" style="width: 300px; height: 300px;"></div>
+            <div id="height-pie-chart" style="width: 300px; height: 300px;"></div>
+        </div>
 
         <br>
 
@@ -48,6 +57,8 @@ horizontal: false
                 getHeightData_user_profile(userId);
                 showImage_user_profile(userId);
                 displayEarliestDateUser(userId);
+                displayDaysPassedLeftUser(userId);
+                displayHeightPieChartUser(userId);
             });
         </script>
     </body>
